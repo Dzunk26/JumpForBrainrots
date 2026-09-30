@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -7,7 +8,9 @@ using UnityEngine.InputSystem.EnhancedTouch;
 public class MyDynamicJoystick : MonoBehaviour {
     [SerializeField] private GameObject joystickVisual;
     [SerializeField] private RectTransform knob;
+    [SerializeField] private Canvas canvas;
     [SerializeField] private Vector2 joystickSize = new Vector2(250, 250);
+    [SerializeField] private float abc;
 
     private RectTransform RectTransform;
 
@@ -33,23 +36,17 @@ public class MyDynamicJoystick : MonoBehaviour {
         OnTouchFingerUp();
     }
 
+    private Vector2 ScreenToCanvas(Vector2 screenPos) => screenPos / canvas.scaleFactor;
+
     private void OnTouchFingerDown(Vector2 touchPosition) {
         joystickVisual.SetActive(true);
         RectTransform.sizeDelta = joystickSize;
-        RectTransform.anchoredPosition = ClampStartPosition(touchPosition);
+        RectTransform.anchoredPosition = ClampStartPosition(ScreenToCanvas(touchPosition));
     }
 
     private void OnTouchFingerMove(Vector2 touchPosition) {
-        Vector2 knobPosition;
-        float maxMovement = joystickSize.x / 2;
-        if ((touchPosition - RectTransform.anchoredPosition).sqrMagnitude > maxMovement * maxMovement) {
-            knobPosition = (touchPosition - RectTransform.anchoredPosition).normalized * maxMovement;
-        }
-        else {
-            knobPosition = touchPosition - RectTransform.anchoredPosition;
-        }
-
-        knob.anchoredPosition = knobPosition;
+        Vector2 offset = ScreenToCanvas(touchPosition) - RectTransform.anchoredPosition;
+        knob.anchoredPosition = Vector2.ClampMagnitude(offset, joystickSize.x / 2);
     }
 
     private void OnTouchFingerUp() {
