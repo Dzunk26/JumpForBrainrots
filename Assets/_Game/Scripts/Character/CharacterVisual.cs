@@ -1,0 +1,72 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum AnimState {
+    Idle,
+    Run,
+    StartJump,
+    Falling,
+    Interact,
+    Death
+}
+
+public class CharacterVisual : MonoBehaviour {
+    public Animator Animator => animator;
+    public Transform TF {
+        get {
+            if (tf == null) {
+                tf = transform;
+            }
+
+            return tf;
+        }
+    }
+
+    [SerializeField] private Animator animator;
+
+    private AnimState currentAnimState;
+    private Transform tf;
+
+    public void OnInit() {
+        currentAnimState = AnimState.Idle;
+    }
+
+    public void OnIdle() {
+        ChangeAnimState(AnimState.Idle);
+    }
+
+    public void OnRun() {
+        ChangeAnimState(AnimState.Run);
+    }
+
+    public void OnStartJump() {
+        ChangeAnimState(AnimState.StartJump);
+    }
+
+    public void OnFalling() {
+        ChangeAnimState(AnimState.Falling);
+    }
+
+    public void OnInteract() {
+        ChangeAnimState(AnimState.Interact);
+    }
+
+    public void OnWin() {
+
+    }
+
+    public void OnDead() {
+        ChangeAnimState(AnimState.Death);
+    }
+
+    private void ChangeAnimState(AnimState animState) {
+        if (currentAnimState != animState) {
+            animator.ResetTrigger(Cache.GetAnimName(animState));
+
+            currentAnimState = animState;
+
+            animator.SetTrigger(Cache.GetAnimName(currentAnimState));
+        }
+    }
+}
