@@ -12,6 +12,8 @@ public class Character : MonoBehaviour {
         }
     }
 
+    [SerializeField] protected CharacterStat characterStat;
+
     private Transform tf;
 
     protected virtual void OnInit() {

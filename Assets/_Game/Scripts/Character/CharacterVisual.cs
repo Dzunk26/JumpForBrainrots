@@ -61,12 +61,11 @@ public class CharacterVisual : MonoBehaviour {
     }
 
     private void ChangeAnimState(AnimState animState) {
-        if (currentAnimState != animState) {
-            animator.ResetTrigger(Cache.GetAnimName(animState));
+        if (currentAnimState == animState) return;
 
-            currentAnimState = animState;
-
-            animator.SetTrigger(Cache.GetAnimName(currentAnimState));
-        }
+        animator.ResetTrigger(Cache.GetAnimName(currentAnimState));
+        currentAnimState = animState;
+        animator.SetTrigger(Cache.GetAnimName(currentAnimState));
+        
     }
 }
