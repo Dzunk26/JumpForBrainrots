@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour {
     }
 
     private void HandleCameraRotate() {
-        if (lookInputVector.sqrMagnitude < 0.001f) return;
+        if (lookInputVector.sqrMagnitude < 0.2f) return;
 
         float inputY = lookInputVector.y * rotationSpeed * Time.deltaTime;
         float inputX = lookInputVector.x * rotationSpeed * Time.deltaTime;
