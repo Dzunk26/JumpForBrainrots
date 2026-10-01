@@ -5,6 +5,7 @@ using UnityEngine;
 public enum AnimState {
     Idle,
     Run,
+    Climbing,
     StartJump,
     Falling,
     Interact,
@@ -38,6 +39,14 @@ public class CharacterVisual : MonoBehaviour {
 
     public void OnRun() {
         ChangeAnimState(AnimState.Run);
+    }
+
+    public void OnClimbing() {
+        ChangeAnimState(AnimState.Climbing);
+    }
+
+    public void SetClimbSpeed(float climbSpeed) {
+        animator.SetFloat(Constant.ANIM_CLIMB_SPEED, climbSpeed);
     }
 
     public void OnStartJump() {

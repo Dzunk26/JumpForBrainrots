@@ -26,7 +26,7 @@ public class Stat {
         modifiers.Remove(modifier);
     }
     
-    public void ReMoveAllModifiers() {
+    public void RemoveAllModifiers() {
         modifiers.Clear();
     }
 }
