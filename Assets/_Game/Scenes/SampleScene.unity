@@ -644,6 +644,7 @@ MonoBehaviour:
   ladderRaycastDistance: 0.4
   nearGroundDistance: 5
   bodyRatio: 0.25
+  jumpBufferTime: 0.15
 --- !u!143 &463762275
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1815,7 +1816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 1095327557}
   cinemachineVirtualCamera: {fileID: 979205224}
-  rotationSpeed: 15
+  rotationSpeed: 20
   bottomClamp: -60
   topClamp: 80
   minCameraZoom: 30

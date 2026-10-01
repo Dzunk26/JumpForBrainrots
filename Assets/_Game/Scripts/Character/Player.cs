@@ -35,7 +35,9 @@ public class Player : Character {
     [SerializeField] private float ladderRaycastDistance = 0.4f;
     [SerializeField] private float nearGroundDistance = 1f;
     [SerializeField] private float bodyRatio = 0.6f;
+    [SerializeField] private float jumpBufferTime = 0.25f;
 
+    private float lastJumpPressedTime = -1f;
     private float moveSpeed;
     private Vector2 inputVector;
     private bool isJumping;
@@ -70,6 +72,8 @@ public class Player : Character {
     }
 
     public void Jump() {
+        lastJumpPressedTime = Time.time;
+
         if ((currentState == PlayerState.Idle || currentState == PlayerState.Run) && IsGrounded() && !isJumping) {
             StartJump();
         }
@@ -238,10 +242,13 @@ public class Player : Character {
 
     private void ListenInput() {
         inputVector = GameInput.Instance.GetMovementVectorNormalized();
+        if (inputVector.sqrMagnitude >= 0.001f) return;
+        inputVector = GameInput.Instance.GetWASDMovementVectorNormalized();
     }
 
     private void StartJump() {
         isJumping = true;
+        lastJumpPressedTime = -1f;
         verticalVelocity = initialJumpVelocity;
         characterVisual.OnStartJump();
         ChangeState(PlayerState.Jump);
@@ -291,12 +298,14 @@ public class Player : Character {
             if (!IsMoving()) {
                 characterVisual.OnIdle();
             }
-            else {
-                characterVisual.OnRun();
-            }
         }
 
         if (IsGrounded()) {
+            if (Time.time - lastJumpPressedTime <= jumpBufferTime) {
+                StartJump();
+                return;
+            }
+
             verticalVelocity = Constant.GROUNDED_GRAVITY;
             isJumping = false;
 

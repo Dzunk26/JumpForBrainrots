@@ -50,7 +50,7 @@ public class CharacterVisual : MonoBehaviour {
     }
 
     public void OnStartJump() {
-        ChangeAnimState(AnimState.StartJump);
+        PlayAnim(AnimState.StartJump);
     }
 
     public void OnFalling() {
@@ -75,6 +75,10 @@ public class CharacterVisual : MonoBehaviour {
         animator.ResetTrigger(Cache.GetAnimName(currentAnimState));
         currentAnimState = animState;
         animator.SetTrigger(Cache.GetAnimName(currentAnimState));
-        
+    }
+
+    private void PlayAnim(AnimState animState) {
+        int hash = Cache.GetAnimHash(animState);
+        animator.Play(hash, 0, 0f);
     }
 }
