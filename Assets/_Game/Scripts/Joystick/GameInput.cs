@@ -64,7 +64,10 @@ public class GameInput : Singleton<GameInput> {
     }
 
     public Vector2 GetLookVectorNormalizer() {
-        return isLooking ? cameraInputVetor : Vector2.zero;
+        Vector2 lookVector = isLooking ? cameraInputVetor : Vector2.zero;
+        cameraInputVetor = Vector2.zero;
+
+        return lookVector;
     }
 
     private bool isFirstTouch = true;
@@ -105,6 +108,7 @@ public class GameInput : Singleton<GameInput> {
             else {
                 cameraFinger = null;
                 isLooking = false;
+                cameraInputVetor = Vector2.zero;
             }
         }
     }
@@ -155,6 +159,7 @@ public class GameInput : Singleton<GameInput> {
                 cameraFinger = touchedFinger;
                 isLooking = true;
                 cameraStartPosition = pos;
+                cameraInputVetor = Vector2.zero;
             }
             else if (zoomFinger == null) {
                 zoomFinger = touchedFinger;
