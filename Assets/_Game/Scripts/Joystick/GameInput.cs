@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Etouch = UnityEngine.InputSystem.EnhancedTouch;
 
@@ -32,6 +33,35 @@ public class GameInput : Singleton<GameInput> {
     private float pinchDistance;
     private float zoomInput;
     private bool isZooming;
+    private bool isFirstTouch = true;
+    private PlayerInputActions inputActions;
+
+    private void Awake() {
+        maxMovement = joystickSize.x / 2;
+        inputActions = new PlayerInputActions();
+        inputActions.Player.Enable();
+    }
+
+    private void OnEnable() {
+        EnhancedTouchSupport.Enable();
+        Etouch.Touch.onFingerDown += Touch_onFingerDown;
+        Etouch.Touch.onFingerMove += Touch_onFingerMove;
+        Etouch.Touch.onFingerUp += Touch_onFingerUp;
+    }
+
+    private void OnDisable() {
+        Etouch.Touch.onFingerDown -= Touch_onFingerDown;
+        Etouch.Touch.onFingerMove -= Touch_onFingerMove;
+        Etouch.Touch.onFingerUp -= Touch_onFingerUp;
+        EnhancedTouchSupport.Disable();
+    }
+
+    private void OnDestroy() {
+        if (inputActions == null) return;
+
+        inputActions.Player.Disable();
+        inputActions.Dispose();
+    }
 
     public void OnInit() {
         isFirstTouch = true;
@@ -40,6 +70,7 @@ public class GameInput : Singleton<GameInput> {
         startPosition = Vector2.zero;
         currentPosition = Vector2.zero;
         inputVector = Vector2.zero;
+        ResetCameraTouch();
     }
 
     public float GetZoomInput() {
@@ -63,31 +94,19 @@ public class GameInput : Singleton<GameInput> {
         return inputVector;
     }
 
+    public Vector2 GetWASDMovementVectorNormalized() {
+        Vector2 inputVector = inputActions.Player.Movement.ReadValue<Vector2>();
+
+        inputVector = inputVector.normalized;
+
+        return inputVector;
+    }
+
     public Vector2 GetLookVectorNormalizer() {
         Vector2 lookVector = isLooking ? cameraInputVetor : Vector2.zero;
         cameraInputVetor = Vector2.zero;
 
         return lookVector;
-    }
-
-    private bool isFirstTouch = true;
-
-    private void Awake() {
-        maxMovement = joystickSize.x / 2;
-    }
-
-    private void OnEnable() {
-        EnhancedTouchSupport.Enable();
-        Etouch.Touch.onFingerDown += Touch_onFingerDown;
-        Etouch.Touch.onFingerMove += Touch_onFingerMove;
-        Etouch.Touch.onFingerUp += Touch_onFingerUp;
-    }
-
-    private void OnDisable() {
-        Etouch.Touch.onFingerDown -= Touch_onFingerDown;
-        Etouch.Touch.onFingerMove -= Touch_onFingerMove;
-        Etouch.Touch.onFingerUp -= Touch_onFingerUp;
-        EnhancedTouchSupport.Disable();
     }
 
     private void Touch_onFingerUp(Finger lostFinger) {
@@ -135,6 +154,10 @@ public class GameInput : Singleton<GameInput> {
     private void Touch_onFingerDown(Finger touchedFinger) {
         //if (!GameManager.Instance.IsPlayingGame()) return;
 
+        if (movementFinger != null && !movementFinger.isActive) ResetMovementTouch();
+        if (zoomFinger != null && !zoomFinger.isActive) { zoomFinger = null; isZooming = false; }
+        if (cameraFinger != null && !cameraFinger.isActive) ResetCameraTouch();
+
         if (isFirstTouch) {
             OnFirstTourch?.Invoke(this, EventArgs.Empty);
             isFirstTouch = false;
@@ -161,13 +184,32 @@ public class GameInput : Singleton<GameInput> {
                 cameraStartPosition = pos;
                 cameraInputVetor = Vector2.zero;
             }
-            else if (zoomFinger == null) {
+            else if (zoomFinger == null && touchedFinger != cameraFinger) {
                 zoomFinger = touchedFinger;
                 isZooming = true;
                 isLooking = false;
                 pinchDistance = GetPinchDistance();
             }
         }
+    }
+
+    private void ResetCameraTouch() {
+        cameraFinger = null;
+        zoomFinger = null;
+        isLooking = false;
+        isZooming = false;
+        cameraInputVetor = Vector2.zero;
+        zoomInput = 0f;
+    }
+
+    private void ResetMovementTouch() {
+        if (movementFinger != null) {
+            OnFingerUp?.Invoke(this, EventArgs.Empty);
+        }
+        movementFinger = null;
+        startPosition = Vector2.zero;
+        currentPosition = Vector2.zero;
+        inputVector = Vector2.zero;
     }
 
     private void StopZoom() {
