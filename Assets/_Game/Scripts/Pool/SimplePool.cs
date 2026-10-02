@@ -100,7 +100,7 @@ public class Pool {
         }
         else {
             unit = inactives.Dequeue();
-            unit.Tf.SetPositionAndRotation(position, rotation);
+            unit.TF.SetPositionAndRotation(position, rotation);
             unit.gameObject.SetActive(true);
         }
 

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PoolType {
-    Brick,
-    CharacterBrick,
-    Bot
+    Brainrot
 }
 
 [System.Serializable]
