@@ -25,6 +25,10 @@ public class CharacterVisual : MonoBehaviour {
     }
 
     [SerializeField] private Animator animator;
+    [SerializeField] private Transform brainrotHoldPoint;
+
+    private Dictionary<BrainrotSO, BrainrotModel> dictBrainrotModel = new Dictionary<BrainrotSO, BrainrotModel>();
+    private BrainrotModel currentModel;
 
     private AnimState currentAnimState;
     private Transform tf;
@@ -69,6 +73,15 @@ public class CharacterVisual : MonoBehaviour {
         ChangeAnimState(AnimState.Death);
     }
 
+    public void OnCaptureBrainrot(BrainrotSO brainrotSO) {
+        if (currentModel != null) {
+            currentModel.DeActive();
+        }
+
+        currentModel = GetBrainrotModel(brainrotSO);
+        currentModel.Active();
+    }
+
     private void ChangeAnimState(AnimState animState) {
         if (currentAnimState == animState) return;
 
@@ -80,5 +93,13 @@ public class CharacterVisual : MonoBehaviour {
     private void PlayAnim(AnimState animState) {
         int hash = Cache.GetAnimHash(animState);
         animator.Play(hash, 0, 0f);
+    }
+
+    private BrainrotModel GetBrainrotModel(BrainrotSO brainrotSO) {
+        if (!dictBrainrotModel.ContainsKey(brainrotSO)) {
+            dictBrainrotModel[brainrotSO] = Instantiate(brainrotSO.GetBrainrotModel());
+        }
+
+        return dictBrainrotModel[brainrotSO];
     }
 }
