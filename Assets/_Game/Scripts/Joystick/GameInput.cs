@@ -163,8 +163,8 @@ public class GameInput : Singleton<GameInput> {
             isFirstTouch = false;
         }
 
-        float screenMidX = Screen.width * 0.5f;
-        float screenMidY = Screen.height * 0.5f;
+        float screenMidX = Screen.width * Constant.JOYSTICK_X_RATIO;
+        float screenMidY = Screen.height * Constant.JOYSTICK_Y_RATIO;
         Vector2 pos = touchedFinger.screenPosition;
         if (pos.x < screenMidX && pos.y < screenMidY) {
             if (movementFinger == null) {
