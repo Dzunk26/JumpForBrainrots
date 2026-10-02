@@ -36,6 +36,7 @@ public class Player : Character {
     [SerializeField] private float nearGroundDistance = 1f;
     [SerializeField] private float bodyRatio = 0.6f;
     [SerializeField] private float jumpBufferTime = 0.25f;
+    [SerializeField] private float baseMaxFallSpeed = 50f;
 
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
@@ -45,6 +46,8 @@ public class Player : Character {
     private float initialJumpVelocity;
     private PlayerState currentState;
     private RaycastHit ladderHit;
+    private float maxFallSpeed;
+    private BrainrotSO currentCapturedBrainrotSO;
 
 
     private void OnEnable() {
@@ -90,6 +93,10 @@ public class Player : Character {
         CalculateStats();
     }
 
+    public void CaptureBrainrot(BrainrotSO brainrotSO) {
+        currentCapturedBrainrotSO = brainrotSO;
+    }
+
     private void CalculateStats() {
         characterStat.OnInit();
 
@@ -107,6 +114,7 @@ public class Player : Character {
     private void SetupStats() {
         moveSpeed = characterStat.GetMoveSpeed();
         initialJumpVelocity = Mathf.Sqrt(-2f * gravity * characterStat.GetJumpHeight());
+        maxFallSpeed = Mathf.Max(baseMaxFallSpeed, initialJumpVelocity);
     }
 
     private void HandlePlayerState() {
@@ -184,6 +192,7 @@ public class Player : Character {
         float climbInput = Mathf.Abs(inputVector.y) >= Mathf.Abs(inputVector.x) ? inputVector.y : inputVector.x;
 
         characterController.Move(Vector3.up * climbInput * moveSpeed * Time.deltaTime);
+        Debug.Log(climbInput);
         characterVisual.SetClimbSpeed(climbInput);
 
         Vector3 ladderDirection = -ladderHit.normal;
@@ -277,12 +286,10 @@ public class Player : Character {
         }
 
         verticalVelocity += currentGravity * Time.deltaTime;
-
-        if (verticalVelocity < minGravity) {
-            verticalVelocity = minGravity;
-        }
+        verticalVelocity = Mathf.Max(verticalVelocity, -maxFallSpeed);
 
         characterController.Move(Vector3.up * verticalVelocity * Time.deltaTime);
+    
     }
 
     private void HandleFall() {
@@ -293,12 +300,6 @@ public class Player : Character {
 
         HandleMovement();
         characterVisual.OnFalling();
-
-        if (IsNearGround()) {
-            if (!IsMoving()) {
-                characterVisual.OnIdle();
-            }
-        }
 
         if (IsGrounded()) {
             if (Time.time - lastJumpPressedTime <= jumpBufferTime) {
@@ -341,18 +342,6 @@ public class Player : Character {
         if (!Physics.Raycast(startPosition, direction, out ladderHit, distance, ladderLayerMask, QueryTriggerInteraction.Collide)) return false;
 
         return true;
-    }
-
-    private bool IsNearGround() {
-        float radius = characterController.radius * 0.95f;
-        Vector3 center = TF.position + characterController.center;
-        float halfHeight = characterController.height * 0.5f - radius;
-        float offset = 0.1f;
-
-        Vector3 point1 = center + Vector3.up * (halfHeight + offset);
-        Vector3 point2 = center + Vector3.down * halfHeight + (Vector3.up * offset);
-
-        return Physics.CapsuleCast(point1, point2, radius, Vector3.down, nearGroundDistance, groundLayerMask);
     }
 
 
