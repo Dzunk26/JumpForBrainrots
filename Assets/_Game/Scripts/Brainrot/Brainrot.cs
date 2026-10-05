@@ -4,24 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Brainrot : GameUnit {
-    [SerializeField] private Button buttonPickUp;
+    public bool IsAlive => isAlive;
+
     [SerializeField] private Collider pickUpTrigger;
     [SerializeField] private BrainrotVisual brainrotVisual;
+    [SerializeField] private Transform capturedButtonUISpawnPoint;
 
     private BrainrotSO brainrotSO;
     private float lifeTimerMax;
     private float lifeTimer = 0f;
     private bool isAlive = false;
 
-    //private void Awake() {
-    //    buttonPickUp.onClick.AddListener(OnPickedUp);
-    //}
-
-    private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag(Constant.PLAYER_TAG)) {
-            Player player = Cache.GetPlayer(other);
-
-        }
+    private void Update() {
+        HandleLifeTime();
     }
 
     public void OnInit(BrainrotSO brainrotSO) {
@@ -37,12 +32,17 @@ public class Brainrot : GameUnit {
         isAlive = false;
     }
 
-    public bool IsAlive() {
-        return isAlive;
+    public void OnCaptured() {
+        OnDespawn();
+        SimplePool.ReturnToPool(this);
     }
 
-    private void OnPickedUp() {
+    public BrainrotSO GetBrainrotSO() {
+        return brainrotSO;
+    }
 
+    public Vector3 GetButtonCaptureSpawnPoint() {
+        return capturedButtonUISpawnPoint.position;
     }
 
     private void HandleLifeTime() {

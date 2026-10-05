@@ -22,4 +22,8 @@ public class BrainrotModel : MonoBehaviour {
     public void DeActive() {
         gameObject.SetActive(false);
     }
+
+    public void ResetLocalPosition() {
+        TF.localPosition = Vector3.zero;
+    }
 }
