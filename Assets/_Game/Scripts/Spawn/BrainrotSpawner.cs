@@ -31,10 +31,20 @@ public class BrainrotSpawner : MonoBehaviour {
         spawnCapMax = floorSpawnConfigSO.GetSpawnCapMax();
         spawnBrainrotRarity = floorSpawnConfigSO.GetBrainrotRarity();
         spawnableBrainrotSOs = listBrainrotSO.GetBrainrotSOsByRarity(spawnBrainrotRarity);
+
+        InitialSpawn();
     }
 
     public void OnBrainrotDespawn(Brainrot brainrot) {
         spawnedBrainrots.Remove(brainrot);
+    }
+
+    private void InitialSpawn() {
+        while (spawnedBrainrots.Count < spawnCapMax) {
+            Spawn(GetRandomSpawnPoint());
+        }
+
+        spawnTimer = 0;
     }
 
     private void HandleSpawn() {
@@ -48,9 +58,6 @@ public class BrainrotSpawner : MonoBehaviour {
     }
 
     private void Spawn(Vector3 spawnPoint) {
-
-
-        //GameObject brainrotTest = Instantiate(brainrotPrefab, spawnPoint, Quaternion.identity);
         Brainrot brainrot = SimplePool.GetFromPool<Brainrot>(PoolType.Brainrot, spawnPoint, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
         BrainrotSO brainrotSO = GetRandomBrainrotSO();
         brainrot.OnInit(brainrotSO);
@@ -76,7 +83,7 @@ public class BrainrotSpawner : MonoBehaviour {
     }
 
     private BrainrotSO GetRandomBrainrotSO() {
-        int randomIndex = Random.Range(0, spawnedBrainrots.Count);
+        int randomIndex = Random.Range(0, spawnableBrainrotSOs.Count);
 
         return spawnableBrainrotSOs[randomIndex];
     }
