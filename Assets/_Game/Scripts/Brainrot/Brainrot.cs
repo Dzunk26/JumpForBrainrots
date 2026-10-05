@@ -6,15 +6,16 @@ using UnityEngine.UI;
 public class Brainrot : GameUnit {
     [SerializeField] private Button buttonPickUp;
     [SerializeField] private Collider pickUpTrigger;
+    [SerializeField] private BrainrotVisual brainrotVisual;
 
     private BrainrotSO brainrotSO;
     private float lifeTimerMax;
     private float lifeTimer = 0f;
     private bool isAlive = false;
 
-    private void Awake() {
-        buttonPickUp.onClick.AddListener(OnPickedUp);
-    }
+    //private void Awake() {
+    //    buttonPickUp.onClick.AddListener(OnPickedUp);
+    //}
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag(Constant.PLAYER_TAG)) {
@@ -28,6 +29,7 @@ public class Brainrot : GameUnit {
         isAlive = true;
         lifeTimerMax = brainrotSO.GetAppearTimerMax();
         lifeTimer = 0f;
+        brainrotVisual.OnInit(brainrotSO);
     }
 
     public void OnDespawn() {
