@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BrainrotSpawner : MonoBehaviour {
-    [SerializeField] private GameObject brainrotPrefab;
-
-    [SerializeField] private FloorSpawnConfigSO floorSpawnConfigSO;
+    [SerializeField] private Floor floor;
     [SerializeField] private ListBrainrotSO listBrainrotSO;
     [SerializeField] private BoxCollider spawnArea;
 
+    private FloorSpawnConfigSO floorSpawnConfigSO;
     private List<Brainrot> spawnedBrainrots = new List<Brainrot>();
     private List<BrainrotSO> spawnableBrainrotSOs;
     private float spawnTimer;
@@ -16,7 +15,7 @@ public class BrainrotSpawner : MonoBehaviour {
     private int spawnCapMax;
     private BrainrotRarity spawnBrainrotRarity;
 
-    private void Awake() {
+    private void Start() {
         OnInit();
     }
 
@@ -27,7 +26,8 @@ public class BrainrotSpawner : MonoBehaviour {
     }
 
     public void OnInit() {
-        spawnTimerMax = floorSpawnConfigSO.GetSpawnTimerMax();
+        floorSpawnConfigSO = floor.GetFloorSpawnConfigSO();
+        spawnTimerMax = floorSpawnConfigSO.GetSpawnBrainrotTimerMax();
         spawnCapMax = floorSpawnConfigSO.GetSpawnCapMax();
         spawnBrainrotRarity = floorSpawnConfigSO.GetBrainrotRarity();
         spawnableBrainrotSOs = listBrainrotSO.GetBrainrotSOsByRarity(spawnBrainrotRarity);
@@ -76,7 +76,7 @@ public class BrainrotSpawner : MonoBehaviour {
 
     private void RemoveInvalidBrainrots() {
         for (int i = spawnedBrainrots.Count - 1; i >=0; i--) {
-            if (!spawnedBrainrots[i].IsAlive()) {
+            if (!spawnedBrainrots[i].IsAlive) {
                 Despawn(spawnedBrainrots[i]);
             }
         }
