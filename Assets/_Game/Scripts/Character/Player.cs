@@ -21,12 +21,15 @@ public class Player : Character {
     [SerializeField] private Transform playerVisualContainer;
     [SerializeField] private CharacterController characterController;
     [SerializeField] private CharacterVisual characterVisual;
+    [SerializeField] private BrainrotInteractor brainrotInteractor;
+    [SerializeField] private Vector3 playerSpawnPoint = Vector3.zero;
 
     [SerializeField] private float rotateSpeed = 15f;
     [SerializeField] private float gravity = -35f;
 
-    [SerializeField] private float ladderEnterThreshold = 0.5f;
+    [SerializeField] private float ladderEnterDelta = 0.5f;
 
+    [SerializeField] private float fallTimerMax = 0.15f;
     [SerializeField] private float fallMultiplier = 2f;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private float groundRaycastDistance = 0.2f;
@@ -51,6 +54,7 @@ public class Player : Character {
     private RaycastHit ladderHit;
     private float maxFallSpeed;
     private BrainrotSO currentCapturedBrainrotSO;
+    private float lastGroundedTime;
 
     private void OnEnable() {
         OnInit();
@@ -58,6 +62,8 @@ public class Player : Character {
 
     private void Update() {
         ListenInput();
+
+        UpdateLastGroundedTime();
 
         HandleGravity();
 
@@ -70,10 +76,16 @@ public class Player : Character {
         ChangeState(PlayerState.Idle);
         SetupStats();
         CalculateStats();
+        TeleportTo(playerSpawnPoint);
     }
 
     protected override void OnDespawn() {
-
+        currentCapturedBrainrotSO = null;
+        isJumping = false;
+        verticalVelocity = 0f;
+        TeleportTo(playerSpawnPoint);
+        characterVisual.OnInit();
+        ChangeState(PlayerState.Idle);
     }
 
     public void Jump() {
@@ -88,15 +100,38 @@ public class Player : Character {
         UpgradeType upgradeType = UpgradeType.JumpPower;
         PlayerProgress.Instance.IncreaseLevel(upgradeType);
         OnUpgrade(upgradeType);
-        Debug.Log(PlayerProgress.Instance.GetLevel(upgradeType) + " " + characterStat.GetJumpHeight());
     }
 
     public void OnUpgrade(UpgradeType upgradeType) {
         CalculateStats();
     }
 
-    public void CaptureBrainrot(BrainrotSO brainrotSO) {
-        currentCapturedBrainrotSO = brainrotSO;
+    public void OnCaptureBrainrot() {
+        if (!CanCapture()) return;
+
+        Brainrot brainrot = brainrotInteractor.GetSelectedTarget();
+        if (brainrot == null) return;
+
+        currentCapturedBrainrotSO = brainrot.GetBrainrotSO();
+        characterVisual.OnCaptureBrainrot(currentCapturedBrainrotSO);
+        brainrot.OnCaptured();
+        brainrotInteractor.ClearSelectedTarget();
+    }
+
+    public void OnDead() {
+        if (currentState == PlayerState.Dead) return;
+
+        DropBrainrot();
+        characterVisual.OnDead();
+        ChangeState(PlayerState.Dead);
+    }
+
+    public Brainrot GetCaptureableTarget() {
+        return brainrotInteractor.GetSelectedTarget();
+    }
+
+    private bool CanCapture() {
+        return currentCapturedBrainrotSO == null;
     }
 
     private void CalculateStats() {
@@ -150,7 +185,7 @@ public class Player : Character {
             return;
         }
 
-        if (!IsGrounded()) {
+        if (!IsRecentlyGrouned()) {
             ChangeState(PlayerState.Fall);
             return;
         }
@@ -209,7 +244,7 @@ public class Player : Character {
     private bool CanStartClimb() {
         if (!IsMoving() || !IsFacingLadder()) return false;
 
-        return Vector3.Dot(GetMoveDirection(), -ladderHit.normal) >= ladderEnterThreshold;
+        return Vector3.Dot(GetMoveDirection(), -ladderHit.normal) >= ladderEnterDelta;
     }
 
     private void StartClimb() {
@@ -242,7 +277,7 @@ public class Player : Character {
     private void HandleIdle() {
         characterVisual.OnIdle();
 
-        if (!IsGrounded()) {
+        if (!IsRecentlyGrouned()) {
             ChangeState(PlayerState.Fall);
             return;
         }
@@ -282,17 +317,16 @@ public class Player : Character {
     private void HandleGravity() {
         if (currentState == PlayerState.Climb) return;
 
-        float currentGravity = gravity;
-
-        if (verticalVelocity < 0f) {
-            currentGravity *= fallMultiplier;
+        if (IsGrounded() && verticalVelocity < 0f && currentState != PlayerState.Jump) {
+            verticalVelocity = Constant.GROUNDED_GRAVITY;
+        }
+        else {
+            float currentGravity = verticalVelocity < 0f ? gravity * fallMultiplier : gravity;
+            verticalVelocity += currentGravity * Time.deltaTime;
+            verticalVelocity = Mathf.Max(verticalVelocity, -maxFallSpeed);
         }
 
-        verticalVelocity += currentGravity * Time.deltaTime;
-        verticalVelocity = Mathf.Max(verticalVelocity, -maxFallSpeed);
-
         characterController.Move(Vector3.up * verticalVelocity * Time.deltaTime);
-    
     }
 
     private void HandleFall() {
@@ -323,7 +357,7 @@ public class Player : Character {
     }
 
     private void HandleDead() {
-        characterVisual.OnDead();
+        OnDespawn();
     }
 
     private float GetHorizontalMoveSpeed() {
@@ -335,6 +369,16 @@ public class Player : Character {
             default:
                 return moveSpeed;
         }
+    }
+
+    private void UpdateLastGroundedTime() {
+        if (IsGrounded()) {
+            lastGroundedTime = Time.time;
+        }
+    }
+
+    private bool IsRecentlyGrouned() {
+        return Time.time - lastGroundedTime <= fallTimerMax;
     }
 
     private bool IsGrounded() {
@@ -361,6 +405,17 @@ public class Player : Character {
 
     private bool IsMoving() {
         return inputVector.sqrMagnitude > 0.01f;
+    }
+
+    private void TeleportTo(Vector3 position) {
+        characterController.enabled = false;
+        TF.position = position;
+        characterController.enabled = true;
+    }
+
+    private void DropBrainrot() {
+        currentCapturedBrainrotSO = null;
+        characterVisual.OnDropBrainrot();
     }
 
     private void ChangeState(PlayerState state) {

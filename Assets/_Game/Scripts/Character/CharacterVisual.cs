@@ -33,8 +33,12 @@ public class CharacterVisual : MonoBehaviour {
     private AnimState currentAnimState;
     private Transform tf;
 
-    public void OnInit() {
+    private void Start() {
         currentAnimState = AnimState.Idle;
+    }
+
+    public void OnInit() {
+        OnDropBrainrot();
     }
 
     public void OnIdle() {
@@ -97,9 +101,17 @@ public class CharacterVisual : MonoBehaviour {
 
     private BrainrotModel GetBrainrotModel(BrainrotSO brainrotSO) {
         if (!dictBrainrotModel.ContainsKey(brainrotSO)) {
-            dictBrainrotModel[brainrotSO] = Instantiate(brainrotSO.GetBrainrotModel());
+            dictBrainrotModel[brainrotSO] = Instantiate(brainrotSO.GetBrainrotModel(), brainrotHoldPoint);
+            dictBrainrotModel[brainrotSO].ResetLocalPosition();
         }
 
         return dictBrainrotModel[brainrotSO];
+    }
+
+    public void OnDropBrainrot() {
+        if (currentModel == null) return;
+
+        currentModel.DeActive();
+        currentModel = null;
     }
 }
