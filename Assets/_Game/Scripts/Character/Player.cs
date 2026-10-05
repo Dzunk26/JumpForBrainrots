@@ -23,8 +23,7 @@ public class Player : Character {
     [SerializeField] private CharacterVisual characterVisual;
 
     [SerializeField] private float rotateSpeed = 15f;
-    [SerializeField] private float gravity = -30f;
-    [SerializeField] private float minGravity = -30;
+    [SerializeField] private float gravity = -35f;
 
     [SerializeField] private float ladderEnterThreshold = 0.5f;
 
@@ -33,13 +32,17 @@ public class Player : Character {
     [SerializeField] private float groundRaycastDistance = 0.2f;
     [SerializeField] private LayerMask ladderLayerMask;
     [SerializeField] private float ladderRaycastDistance = 0.4f;
-    [SerializeField] private float nearGroundDistance = 1f;
     [SerializeField] private float bodyRatio = 0.6f;
     [SerializeField] private float jumpBufferTime = 0.25f;
     [SerializeField] private float baseMaxFallSpeed = 50f;
 
+    [SerializeField] private float fallMoveSpeedMultiplier = 0.7f;
+    [SerializeField] private float climpMoveSpeedMultiplier = 0.8f;
+
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
+    private float fallMoveSpeed;
+    private float climpMoveSpeed;
     private Vector2 inputVector;
     private bool isJumping;
     private float verticalVelocity;
@@ -48,7 +51,6 @@ public class Player : Character {
     private RaycastHit ladderHit;
     private float maxFallSpeed;
     private BrainrotSO currentCapturedBrainrotSO;
-
 
     private void OnEnable() {
         OnInit();
@@ -113,6 +115,8 @@ public class Player : Character {
 
     private void SetupStats() {
         moveSpeed = characterStat.GetMoveSpeed();
+        climpMoveSpeed = moveSpeed * climpMoveSpeedMultiplier;
+        fallMoveSpeed = moveSpeed * fallMoveSpeedMultiplier;
         initialJumpVelocity = Mathf.Sqrt(-2f * gravity * characterStat.GetJumpHeight());
         maxFallSpeed = Mathf.Max(baseMaxFallSpeed, initialJumpVelocity);
     }
@@ -166,7 +170,7 @@ public class Player : Character {
         }
 
         Vector3 moveDir = GetMoveDirection();
-        Vector3 nextPosition = moveDir * moveSpeed * Time.deltaTime;
+        Vector3 nextPosition = moveDir * GetHorizontalMoveSpeed() * Time.deltaTime;
 
         characterController.Move(nextPosition);
 
@@ -191,8 +195,7 @@ public class Player : Character {
     private void HandleClimbMovement() {
         float climbInput = Mathf.Abs(inputVector.y) >= Mathf.Abs(inputVector.x) ? inputVector.y : inputVector.x;
 
-        characterController.Move(Vector3.up * climbInput * moveSpeed * Time.deltaTime);
-        Debug.Log(climbInput);
+        characterController.Move(Vector3.up * climbInput * climpMoveSpeed * Time.deltaTime);
         characterVisual.SetClimbSpeed(climbInput);
 
         Vector3 ladderDirection = -ladderHit.normal;
@@ -321,6 +324,17 @@ public class Player : Character {
 
     private void HandleDead() {
         characterVisual.OnDead();
+    }
+
+    private float GetHorizontalMoveSpeed() {
+        switch (currentState) {
+            case PlayerState.Jump:
+                return fallMoveSpeed;
+            case PlayerState.Fall:
+                return fallMoveSpeed;
+            default:
+                return moveSpeed;
+        }
     }
 
     private bool IsGrounded() {
