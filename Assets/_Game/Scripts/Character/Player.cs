@@ -14,6 +14,13 @@ public enum PlayerState {
     Dead,
 }
 
+public enum SlotInteractType {
+    None,
+    Place,
+    Swap,
+    PickUp
+}
+
 public class Player : Character {
     [SerializeField] private ListUpgradeConfigSO listUpgradeConfigSO;
 
@@ -22,6 +29,7 @@ public class Player : Character {
     [SerializeField] private CharacterController characterController;
     [SerializeField] private CharacterVisual characterVisual;
     [SerializeField] private BrainrotInteractor brainrotInteractor;
+    [SerializeField] private SlotInteractor baseSlotInteractor;
     [SerializeField] private Vector3 playerSpawnPoint = Vector3.zero;
 
     [SerializeField] private float rotateSpeed = 15f;
@@ -106,6 +114,14 @@ public class Player : Character {
         CalculateStats();
     }
 
+    public void OnDead() {
+        if (currentState == PlayerState.Dead) return;
+
+        DropBrainrot();
+        characterVisual.OnDead();
+        ChangeState(PlayerState.Dead);
+    }
+
     public void OnCaptureBrainrot() {
         if (!CanCapture()) return;
 
@@ -118,20 +134,42 @@ public class Player : Character {
         brainrotInteractor.ClearSelectedTarget();
     }
 
-    public void OnDead() {
-        if (currentState == PlayerState.Dead) return;
-
-        DropBrainrot();
-        characterVisual.OnDead();
-        ChangeState(PlayerState.Dead);
-    }
-
     public Brainrot GetCaptureableTarget() {
         return brainrotInteractor.GetSelectedTarget();
     }
 
     private bool CanCapture() {
         return currentCapturedBrainrotSO == null;
+    }
+
+    public void OnInteractBaseSlot() {
+        if (currentCapturedBrainrotSO == null) return;
+
+        BaseSlot baseSlot = baseSlotInteractor.GetSelectedTarget();
+        if (baseSlot == null || !baseSlot.IsUnlocked) return;
+
+        baseSlot.OnInteracted(currentCapturedBrainrotSO);
+        DropBrainrot();
+    }
+
+    public BaseSlot GetInteractableBaseSlot() {
+        return baseSlotInteractor.GetSelectedTarget();
+    }
+
+    public SlotInteractType GetSlotInteractType(BaseSlot baseSlot) {
+        if (baseSlot == null || !baseSlot.IsUnlocked) return SlotInteractType.None;
+
+        bool isHoldingBrainrot = currentCapturedBrainrotSO != null;
+
+        if (!baseSlot.IsActive) {
+            return SlotInteractType.Place;
+        }
+
+        if (isHoldingBrainrot) {
+            return SlotInteractType.Swap;
+        }
+
+        return SlotInteractType.PickUp;
     }
 
     private void CalculateStats() {
