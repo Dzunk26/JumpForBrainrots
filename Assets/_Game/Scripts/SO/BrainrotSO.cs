@@ -22,7 +22,8 @@ public class BrainrotSO : ScriptableObject {
     [SerializeField] private BrainrotRarity rarity;
     [SerializeField] private BrainrotModel brainrotModel;
     [SerializeField] private float lifeTimerMax;
-    [SerializeField] private float moneyPerSec;
+    [SerializeField] private float incomeAmount;
+    [SerializeField] private float afkIncomeAmount;
     [SerializeField] private Sprite indexIcon;
 
     public bool IsMatchID(int id) {
@@ -49,8 +50,8 @@ public class BrainrotSO : ScriptableObject {
         return lifeTimerMax;
     }
 
-    public float GetMoneyPerSec() {
-        return moneyPerSec;
+    public float GetIncomeAmount() {
+        return incomeAmount;
     }
 
     public Sprite GetIndexIcon() {

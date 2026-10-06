@@ -41,7 +41,7 @@ public class Brainrot : GameUnit {
         return brainrotSO;
     }
 
-    public Vector3 GetButtonCaptureSpawnPoint() {
+    public Vector3 GetCaptureButtonSpawnPoint() {
         return capturedButtonUISpawnPoint.position;
     }
 

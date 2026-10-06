@@ -27,7 +27,7 @@ public class CaptureButtonUI : MonoBehaviour {
             return;
         }
 
-        Vector3 screenPoint = Utils.WorldToScreenPoint(playerCamera, targetBrainrot.GetButtonCaptureSpawnPoint());
+        Vector3 screenPoint = Utils.WorldToScreenPoint(playerCamera, targetBrainrot.GetCaptureButtonSpawnPoint());
         if (screenPoint.z <= 0f) { // z <= 0 la sau camera
             targetBrainrot = null;
             HideCaptureButton();
