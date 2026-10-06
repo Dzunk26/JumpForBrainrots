@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listBrainrotSO:
   - {fileID: 11400000, guid: 8d960241b9399f34c844a159f6716287, type: 2}
+  - {fileID: 11400000, guid: 564affc989c4b0b44bcd3124e96a9632, type: 2}
