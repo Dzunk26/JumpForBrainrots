@@ -8,10 +8,10 @@ public class SlotInteractor : TargetInteractor<BaseSlot> {
     }
 
     protected override Vector3 GetTargetPosition(BaseSlot target) {
-        return TF.position;
+        return target.TF.position;
     }
 
     protected override bool IsValidTarget(BaseSlot target) {
-        return target.IsActive;
+        return target.IsUnlocked;
     }
 }
