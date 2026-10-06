@@ -39,7 +39,7 @@ public class BaseSlot : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag(Constant.PLAYER_TAG)) {
-            OnIncomeCollected();
+            CollectIncome();
         }
     }
 
@@ -47,21 +47,28 @@ public class BaseSlot : MonoBehaviour {
         incomeAmount = currentBrainrotSO.GetIncomeAmount();
     }
 
-    public void OnInteracted(BrainrotSO brainrotSO) {
-        currentBrainrotSO = brainrotSO;
-        baseSlotVisual.OnInit(currentBrainrotSO);
-        OnInit();
-        OnBrainrotChanged?.Invoke(this, EventArgs.Empty);
+    public void PlaceBrainrot(BrainrotSO brainrotSO) {
+        if (brainrotSO == null) return;
+
+        SetBrainrot(brainrotSO);
     }
 
-    public void UnLock() {
-        isUnlocked = true;
+    public BrainrotSO SwapBrainrot(BrainrotSO newBrainrot) {
+        BrainrotSO oldBrainrotSO = currentBrainrotSO;
+        CollectIncome();
+        SetBrainrot(newBrainrot);
+        return oldBrainrotSO;
     }
 
     public BrainrotSO RemoveBrainrot() {
         BrainrotSO removedBrainrotSO = currentBrainrotSO;
-        ClearBrainrot();
+        CollectIncome();
+        SetBrainrot(null);
         return removedBrainrotSO;
+    }
+
+    public void UnLock() {
+        isUnlocked = true;
     }
 
     public float GetTotalIncome() {
@@ -87,10 +94,25 @@ public class BaseSlot : MonoBehaviour {
         OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnIncomeCollected() {
-        if (!IsActive) return;
+    private void SetBrainrot(BrainrotSO brainrotSO) {
+        currentBrainrotSO = brainrotSO;
+        incomeAmount = IsActive ? currentBrainrotSO.GetIncomeAmount() : 0f;
+        incomeTimer = 0f;
 
-        PlayerProgress.Instance.AddMoney(incomeAmount);
+        if (IsActive) {
+            baseSlotVisual.OnInit(currentBrainrotSO);
+        }
+        else {
+            baseSlotVisual.OnClear();
+        }
+
+        OnBrainrotChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void CollectIncome() {
+        if (totalIncome <= 0f) return;
+
+        PlayerProgress.Instance.AddMoney(totalIncome);
         totalIncome = 0f;
         OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
     }

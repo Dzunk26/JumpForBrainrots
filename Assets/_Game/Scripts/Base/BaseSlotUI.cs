@@ -34,7 +34,7 @@ public class BaseSlotUI : MonoBehaviour {
         }
 
         ShowText();
-        totalIncomeText.SetText(Constant.MONEY_SYMBOL + baseSlot.GetTotalIncome().ToString("F0"));
+        totalIncomeText.SetText(Constant.MONEY_SYMBOL + baseSlot.GetTotalIncome());
     }
 
     private void ShowText() {

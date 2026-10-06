@@ -128,8 +128,7 @@ public class Player : Character {
         Brainrot brainrot = brainrotInteractor.GetSelectedTarget();
         if (brainrot == null) return;
 
-        currentCapturedBrainrotSO = brainrot.GetBrainrotSO();
-        characterVisual.OnCaptureBrainrot(currentCapturedBrainrotSO);
+        HoldBrainrot(brainrot.GetBrainrotSO());
         brainrot.OnCaptured();
         brainrotInteractor.ClearSelectedTarget();
     }
@@ -143,13 +142,20 @@ public class Player : Character {
     }
 
     public void OnInteractBaseSlot() {
-        if (currentCapturedBrainrotSO == null) return;
-
         BaseSlot baseSlot = baseSlotInteractor.GetSelectedTarget();
-        if (baseSlot == null || !baseSlot.IsUnlocked) return;
+        SlotInteractType interactType = GetSlotInteractType(baseSlot);
 
-        baseSlot.OnInteracted(currentCapturedBrainrotSO);
-        DropBrainrot();
+        switch (interactType) {
+            case SlotInteractType.Place:
+                PlaceBrainrot(baseSlot);
+                break;
+            case SlotInteractType.Swap:
+                SwapBrainrot(baseSlot);
+                break;
+            case SlotInteractType.PickUp:
+                PickUpBrainrot(baseSlot);
+                break;
+        }
     }
 
     public BaseSlot GetInteractableBaseSlot() {
@@ -170,6 +176,25 @@ public class Player : Character {
         }
 
         return SlotInteractType.PickUp;
+    }
+
+    private void PlaceBrainrot(BaseSlot baseSlot) {
+        baseSlot.PlaceBrainrot(currentCapturedBrainrotSO);
+        DropBrainrot();
+    }
+
+    private void SwapBrainrot(BaseSlot baseSlot) {
+        BrainrotSO oldBrainrotSO = baseSlot.SwapBrainrot(currentCapturedBrainrotSO);
+        HoldBrainrot(oldBrainrotSO);
+    }
+
+    private void PickUpBrainrot(BaseSlot baseSlot) {
+        HoldBrainrot(baseSlot.RemoveBrainrot());
+    }
+
+    private void HoldBrainrot(BrainrotSO brainrotSO) {
+        currentCapturedBrainrotSO = brainrotSO;
+        characterVisual.OnCaptureBrainrot(brainrotSO);
     }
 
     private void CalculateStats() {
