@@ -7,17 +7,28 @@ public class CaptureButtonUI : MonoBehaviour {
     [SerializeField] private Player player;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private RectTransform captureButtonTF;
-    [SerializeField] private Button captureButton;
+    [SerializeField] private TourchDownButton captureButton;
 
     private Brainrot targetBrainrot;
 
+    private void OnEnable() {
+        captureButton.OnTouchDown += CaptureButton_OnTouchDown;
+    }
+
     private void Start() {
-        captureButton.onClick.AddListener(OnClickCaptureButton);
         HideCaptureButton();
     }
 
     private void LateUpdate() {
         UpdateCaptureButton();
+    }
+
+    private void OnDisable() {
+        
+    }
+
+    private void CaptureButton_OnTouchDown(object sender, System.EventArgs e) {
+        OnClickCaptureButton();
     }
 
     private void UpdateCaptureButton() {

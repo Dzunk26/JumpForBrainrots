@@ -8,19 +8,30 @@ public class EquipButton : MonoBehaviour {
     [SerializeField] private Player player;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private RectTransform captureButtonTF;
-    [SerializeField] private Button equipButton;
+    [SerializeField] private TourchDownButton equipButton;
     [SerializeField] private TextMeshProUGUI equipButtonText;
 
     private BaseSlot targetBaseSlot;
     private SlotInteractType currentInteractType;
 
+    private void OnEnable() {
+        equipButton.OnTouchDown += EquipButton_OnTouchDown;
+    }
+
     private void Start() {
-        equipButton.onClick.AddListener(OnClickEquipButton);
         HideEquipButton();
     }
 
     private void LateUpdate() {
         UpdateEquipButton();
+    }
+
+    private void OnDisable() {
+        equipButton.OnTouchDown -= EquipButton_OnTouchDown;
+    }
+
+    private void EquipButton_OnTouchDown(object sender, System.EventArgs e) {
+        OnClickEquipButton();
     }
 
     private void UpdateEquipButton() {
