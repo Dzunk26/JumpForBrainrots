@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class Constant {
-    public static string PLACE_TEXT = "Place Item";
-    public static string SWAP_TEXT = "Swap";
-    public static string PICK_UP_TEXT = "Pick Up";
+    public static string FLOOR_AREA = "Floor";
+
+    public static string PLACE_TEXT = "Place!";
+    public static string SWAP_TEXT = "Swap!";
+    public static string PICK_UP_TEXT = "Take it!";
 
     public static string MONEY_SYMBOL = "$";
     public static float INCOME_INTERVAL = 1f;

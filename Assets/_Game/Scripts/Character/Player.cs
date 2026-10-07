@@ -27,7 +27,6 @@ public class Player : Character {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform playerVisualContainer;
     [SerializeField] private CharacterController characterController;
-    [SerializeField] private CharacterVisual characterVisual;
     [SerializeField] private BrainrotInteractor brainrotInteractor;
     [SerializeField] private SlotInteractor baseSlotInteractor;
     [SerializeField] private Vector3 playerSpawnPoint = Vector3.zero;
@@ -50,6 +49,8 @@ public class Player : Character {
     [SerializeField] private float fallMoveSpeedMultiplier = 0.7f;
     [SerializeField] private float climpMoveSpeedMultiplier = 0.8f;
 
+    [SerializeField] private float statTimerMax = 3f;
+
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
     private float fallMoveSpeed;
@@ -61,8 +62,8 @@ public class Player : Character {
     private PlayerState currentState;
     private RaycastHit ladderHit;
     private float maxFallSpeed;
-    private BrainrotSO currentCapturedBrainrotSO;
     private float lastGroundedTime;
+    private float stateTimer = 0f;
 
     private void OnEnable() {
         OnInit();
@@ -78,22 +79,42 @@ public class Player : Character {
         HandlePlayerState();
     }
 
-    protected override void OnInit() {
+    public override void OnInit() {
+        stateTimer = 0f;
         characterVisual.OnInit();
         isJumping = false;
         ChangeState(PlayerState.Idle);
         SetupStats();
         CalculateStats();
         TeleportTo(playerSpawnPoint);
+        base.OnInit();
     }
 
-    protected override void OnDespawn() {
+    public override void OnDespawn() {
+        stateTimer = 0f;
         currentCapturedBrainrotSO = null;
         isJumping = false;
         verticalVelocity = 0f;
         TeleportTo(playerSpawnPoint);
         characterVisual.OnInit();
         ChangeState(PlayerState.Idle);
+        base.OnDespawn();
+    }
+
+    public override void InitBaseHouse() {
+        baseHouse.OnInit(this, PlayerProgress.Instance.GetBaseHouseLevel());
+        baseSlotInteractor.OnInit(baseHouse);
+    }
+
+    public void UpgradeBaseHouse() {
+        if (baseHouse.IsMaxLevel()) return;
+
+        double cost = baseHouse.GetUpgradeCost();
+        if (!PlayerProgress.Instance.IsEnoughMoney(cost)) return;
+
+        PlayerProgress.Instance.SpendMoney(cost);
+        baseHouse.Upgrade();
+        PlayerProgress.Instance.SetBaseHouseLevel(baseHouse.GetHouseLevel());
     }
 
     public void Jump() {
@@ -122,7 +143,8 @@ public class Player : Character {
         ChangeState(PlayerState.Dead);
     }
 
-    public void OnCaptureBrainrot() {
+
+    public override void OnCaptureBrainrot() {
         if (!CanCapture()) return;
 
         Brainrot brainrot = brainrotInteractor.GetSelectedTarget();
@@ -141,7 +163,7 @@ public class Player : Character {
         return currentCapturedBrainrotSO == null;
     }
 
-    public void OnInteractBaseSlot() {
+    public override void OnInteractBaseSlot() {
         BaseSlot baseSlot = baseSlotInteractor.GetSelectedTarget();
         SlotInteractType interactType = GetSlotInteractType(baseSlot);
 
@@ -420,6 +442,9 @@ public class Player : Character {
     }
 
     private void HandleDead() {
+        stateTimer += Time.deltaTime;
+        if (stateTimer < statTimerMax) return;
+
         OnDespawn();
     }
 

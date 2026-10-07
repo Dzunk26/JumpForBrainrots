@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SlotInteractor : TargetInteractor<BaseSlot> {
+    private BaseHouse baseHouse;
+
+    public void OnInit(BaseHouse baseHouse) {
+        this.baseHouse = baseHouse;
+    }
+
     protected override BaseSlot GetTarget(Collider collider) {
         return Cache.GetBaseSlot(collider);
     }
@@ -12,6 +18,6 @@ public class SlotInteractor : TargetInteractor<BaseSlot> {
     }
 
     protected override bool IsValidTarget(BaseSlot target) {
-        return target.IsUnlocked;
+        return target.IsUnlocked && target.IsMatchBaseHouse(baseHouse);
     }
 }
