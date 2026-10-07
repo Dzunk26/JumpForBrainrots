@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour {
     [SerializeField] private Transform followTarget;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
+    [SerializeField] private float rotationSensity = 0.8f;
     [SerializeField] private float rotationSpeed = 15;
     [SerializeField] private float bottomClamp = -60f;
     [SerializeField] private float topClamp = 80f;
@@ -59,6 +60,8 @@ public class CameraController : MonoBehaviour {
     private void HandleCameraRotate() {
         if (lookInputVector.sqrMagnitude < 0.2f) return;
 
+        lookInputVector = lookInputVector * rotationSensity;
+
         float inputY = lookInputVector.y * rotationSpeed * Time.deltaTime;
         float inputX = lookInputVector.x * rotationSpeed * Time.deltaTime;
 
@@ -78,7 +81,7 @@ public class CameraController : MonoBehaviour {
         return Mathf.Clamp(currentRotation, min, max);
     }
 
-    private void HandleCameraZoom() {
+    private void HandleCameraZoomFOV() {
         targetZoom -= zoomInput * zoomFOVSensitivity;
         targetZoom = Mathf.Clamp(targetZoom, minCameraZoom, maxCameraZoom);
 
