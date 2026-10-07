@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a7cd344748728494cac9f21b8f67eebc
+guid: 141ef2122e90cf14eb2647f119678a39
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -8,47 +8,47 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Part11Mtl
-    second: {fileID: 2100000, guid: bdd9ae0461d366443912b3143ef0c6a1, type: 2}
+    second: {fileID: 2100000, guid: 3daf4d569e5d094488c931108b3633bf, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Part14Mtl
-    second: {fileID: 2100000, guid: 92e9f8efac03a634eb3982c29b05894d, type: 2}
+    second: {fileID: 2100000, guid: d49abc93f273fc349a3a6f77d7efbb3a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Part16Mtl
-    second: {fileID: 2100000, guid: 21b9248daf71dc042b72e3228722068a, type: 2}
+    second: {fileID: 2100000, guid: a23fcaedb0b20da4a84f4d6e0112a590, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Part19Mtl
-    second: {fileID: 2100000, guid: 24ed81531745e34438076cfdecb5de71, type: 2}
+    second: {fileID: 2100000, guid: 71cbe05f211923c4ebccc4a4e73571ae, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Part1Mtl.010
-    second: {fileID: 2100000, guid: 990dc2036de04db4b85d0b4b49203832, type: 2}
+      name: Part1Mtl
+    second: {fileID: 2100000, guid: eb42863bedb2d58439a4d0df6e3e3abd, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Part25Mtl
-    second: {fileID: 2100000, guid: 64cb509eb045acd4483455df627e2d3b, type: 2}
+    second: {fileID: 2100000, guid: 6c603aec22b522f44ab796f712fbec24, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Part3Mtl.004
-    second: {fileID: 2100000, guid: 4ed28088246a52c468f4e9dddb590cea, type: 2}
+      name: Part3Mtl
+    second: {fileID: 2100000, guid: 1e1c0d244209d4b49806b08a6fb72c57, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Part41Mtl.002
-    second: {fileID: 2100000, guid: 7cc477ac54509b94b996fdbe76545c0a, type: 2}
+      name: Part43Mtl
+    second: {fileID: 2100000, guid: 85caf8379061e4444be68fc1596c7e4d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Part6Mtl.002
-    second: {fileID: 2100000, guid: 64f2a22f33e1c8b4bbf095704f61d3c5, type: 2}
+      name: Part6Mtl
+    second: {fileID: 2100000, guid: 88cbc69960aef12468bdaa93d6167487, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
