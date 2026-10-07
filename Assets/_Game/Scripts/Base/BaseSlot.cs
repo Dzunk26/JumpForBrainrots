@@ -22,6 +22,7 @@ public class BaseSlot : MonoBehaviour {
     [SerializeField] private BaseSlotVisual baseSlotVisual;
     [SerializeField] private Transform equipButtonSpawnPoint;
 
+    private BaseHouse baseHouse;
     private bool isUnlocked = false;
     private Transform tf;
     private BrainrotSO currentBrainrotSO;
@@ -29,18 +30,15 @@ public class BaseSlot : MonoBehaviour {
     private float totalIncome = 0f;
     private float incomeAmount;
 
-    private void Awake() {
-        UnLock();
-    }
-
     private void Update() {
         HandleIncome();
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag(Constant.PLAYER_TAG)) {
-            CollectIncome();
-        }
+        if (!other.CompareTag(Constant.PLAYER_TAG)) return;
+        if (!baseHouse.IsOwnedBy(Cache.GetPlayer(other))) return;
+
+        CollectIncome();
     }
 
     public void OnInit() {
@@ -71,12 +69,24 @@ public class BaseSlot : MonoBehaviour {
         isUnlocked = true;
     }
 
+    public void Lock() {
+        isUnlocked = false;
+    }
+
     public float GetTotalIncome() {
         return totalIncome;
     }
 
     public Vector3 GetEquipButtonSpawnPoint() {
         return equipButtonSpawnPoint.position;
+    }
+
+    public void SetBaseHouse(BaseHouse baseHouse) {
+        this.baseHouse = baseHouse;
+    }
+
+    public bool IsMatchBaseHouse(BaseHouse baseHouse) {
+        return this.baseHouse != null && this.baseHouse == baseHouse;
     }
 
     private void HandleIncome() {
