@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69fdf3303e529104d86c8177accb8f98, type: 3}
   m_Name: RareFloorConfig SO
   m_EditorClassIdentifier: 
-  floorID: 0
+  floorID: 1
+  spawnObstacleTimerMax: 10
   spawnCapMax: 8
-  spawnTimerMax: 3
+  spawnBrainrotTimerMax: 3
   brainrotRarity: 1
