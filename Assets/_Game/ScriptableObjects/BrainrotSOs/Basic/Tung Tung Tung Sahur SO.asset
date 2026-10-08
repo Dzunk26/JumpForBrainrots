@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f15ae034e106f1147a0fe9cadd53bd43, type: 3}
+  m_Name: Tung Tung Tung Sahur SO
+  m_EditorClassIdentifier: 
+  id: 5
+  brainrotName: Tung Tung Tung Sahur
+  rarity: 0
+  brainrotModel: {fileID: 747001836416205783, guid: 615e3a0e819ea00479f8f2df7e05df2a,
+    type: 3}
+  lifeTimerMax: 60
+  incomeAmount: 0
+  afkIncomeAmount: 0
+  indexIcon: {fileID: 0}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f15ae034e106f1147a0fe9cadd53bd43, type: 3}
+  m_Name: Cocofanto Elefanto SO
+  m_EditorClassIdentifier: 
+  id: 8
+  brainrotName: Cocofanto Elefanto
+  rarity: 1
+  brainrotModel: {fileID: 6306070945181606878, guid: 7dbb5411836bbb84c960c5b859d9be60,
+    type: 3}
+  lifeTimerMax: 60
+  incomeAmount: 0
+  afkIncomeAmount: 0
+  indexIcon: {fileID: 0}

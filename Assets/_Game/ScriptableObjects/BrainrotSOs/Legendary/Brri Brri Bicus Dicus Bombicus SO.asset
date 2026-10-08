@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f15ae034e106f1147a0fe9cadd53bd43, type: 3}
+  m_Name: Brri Brri Bicus Dicus Bombicus SO
+  m_EditorClassIdentifier: 
+  id: 18
+  brainrotName: Brri Brri Bicus Dicus Bombicus
+  rarity: 3
+  brainrotModel: {fileID: 5319197738750964627, guid: 8aceefa909306ec4ebdf89f391a414e0,
+    type: 3}
+  lifeTimerMax: 60
+  incomeAmount: 0
+  afkIncomeAmount: 0
+  indexIcon: {fileID: 0}

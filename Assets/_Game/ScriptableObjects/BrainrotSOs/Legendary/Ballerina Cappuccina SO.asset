@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f15ae034e106f1147a0fe9cadd53bd43, type: 3}
-  m_Name: Brainrot SO
+  m_Name: Ballerina Cappuccina SO
   m_EditorClassIdentifier: 
-  id: 1
-  brainrotName: Tung Tung Tung Sahur
-  rarity: 0
-  brainrotModel: {fileID: 2243229281928790496, guid: c4392407afdaa27489945236e30fbc5a,
+  id: 17
+  brainrotName: Ballerina Cappuccina
+  rarity: 3
+  brainrotModel: {fileID: 5067323859772598097, guid: a345e5b72050d1c43855e44269bb190f,
     type: 3}
   lifeTimerMax: 60
-  incomeAmount: 30
+  incomeAmount: 0
   afkIncomeAmount: 0
   indexIcon: {fileID: 0}
