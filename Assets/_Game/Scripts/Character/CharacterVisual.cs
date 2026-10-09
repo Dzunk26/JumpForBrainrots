@@ -84,6 +84,7 @@ public class CharacterVisual : MonoBehaviour {
 
         currentModel = GetBrainrotModel(brainrotSO);
         currentModel.Active();
+        currentModel.ChangeAnimType(BrainrotAnimType.Wiggle);
     }
 
     private void ChangeAnimState(AnimState animState) {

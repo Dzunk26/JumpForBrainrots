@@ -26,12 +26,13 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
     public void IncreaseLevel(UpgradeType upgradeType) {
         switch (upgradeType) {
             case UpgradeType.JumpPower:
-                jumpLevel++;
+                jumpLevel += 2;
                 break;
             case UpgradeType.MoveSpeed:
                 moveSpeedLevel++; 
                 break;
         }
+        Debug.Log(jumpLevel);
     }
 
     public int GetLevel(UpgradeType upgradeType) {

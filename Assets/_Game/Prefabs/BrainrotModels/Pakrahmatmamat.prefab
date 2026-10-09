@@ -45,6 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf9d048aa038ad4fa0f5c4b1dfa8aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultAnimType: 1
+  isRandomAnim: 0
+  animSpeed: 0.75
+  animSpeedRandom: 0.2
+  bounceHeight: 0.25
+  squashAmount: 0.15
+  swayAngle: 15
+  spinSpeed: 50
+  wiggleAngle: 8
+  wiggleFrequency: 4
+  wiggleTimerMax: 0.6
+  wiggleRestTimerMin: 0.8
+  wiggleRestTimerMax: 2.5
 --- !u!1001 &6741446260453874959
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -17,3 +17,4 @@ MonoBehaviour:
   spawnCapMax: 8
   spawnBrainrotTimerMax: 3
   brainrotRarity: 0
+  requiredJumpLevel: 4

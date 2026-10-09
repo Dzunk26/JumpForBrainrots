@@ -51,6 +51,8 @@ public class Player : Character {
 
     [SerializeField] private float statTimerMax = 3f;
 
+    [SerializeField] private float groundStepOffset = 1.25f;
+
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
     private float fallMoveSpeed;
@@ -73,6 +75,8 @@ public class Player : Character {
         ListenInput();
 
         UpdateLastGroundedTime();
+
+        UpdateStepOffset();
 
         HandleGravity();
 
@@ -402,16 +406,21 @@ public class Player : Character {
     private void HandleGravity() {
         if (currentState == PlayerState.Climb) return;
 
+        float deltaTime = Time.deltaTime;
+        float deltaY;
+
         if (IsGrounded() && verticalVelocity < 0f && currentState != PlayerState.Jump) {
             verticalVelocity = Constant.GROUNDED_GRAVITY;
+            deltaY = verticalVelocity * deltaTime;
         }
         else {
             float currentGravity = verticalVelocity < 0f ? gravity * fallMultiplier : gravity;
-            verticalVelocity += currentGravity * Time.deltaTime;
+            deltaY = verticalVelocity * deltaTime + 0.5f * currentGravity * deltaTime * deltaTime;
+            verticalVelocity += currentGravity * deltaTime;
             verticalVelocity = Mathf.Max(verticalVelocity, -maxFallSpeed);
         }
 
-        characterController.Move(Vector3.up * verticalVelocity * Time.deltaTime);
+        characterController.Move(Vector3.up * deltaY);
     }
 
     private void HandleFall() {
@@ -446,6 +455,10 @@ public class Player : Character {
         if (stateTimer < statTimerMax) return;
 
         OnDespawn();
+    }
+
+    private void UpdateStepOffset() {
+        characterController.stepOffset = IsGrounded() ? groundStepOffset : 0f;
     }
 
     private float GetHorizontalMoveSpeed() {

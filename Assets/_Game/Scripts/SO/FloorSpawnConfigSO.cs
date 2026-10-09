@@ -15,6 +15,9 @@ public class FloorSpawnConfigSO : ScriptableObject {
     [SerializeField] private float spawnBrainrotTimerMax = 3f;
     [SerializeField] private BrainrotRarity brainrotRarity;
 
+    [Header("Jump Config")]
+    [SerializeField] private int requiredJumpLevel;
+
     public bool MatchFloorID(int floorID) {
         return this.floorID == floorID;
     }
@@ -33,5 +36,9 @@ public class FloorSpawnConfigSO : ScriptableObject {
 
     public float GetSpawnBrainrotTimerMax() {
         return spawnBrainrotTimerMax;
+    }
+
+    public int GetRequiredJumpLevel() {
+        return requiredJumpLevel;
     }
 }

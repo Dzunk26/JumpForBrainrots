@@ -18,6 +18,6 @@ MonoBehaviour:
   brainrotModel: {fileID: 8257931641654514763, guid: 4d59e59a2cd44354489a5a13a85928b7,
     type: 3}
   lifeTimerMax: 60
-  incomeAmount: 0
+  incomeAmount: 25
   afkIncomeAmount: 0
   indexIcon: {fileID: 0}

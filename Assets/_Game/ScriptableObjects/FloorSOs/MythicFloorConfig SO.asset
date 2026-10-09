@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MythicFloorConfig SO
   m_EditorClassIdentifier: 
   floorID: 0
+  spawnObstacleTimerMax: 10
   spawnCapMax: 8
-  spawnTimerMax: 3
+  spawnBrainrotTimerMax: 3
   brainrotRarity: 4
+  requiredJumpLevel: 130

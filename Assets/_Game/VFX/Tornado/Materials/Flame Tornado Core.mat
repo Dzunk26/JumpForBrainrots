@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: _Game/VFX/Tornado Swirl
+  m_Shader: {fileID: 4800000, guid: 4dda352d0f82432409b4bb990970359b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0.5
+    - _BandCount: 4
+    - _BandSharpness: 2
+    - _BandTilt: 0.8
+    - _BaseGlow: 1.2
+    - _BottomFade: 0.06
+    - _DstBlend: 1
+    - _FresnelBoost: 1.4
+    - _FresnelPower: 2
+    - _NoiseStrength: 0.6
+    - _RiseSpeed: 0.7
+    - _SrcBlend: 1
+    - _SwirlSpeed: 1.2
+    - _TopFade: 0.35
+    - _WobbleAmount: 0.15
+    - _WobbleFrequency: 1.2
+    - _WobbleSpeed: 1.8
+    m_Colors:
+    - _CoreColor: {r: 4.130335, g: 1.8834347, b: 0.5260333, a: 1}
+    - _EdgeColor: {r: 2.478201, g: 1.1300608, b: 0.31561998, a: 0.6}
+    - _NoiseScale: {r: 8, g: 3, b: 0, a: 0}
+  m_BuildTextureStacks: []
