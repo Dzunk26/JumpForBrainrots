@@ -1,0 +1,1184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 597e836a077c19c478d247ea682c2bca, type: 3}
+  m_Name: Brainrot VFX Library
+  m_EditorClassIdentifier: 
+  rarityRecipes:
+  - rarity: 0
+    layers:
+    - label: Magic Sparks
+      variants:
+      - {fileID: 7045889733438899885, guid: 14078f8f7064d894fad9a68275c46f31, type: 3}
+      - {fileID: 3632712385227303547, guid: 324fc9687c94a5f4585d7728801af43d, type: 3}
+      - {fileID: 919012162133337528, guid: e4a831baccba453479bb744202efc891, type: 3}
+      - {fileID: 4718697377525663345, guid: 0d3a2dc2176fee345b9d92ac7a089808, type: 3}
+      - {fileID: 8860363494751517875, guid: 010733280c7cd0b4294a9867b26a13f4, type: 3}
+      - {fileID: 2790453049482571525, guid: c4af6be39e87b634d9e26d8ce65b529b, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.2
+      heightOffset: 0
+      emission: 0.7
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - rarity: 1
+    layers:
+    - label: Magic Field
+      variants:
+      - {fileID: 158776, guid: 524b12464dce5b248a893d67a188da05, type: 3}
+      - {fileID: 158776, guid: c4e46d0b8ddbfe049ac8facbc1652648, type: 3}
+      - {fileID: 134560, guid: 4f491700992cb06488116943d3b5c9b8, type: 3}
+      - {fileID: 117784, guid: db879c9dd49be994b9fcce9fea26448c, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Magic Sparks
+      variants:
+      - {fileID: 7045889733438899885, guid: 14078f8f7064d894fad9a68275c46f31, type: 3}
+      - {fileID: 3632712385227303547, guid: 324fc9687c94a5f4585d7728801af43d, type: 3}
+      - {fileID: 919012162133337528, guid: e4a831baccba453479bb744202efc891, type: 3}
+      - {fileID: 4718697377525663345, guid: 0d3a2dc2176fee345b9d92ac7a089808, type: 3}
+      - {fileID: 8860363494751517875, guid: 010733280c7cd0b4294a9867b26a13f4, type: 3}
+      - {fileID: 2790453049482571525, guid: c4af6be39e87b634d9e26d8ce65b529b, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - rarity: 2
+    layers:
+    - label: Magic Circle
+      variants:
+      - {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 1.8
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Swirl Aura
+      variants:
+      - {fileID: 1336688134426222, guid: 579365cd679e0ee4993d0f2f33af1f3b, type: 3}
+      - {fileID: 1488539958773610, guid: 55289bceaa504024e993b31c18ebfd59, type: 3}
+      - {fileID: 1993871546562816, guid: 5996e5e6ed3ca50419afb1f86b673361, type: 3}
+      - {fileID: 1148542373356984, guid: 7479b6c0516f1834e9bdb0c9eb0771a1, type: 3}
+      - {fileID: 1238277619920902, guid: fb1801483f1879d4c988a5f703a5c6d2, type: 3}
+      - {fileID: 1409702626755896, guid: a5fc49f55f66e7c4e9d9e8cfcb0ba3b3, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Flashing Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 0
+      colorHint: Pink
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - rarity: 3
+    layers:
+    - label: Magic Circle
+      variants:
+      - {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 2
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Buff Aura
+      variants:
+      - {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Loot Beam
+      variants:
+      - {fileID: 101934, guid: 21666a2572524dd4185bd96e919b09b9, type: 3}
+      - {fileID: 186502, guid: 36eed6ac43d767142819b7674e741cea, type: 3}
+      - {fileID: 131592, guid: 8226e3159b18dcd42b26abe518fe5ed5, type: 3}
+      - {fileID: 103304, guid: 04ca3d6d09457764db7bb02f3b4d1681, type: 3}
+      - {fileID: 139028, guid: 980ad863ccf77c242902849797851e98, type: 3}
+      - {fileID: 145928, guid: 5dc6ff1cbaa048646949eadf813955d2, type: 3}
+      - {fileID: 180044, guid: 971292e8844f43441bb8a368b0d16a41, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 3
+      fit: 0
+      size: 1
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Item Sparkle
+      variants:
+      - {fileID: 167898, guid: 0fb0846ec7b795e4586da62f99d560a5, type: 3}
+      - {fileID: 191548, guid: 0bb1d6b9d39bcbf4785d00557d53e9e3, type: 3}
+      - {fileID: 102042, guid: c5db43b1e2c605d42a53be0160e8cc8a, type: 3}
+      - {fileID: 1066313074213982, guid: fcc9d2b59f398d04da2cb4c2803e2a05, type: 3}
+      - {fileID: 1901147782303250, guid: eacea826f9985a14ab05a1665abfce71, type: 3}
+      - {fileID: 1992439459845180, guid: bde9dad2b40fafe47b094dc6236a24d1, type: 3}
+      - {fileID: 177676, guid: 460ec3e3d006c254b831a1a92d30ed3e, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - rarity: 4
+    layers:
+    - label: Hexagon Zone
+      variants:
+      - {fileID: 111790, guid: e23ec68000a864348a08a162a577c413, type: 3}
+      - {fileID: 175594, guid: 43694edd85cf4564faf685ebb840c043, type: 3}
+      - {fileID: 113298, guid: 4b7acc3f9f32da245810302ae29bb033, type: 3}
+      - {fileID: 167458, guid: 6dae5f7a955d4f24dabcaab8636f6222, type: 3}
+      - {fileID: 185160, guid: f64e597d097576c49be42cc2a2e55df1, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 2.1
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Spiky Aura
+      variants:
+      - {fileID: 1616083500810040, guid: 707b8d471c7a8584fb5f3fe03311aa1f, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Swirly Aura
+      variants:
+      - {fileID: 165698, guid: cc028665d31776846b03ec45e19339b4, type: 3}
+      - {fileID: 147900, guid: e1b1f0ede5a44aa4f964e6cabe2a3f26, type: 3}
+      - {fileID: 183160, guid: a1cb3a9a6f428974b92c517bad51f2af, type: 3}
+      - {fileID: 137996, guid: 0d780f43c8ec67948a83ab8ca1939325, type: 3}
+      - {fileID: 104364, guid: 41d465be26c5aaa40bebb821e450d287, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Energy Charge
+      variants:
+      - {fileID: 4748681987041982144, guid: dde51b8b56976db40be060d84e282004, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Loot Beam
+      variants:
+      - {fileID: 101934, guid: 21666a2572524dd4185bd96e919b09b9, type: 3}
+      - {fileID: 186502, guid: 36eed6ac43d767142819b7674e741cea, type: 3}
+      - {fileID: 131592, guid: 8226e3159b18dcd42b26abe518fe5ed5, type: 3}
+      - {fileID: 103304, guid: 04ca3d6d09457764db7bb02f3b4d1681, type: 3}
+      - {fileID: 139028, guid: 980ad863ccf77c242902849797851e98, type: 3}
+      - {fileID: 145928, guid: 5dc6ff1cbaa048646949eadf813955d2, type: 3}
+      - {fileID: 180044, guid: 971292e8844f43441bb8a368b0d16a41, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 3
+      fit: 0
+      size: 1.1
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Flashing Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - rarity: 5
+    layers:
+    - label: Dark Circle
+      variants:
+      - {fileID: 8520783737001524864, guid: 1ad294577b8fe184bbe40c7853fe1603, type: 3}
+      - {fileID: 8685760592003167991, guid: bb1f49bf3859ca14a97eefcaf775fc51, type: 3}
+      - {fileID: 872646570179385540, guid: ecd7fd61b69b3684ba09343a8df0da0c, type: 3}
+      - {fileID: 1093844468255539902, guid: 2016575912106ca4fb456856627eef46, type: 3}
+      - {fileID: 7858805151947489886, guid: 65009fc6e6bfe9042ac7876b26b7d4db, type: 3}
+      colorSource: 0
+      colorHint: Purple
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 2.1
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Debuff Aura
+      variants:
+      - {fileID: 6126188424833946103, guid: a58aa9a78f2b45b45bb0f3e2e1e3ad3c, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Black Flame Aura
+      variants:
+      - {fileID: 100004, guid: 38b57ecd66cf2d946abbd1de59e17698, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Plexus Aura
+      variants:
+      - {fileID: 6063518424537689786, guid: bad5794a53f5c3645bb444b3a040ba01, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Dark Lightning
+      variants:
+      - {fileID: 2204298500379440734, guid: 663f0696c77c91249b2e0cd33e65b688, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: God Rays
+      variants:
+      - {fileID: 1861123177330092, guid: 22b740e575c572a4e807cd633656f0c5, type: 3}
+      - {fileID: 1952202290985388, guid: f5c55064d8a268548a71b7fd97619ae8, type: 3}
+      - {fileID: 1715384005531268, guid: 9c5e518b3a318c6428b40c878bbf465f, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 3
+      fit: 0
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Flashing Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - rarity: 6
+    layers:
+    - label: Galaxy Pedestal
+      variants: []
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 1
+      meshMaterial: {fileID: 2100000, guid: b57a547a1e27d2740ace5c452642b0e0, type: 2}
+    - label: Star Vortex
+      variants:
+      - {fileID: 138498, guid: 6bbfcf34ed5bd91429b4a678913fb8e1, type: 3}
+      - {fileID: 138498, guid: 89c91ae2cacd3cf44a2b976ff7a81279, type: 3}
+      - {fileID: 138498, guid: 1e574d50ef93c2840a8c3fd9b03d1c11, type: 3}
+      - {fileID: 138498, guid: 6de611fac7985cc4ead881f40862cb4e, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 2.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Star Aura
+      variants:
+      - {fileID: 7053385775836331393, guid: 354b6251e950209409c75ab984acf000, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Star Fog
+      variants:
+      - {fileID: 189228, guid: ec8892b21e335f54399e40688278ac91, type: 3}
+      - {fileID: 114774, guid: 4ce7097392940144386c93b851be8a4f, type: 3}
+      - {fileID: 199768, guid: 7378e984ba0045346ab959306a201de9, type: 3}
+      - {fileID: 135408, guid: 8d2b5b40001aa9c4b996904e155ce5ec, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.9
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Fairies
+      variants:
+      - {fileID: 1719345073725606, guid: a8bbbb21dc63e604c87be0c2bd3e2fbf, type: 3}
+      - {fileID: 1530766785187398, guid: 4880427e9580d4248a0dee4923a27a84, type: 3}
+      - {fileID: 1053402643225292, guid: cbd5f8f932972ee4c9d881b0e09001c5, type: 3}
+      - {fileID: 1707508866850800, guid: ec3a5c6fd0018ba45895cfac5adefb97, type: 3}
+      - {fileID: 1503663502487160, guid: b51b81323b93f61458967fd5c44cbce8, type: 3}
+      - {fileID: 1445505307123712, guid: 4e35e1060d7d65e4b82d2dfe9f3b3625, type: 3}
+      colorSource: 0
+      colorHint: Pink
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.9
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Galaxy Planet
+      variants: []
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 0.35
+      heightOffset: 0
+      emission: 1
+      meshShape: 2
+      meshMaterial: {fileID: 2100000, guid: d02c55bf464eb6f4792de384c3747344, type: 2}
+  - rarity: 7
+    layers:
+    - label: Magic Circle
+      variants:
+      - {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 2.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Holy Beam
+      variants:
+      - {fileID: 7761031033666763820, guid: 1eb833340b41fb444b576c4dced8d4dc, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 3
+      fit: 0
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Buff Aura
+      variants:
+      - {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Charge Aura
+      variants:
+      - {fileID: 1871530641661152, guid: dfb5ff1741cbf354183e57152d85e5f3, type: 3}
+      - {fileID: 1087331648462604, guid: 1bb0487f9f8aae149b47919b92c59e5c, type: 3}
+      - {fileID: 1738444676674156, guid: d49e0eb5b7ce0fc4fa66f18b28fbc136, type: 3}
+      - {fileID: 1235891616410592, guid: 8f938a9602d6bef44894f8e9e32fdc65, type: 3}
+      - {fileID: 1641987382161270, guid: 4a75cb5d42a24ac488b260427dae1bff, type: 3}
+      - {fileID: 1876938736679408, guid: a759a9bab071785449deefdd8c0a5ae0, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: God Rays
+      variants:
+      - {fileID: 1861123177330092, guid: 22b740e575c572a4e807cd633656f0c5, type: 3}
+      - {fileID: 1952202290985388, guid: f5c55064d8a268548a71b7fd97619ae8, type: 3}
+      - {fileID: 1715384005531268, guid: 9c5e518b3a318c6428b40c878bbf465f, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 3
+      fit: 0
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Item Sparkle
+      variants:
+      - {fileID: 167898, guid: 0fb0846ec7b795e4586da62f99d560a5, type: 3}
+      - {fileID: 191548, guid: 0bb1d6b9d39bcbf4785d00557d53e9e3, type: 3}
+      - {fileID: 102042, guid: c5db43b1e2c605d42a53be0160e8cc8a, type: 3}
+      - {fileID: 1066313074213982, guid: fcc9d2b59f398d04da2cb4c2803e2a05, type: 3}
+      - {fileID: 1901147782303250, guid: eacea826f9985a14ab05a1665abfce71, type: 3}
+      - {fileID: 1992439459845180, guid: bde9dad2b40fafe47b094dc6236a24d1, type: 3}
+      - {fileID: 177676, guid: 460ec3e3d006c254b831a1a92d30ed3e, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - rarity: 8
+    layers:
+    - label: Galaxy Pedestal
+      variants: []
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 1.7
+      heightOffset: 0
+      emission: 1
+      meshShape: 1
+      meshMaterial: {fileID: 2100000, guid: 2d347de2061e3a74881af9b2b7c2d6f5, type: 2}
+    - label: Star Vortex
+      variants:
+      - {fileID: 138498, guid: 6bbfcf34ed5bd91429b4a678913fb8e1, type: 3}
+      - {fileID: 138498, guid: 89c91ae2cacd3cf44a2b976ff7a81279, type: 3}
+      - {fileID: 138498, guid: 1e574d50ef93c2840a8c3fd9b03d1c11, type: 3}
+      - {fileID: 138498, guid: 6de611fac7985cc4ead881f40862cb4e, type: 3}
+      colorSource: 0
+      colorHint: Blue
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 2.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Holy Beam
+      variants:
+      - {fileID: 7761031033666763820, guid: 1eb833340b41fb444b576c4dced8d4dc, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 3
+      fit: 0
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Star Aura
+      variants:
+      - {fileID: 7053385775836331393, guid: 354b6251e950209409c75ab984acf000, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Lightning Aura
+      variants:
+      - {fileID: 7131401307255788800, guid: 4d9a3b35b3bc07649b697df7fb497b6d, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Spin Aura
+      variants:
+      - {fileID: 131054, guid: 578f86e92b13d3549a975a00931f4ffc, type: 3}
+      - {fileID: 149536, guid: bf974382206c6c144a8df7b1b678f0ce, type: 3}
+      - {fileID: 145386, guid: 461d6b1efb87bfc448f5d49f7ffcef76, type: 3}
+      - {fileID: 101950, guid: af75dd5460ac83a4eb581e607f5f4a6d, type: 3}
+      - {fileID: 150382, guid: 608e1134c60a61a469686d3fe942ee96, type: 3}
+      colorSource: 0
+      colorHint: Purple
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.7
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Rainbow Glow
+      variants:
+      - {fileID: 1762653549477642, guid: 7fde9b58b5782074899c85c81998b956, type: 3}
+      - {fileID: 1881758100444254, guid: 05658010f157dab4d9a46f51db791d8c, type: 3}
+      - {fileID: 1948718342195958, guid: c4195be7ec5269d4b92a299e9d31de8e, type: 3}
+      - {fileID: 1895138145459492, guid: 435b6332c17011b4184d34b08e126615, type: 3}
+      - {fileID: 1965158663458508, guid: 8cdb51e19d8cf4c4fb1439f4499432d2, type: 3}
+      - {fileID: 1782769943665936, guid: b7fa0f127c288494d9360e7ad65ecc17, type: 3}
+      - {fileID: 1843363858498662, guid: df9e9f9e0ab716847be4c7cc44fe5af4, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 2.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Rainbow Sparkle
+      variants:
+      - {fileID: 167898, guid: 0fb0846ec7b795e4586da62f99d560a5, type: 3}
+      - {fileID: 191548, guid: 0bb1d6b9d39bcbf4785d00557d53e9e3, type: 3}
+      - {fileID: 102042, guid: c5db43b1e2c605d42a53be0160e8cc8a, type: 3}
+      - {fileID: 1066313074213982, guid: fcc9d2b59f398d04da2cb4c2803e2a05, type: 3}
+      - {fileID: 1901147782303250, guid: eacea826f9985a14ab05a1665abfce71, type: 3}
+      - {fileID: 1992439459845180, guid: bde9dad2b40fafe47b094dc6236a24d1, type: 3}
+      - {fileID: 177676, guid: 460ec3e3d006c254b831a1a92d30ed3e, type: 3}
+      colorSource: 0
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.8
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Galaxy Planet
+      variants: []
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 0.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 2
+      meshMaterial: {fileID: 2100000, guid: b57a547a1e27d2740ace5c452642b0e0, type: 2}
+  themeRecipes:
+  - theme: 1
+    layers:
+    - label: Sparks
+      variants:
+      - {fileID: 7045889733438899885, guid: 14078f8f7064d894fad9a68275c46f31, type: 3}
+      - {fileID: 3632712385227303547, guid: 324fc9687c94a5f4585d7728801af43d, type: 3}
+      - {fileID: 919012162133337528, guid: e4a831baccba453479bb744202efc891, type: 3}
+      - {fileID: 4718697377525663345, guid: 0d3a2dc2176fee345b9d92ac7a089808, type: 3}
+      - {fileID: 8860363494751517875, guid: 010733280c7cd0b4294a9867b26a13f4, type: 3}
+      - {fileID: 2790453049482571525, guid: c4af6be39e87b634d9e26d8ce65b529b, type: 3}
+      colorSource: 1
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Sparkle Area
+      variants:
+      - {fileID: 126754, guid: db1ef0db102f5864986443fb43fd0f64, type: 3}
+      - {fileID: 144796, guid: 0e5ef80beee6f234b9b27568218dbaf1, type: 3}
+      - {fileID: 1165712415533886, guid: 03793549598267346b73c1a27e2f3e9a, type: 3}
+      - {fileID: 137732, guid: 00dac97cdd613fe49a4eb911783ae686, type: 3}
+      - {fileID: 153838, guid: 80c6b5d330112ef41800a729a58d22e7, type: 3}
+      colorSource: 1
+      colorHint: 
+      minRarity: 2
+      anchor: 1
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 2
+    layers:
+    - label: Radial Fire
+      variants:
+      - {fileID: 1944206884965940, guid: e83f0806b4fd75946a05fee2b48cee0d, type: 3}
+      - {fileID: 1528877282006252, guid: 9e66e0f89612c6144885f15d29a9c46f, type: 3}
+      - {fileID: 1423219790692914, guid: 93189de14ab1d654aa43d70f1f399d97, type: 3}
+      - {fileID: 1724243991040466, guid: f3377962368b1df43ae045f46ddaf9cd, type: 3}
+      colorSource: 0
+      colorHint: Red
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Fire Ring
+      variants:
+      - {fileID: 8197433914150080023, guid: 768e051a05ce8a641a55162ac081181a, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 1
+      anchor: 0
+      fit: 0
+      size: 1.7
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Flame Circle
+      variants:
+      - {fileID: 2768801754309150067, guid: e45e7b2bd20f2564ba5e3c8cf12bcba9, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 3
+      anchor: 0
+      fit: 0
+      size: 1.9
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 3
+    layers:
+    - label: Water Aura
+      variants:
+      - {fileID: 1899250594192068, guid: 6561be0bdcabd634da8ca71c49c14153, type: 3}
+      - {fileID: 1036245474265904, guid: e1a68788426acc04baef994710608ba7, type: 3}
+      - {fileID: 1343425844583092, guid: 12779f4ab4369fa469e2c9090d6d5a47, type: 3}
+      colorSource: 0
+      colorHint: Blue
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Blue Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 0
+      colorHint: Blue
+      minRarity: 1
+      anchor: 1
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Water Shield
+      variants:
+      - {fileID: 1289543790355709915, guid: b99922c2f59b1a542bdd06ae8bee47ae, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 4
+      anchor: 1
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 4
+    layers:
+    - label: Freeze Circle
+      variants:
+      - {fileID: 4932088507883938021, guid: 0e5709a7ddb77924090c112cf73bb98a, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 0
+      size: 1.8
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Ice Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 0
+      colorHint: White
+      minRarity: 1
+      anchor: 1
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Ice Tornado
+      variants:
+      - {fileID: 1511181511738678, guid: fc97d42e55be36e4d8ff0d397b48e08e, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 4
+      anchor: 0
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 5
+    layers:
+    - label: Lightning Aura
+      variants:
+      - {fileID: 7131401307255788800, guid: 4d9a3b35b3bc07649b697df7fb497b6d, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Lightning Bolts
+      variants:
+      - {fileID: 4748681987041982144, guid: a0fc510eb0a10a94780fee7a3c681042, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 1
+      anchor: 1
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Electrified
+      variants:
+      - {fileID: 6721007384533448649, guid: 98557619806f23c499c9cdb620a31541, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 2
+      anchor: 1
+      fit: 2
+      size: 1.1
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Lightning Strike
+      variants:
+      - {fileID: 267411365671275766, guid: e52b27f5f59ce25498170c090a09d44c, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 4
+      anchor: 1
+      fit: 2
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 6
+    layers:
+    - label: Healing Aura
+      variants:
+      - {fileID: 9017484664307500583, guid: 1245b8d2997d5b34fb1637be70a7eb05, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Healing Circle
+      variants:
+      - {fileID: 7986504087968017091, guid: 12a56ee4630040c4eb17ae9707ed4cef, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 1
+      anchor: 0
+      fit: 0
+      size: 1.8
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Fireflies
+      variants:
+      - {fileID: 113868, guid: 72eec0d451241354eaba5dd6caf318ab, type: 3}
+      - {fileID: 128874, guid: 648a454b0bdfd8c47a5cf48e1f8a3736, type: 3}
+      - {fileID: 174330, guid: b30ef34d8432ad847b1ced1268b4fb57, type: 3}
+      - {fileID: 143440, guid: 411410f9528530540bdec97694c0e4f8, type: 3}
+      - {fileID: 145170, guid: ad967a85cc705da40bd22bd1cf7e6e96, type: 3}
+      colorSource: 0
+      colorHint: Green
+      minRarity: 2
+      anchor: 1
+      fit: 2
+      size: 1.6
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 7
+    layers:
+    - label: Love Aura
+      variants:
+      - {fileID: 5766691976136461342, guid: 43d1d06cf70fcb2488255051aaae40a5, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Pink Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 0
+      colorHint: Pink
+      minRarity: 1
+      anchor: 1
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Pink Zone
+      variants:
+      - {fileID: 121774, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
+      - {fileID: 107530, guid: 47a210ee634dacf4fb58161669eac2b4, type: 3}
+      - {fileID: 187168, guid: a88a4088f30993d4aa056af36449cbd2, type: 3}
+      - {fileID: 143098, guid: 7d5bdfc07d77aab4a963e018ba7bccc4, type: 3}
+      colorSource: 0
+      colorHint: Pink
+      minRarity: 2
+      anchor: 0
+      fit: 0
+      size: 1.9
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 8
+    layers:
+    - label: Star Aura
+      variants:
+      - {fileID: 7053385775836331393, guid: 354b6251e950209409c75ab984acf000, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Star Fog
+      variants:
+      - {fileID: 189228, guid: ec8892b21e335f54399e40688278ac91, type: 3}
+      - {fileID: 114774, guid: 4ce7097392940144386c93b851be8a4f, type: 3}
+      - {fileID: 199768, guid: 7378e984ba0045346ab959306a201de9, type: 3}
+      - {fileID: 135408, guid: 8d2b5b40001aa9c4b996904e155ce5ec, type: 3}
+      colorSource: 1
+      colorHint: 
+      minRarity: 1
+      anchor: 1
+      fit: 2
+      size: 1.8
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Galaxy Planet
+      variants: []
+      colorSource: 2
+      colorHint: 
+      minRarity: 2
+      anchor: 0
+      fit: 0
+      size: 0.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 2
+      meshMaterial: {fileID: 2100000, guid: d02c55bf464eb6f4792de384c3747344, type: 2}
+  - theme: 9
+    layers:
+    - label: Warm Aura
+      variants:
+      - {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Warm Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 0
+      colorHint: Yellow
+      minRarity: 1
+      anchor: 1
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 10
+    layers:
+    - label: Debuff Aura
+      variants:
+      - {fileID: 6126188424833946103, guid: a58aa9a78f2b45b45bb0f3e2e1e3ad3c, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 0
+      anchor: 0
+      fit: 2
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Plexus
+      variants:
+      - {fileID: 6063518424537689786, guid: bad5794a53f5c3645bb444b3a040ba01, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 1
+      anchor: 1
+      fit: 2
+      size: 1.5
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Black Flame
+      variants:
+      - {fileID: 100004, guid: 38b57ecd66cf2d946abbd1de59e17698, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 2
+      anchor: 0
+      fit: 0
+      size: 1.3
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  - theme: 11
+    layers:
+    - label: Beat Sparks
+      variants:
+      - {fileID: 8822187405165230804, guid: fb66a85d95aa25e439cb3c7792564804, type: 3}
+      - {fileID: 1758640513163058458, guid: 9b99dafe7fbb348489619e9393e4bcfa, type: 3}
+      - {fileID: 678138013338386963, guid: 658d046b38b9935498936eaed505d73f, type: 3}
+      - {fileID: 3438277244574041817, guid: 6fec832863289f04a854167bc2650d9b, type: 3}
+      - {fileID: 6007584933065334475, guid: 45c1a9f607b571349b0186f437fb0702, type: 3}
+      - {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
+      colorSource: 1
+      colorHint: 
+      minRarity: 0
+      anchor: 1
+      fit: 2
+      size: 1.4
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+    - label: Musical Notes
+      variants:
+      - {fileID: 106150, guid: d68940e546df9254c8891b5c9507cd4c, type: 3}
+      colorSource: 2
+      colorHint: 
+      minRarity: 1
+      anchor: 4
+      fit: 0
+      size: 1
+      heightOffset: 0
+      emission: 1
+      meshShape: 0
+      meshMaterial: {fileID: 0}
+  keywordRecipes: []
