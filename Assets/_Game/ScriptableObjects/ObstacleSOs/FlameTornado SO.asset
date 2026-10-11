@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cda2e8698abf4e4abe037db48a6e9f2, type: 3}
-  m_Name: Flame Tornado SO
+  m_Name: FlameTornado SO
   m_EditorClassIdentifier: 
-  obstacleModel: {fileID: 3575874563986183106, guid: 811c4c1c43571c346a7ee0e62caa343a,
+  obstacleModel: {fileID: 1649907832501413457, guid: 17e83df80f36eb84aac45e039a2350e7,
     type: 3}
-  speed: 10
+  speed: 27.5

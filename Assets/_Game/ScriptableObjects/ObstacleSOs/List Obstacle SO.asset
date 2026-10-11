@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listObstacleSO:
   - {fileID: 11400000, guid: de0492193467b8144aa90dc466805804, type: 2}
+  - {fileID: 11400000, guid: 1a2b9e668678b3e4e9a8d58b2b3673b3, type: 2}
+  - {fileID: 11400000, guid: a34bebb1f7916334c96210b7fba3249e, type: 2}

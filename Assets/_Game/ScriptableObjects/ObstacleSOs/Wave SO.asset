@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleModel: {fileID: 455015948753783329, guid: fe8efdebd32309640a4a951be79f6809,
     type: 3}
-  speed: 22.5
+  speed: 27.5
