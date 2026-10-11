@@ -32,12 +32,14 @@ public class Player : Character {
     [SerializeField] private Vector3 playerSpawnPoint = Vector3.zero;
 
     [SerializeField] private float rotateSpeed = 15f;
-    [SerializeField] private float gravity = -35f;
+    [SerializeField] private float riseGravity = -150f;
+    [SerializeField] private float fallGravity = -80f;
 
     [SerializeField] private float ladderEnterDelta = 0.5f;
 
     [SerializeField] private float fallTimerMax = 0.15f;
-    [SerializeField] private float fallMultiplier = 2f;
+    [SerializeField] private LayerMask floorLayerMask;
+    [SerializeField] private float floorCheckDistance = 0.3f;
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private float groundRaycastDistance = 0.2f;
     [SerializeField] private LayerMask ladderLayerMask;
@@ -45,6 +47,7 @@ public class Player : Character {
     [SerializeField] private float bodyRatio = 0.6f;
     [SerializeField] private float jumpBufferTime = 0.25f;
     [SerializeField] private float baseMaxFallSpeed = 50f;
+    [SerializeField] private float fallCheckDistance = 2f;
 
     [SerializeField] private float fallMoveSpeedMultiplier = 0.7f;
     [SerializeField] private float climpMoveSpeedMultiplier = 0.8f;
@@ -67,14 +70,10 @@ public class Player : Character {
     private float lastGroundedTime;
     private float stateTimer = 0f;
 
-    private void OnEnable() {
-        OnInit();
-    }
-
     private void Update() {
         ListenInput();
 
-        UpdateLastGroundedTime();
+        HasGroundBelow();
 
         UpdateStepOffset();
 
@@ -88,7 +87,6 @@ public class Player : Character {
         characterVisual.OnInit();
         isJumping = false;
         ChangeState(PlayerState.Idle);
-        SetupStats();
         CalculateStats();
         TeleportTo(playerSpawnPoint);
         base.OnInit();
@@ -160,6 +158,7 @@ public class Player : Character {
     }
 
     public Brainrot GetCaptureableTarget() {
+        if (!IsOnFloor()) return null;
         return brainrotInteractor.GetSelectedTarget();
     }
 
@@ -241,7 +240,7 @@ public class Player : Character {
         moveSpeed = characterStat.GetMoveSpeed();
         climpMoveSpeed = moveSpeed * climpMoveSpeedMultiplier;
         fallMoveSpeed = moveSpeed * fallMoveSpeedMultiplier;
-        initialJumpVelocity = Mathf.Sqrt(-2f * gravity * characterStat.GetJumpHeight());
+        initialJumpVelocity = Mathf.Sqrt(-2f * riseGravity * characterStat.GetJumpHeight());
         maxFallSpeed = Mathf.Max(baseMaxFallSpeed, initialJumpVelocity);
     }
 
@@ -274,7 +273,7 @@ public class Player : Character {
             return;
         }
 
-        if (!IsRecentlyGrouned()) {
+        if (IsFall()) {
             ChangeState(PlayerState.Fall);
             return;
         }
@@ -366,7 +365,7 @@ public class Player : Character {
     private void HandleIdle() {
         characterVisual.OnIdle();
 
-        if (!IsRecentlyGrouned()) {
+        if (IsFall()) {
             ChangeState(PlayerState.Fall);
             return;
         }
@@ -414,7 +413,7 @@ public class Player : Character {
             deltaY = verticalVelocity * deltaTime;
         }
         else {
-            float currentGravity = verticalVelocity < 0f ? gravity * fallMultiplier : gravity;
+            float currentGravity = verticalVelocity < 0f ? fallGravity : riseGravity;
             deltaY = verticalVelocity * deltaTime + 0.5f * currentGravity * deltaTime * deltaTime;
             verticalVelocity += currentGravity * deltaTime;
             verticalVelocity = Mathf.Max(verticalVelocity, -maxFallSpeed);
@@ -472,18 +471,17 @@ public class Player : Character {
         }
     }
 
-    private void UpdateLastGroundedTime() {
-        if (IsGrounded()) {
-            lastGroundedTime = Time.time;
-        }
+    private bool HasGroundBelow() {
+        Vector3 origin = TF.position + Vector3.up * 0.5f;
+        return Physics.Raycast(origin, Vector3.down, 0.5f + fallCheckDistance, groundLayerMask, QueryTriggerInteraction.Ignore);
     }
 
-    private bool IsRecentlyGrouned() {
-        return Time.time - lastGroundedTime <= fallTimerMax;
+    private bool IsFall() {
+        return !IsGrounded() && !HasGroundBelow();
     }
 
     private bool IsGrounded() {
-        float radius = characterController.radius * 0.95f;
+        float radius = characterController.radius;
         Vector3 center = TF.position + characterController.center;
         float halfHeight = characterController.height * 0.5f - radius;
         float offset = 0.1f;
@@ -492,6 +490,13 @@ public class Player : Character {
         Vector3 point2 = center + Vector3.down * halfHeight + (Vector3.up * offset);
 
         return Physics.CapsuleCast(point1, point2, radius, Vector3.down, groundRaycastDistance, groundLayerMask);
+    }
+
+    private bool IsOnFloor() {
+        if (!IsGrounded()) return false;
+
+        Vector3 origin = TF.position + Vector3.up * 0.1f;
+        return Physics.Raycast(origin, Vector3.down, 0.1f + floorCheckDistance, floorLayerMask, QueryTriggerInteraction.Ignore);
     }
 
     private bool IsFacingLadder() {

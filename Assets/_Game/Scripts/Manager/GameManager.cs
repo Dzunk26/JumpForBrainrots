@@ -15,6 +15,8 @@ public enum State {
 public class GameManager : Singleton<GameManager> {
     public event EventHandler OnStateChanged;
 
+    [SerializeField] private Player player;
+
     private State currentState;
 
     private void Start() {
@@ -34,5 +36,6 @@ public class GameManager : Singleton<GameManager> {
         ChangeState(State.Loading);
         DataManager.Instance.OnInit();
         DataManager.Instance.LoadGame();
+        player.OnInit();
     }
 }
