@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7287699390888773018}
+  - {fileID: 8383606691062737250}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3967134023132809448
@@ -146,4 +147,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0a9172c95615be24a8f0405ee7f9e7ec,
     type: 3}
   m_PrefabInstance: {fileID: 7109392185631236721}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7787394252982568948
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6495016885723944123}
+    m_Modifications:
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057655796542859329, guid: adaf0f9438c8eb84384e7d819713402f,
+        type: 3}
+      propertyPath: m_Name
+      value: Torrtuginni Dragonfrutini VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: adaf0f9438c8eb84384e7d819713402f, type: 3}
+--- !u!4 &8383606691062737250 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1750470951328296598, guid: adaf0f9438c8eb84384e7d819713402f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7787394252982568948}
   m_PrefabAsset: {fileID: 0}

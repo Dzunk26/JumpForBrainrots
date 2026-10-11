@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6199761393401627845}
+  - {fileID: 8928988150060343551}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4479607547009367733
@@ -58,6 +59,80 @@ MonoBehaviour:
   wiggleTimerMax: 0.6
   wiggleRestTimerMin: 0.8
   wiggleRestTimerMax: 2.5
+--- !u!1001 &4628579464001190980
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1572239610243501604}
+    m_Modifications:
+    - target: {fileID: 2931230121694851056, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_Name
+      value: Burbaloni Luliloli VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae00035797593c14e9a1e041c56eb8f5, type: 3}
+--- !u!4 &8928988150060343551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4311676668267830459, guid: ae00035797593c14e9a1e041c56eb8f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 4628579464001190980}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5873612413372195630
 PrefabInstance:
   m_ObjectHideFlags: 0

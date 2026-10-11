@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5106320196970002866}
+  - {fileID: 7307438714217787340}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &512938739304182471
@@ -146,4 +147,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0b19b734a2a677a4a80772aae4b00de7,
     type: 3}
   m_PrefabInstance: {fileID: 4708498392382299737}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6926416728174579917
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2951005084309582082}
+    m_Modifications:
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4977291406630421509, guid: 0b092edf752673a4bb565589c0df2a7c,
+        type: 3}
+      propertyPath: m_Name
+      value: Cappuccino Assassino VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0b092edf752673a4bb565589c0df2a7c, type: 3}
+--- !u!4 &7307438714217787340 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 393695094538518273, guid: 0b092edf752673a4bb565589c0df2a7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6926416728174579917}
   m_PrefabAsset: {fileID: 0}

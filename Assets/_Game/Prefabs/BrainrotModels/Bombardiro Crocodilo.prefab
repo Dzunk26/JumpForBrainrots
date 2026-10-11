@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8282174457632353153}
+  - {fileID: 7243566955792438686}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9069791291761472645
@@ -146,4 +147,93 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e5ec1b5c5156a7d458ba5ca3553ecf1d,
     type: 3}
   m_PrefabInstance: {fileID: 8465228759161637994}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9127767653447864284
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3860170082936212826}
+    m_Modifications:
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686295437821126946, guid: 7180dba969378474a821af64ba6c47a8,
+        type: 3}
+      propertyPath: m_Name
+      value: Bombardiro Crocodilo VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7180dba969378474a821af64ba6c47a8, type: 3}
+--- !u!4 &7243566955792438686 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1885329930817608258, guid: 7180dba969378474a821af64ba6c47a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 9127767653447864284}
   m_PrefabAsset: {fileID: 0}

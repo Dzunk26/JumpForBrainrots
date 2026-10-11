@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8405769447622461007}
+  - {fileID: 6159640185499491203}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8281073456200049081
@@ -146,4 +147,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: afb95e2ae267d884a8393f7ef98b3a11,
     type: 3}
   m_PrefabInstance: {fileID: 8299557675413479844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8519759571903240966
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5683701037008625874}
+    m_Modifications:
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156598964624294482, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+        type: 3}
+      propertyPath: m_Name
+      value: Svinina Bombardino VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 613c9b5a44640b045a5b7c4afaf4a948, type: 3}
+--- !u!4 &6159640185499491203 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2542057886711660677, guid: 613c9b5a44640b045a5b7c4afaf4a948,
+    type: 3}
+  m_PrefabInstance: {fileID: 8519759571903240966}
   m_PrefabAsset: {fileID: 0}

@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 42846909953959187}
+  - {fileID: 8629375447455086947}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7122847612505738412
@@ -146,4 +147,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bfc7d6741fd81bb43b700a3be5caeb53,
     type: 3}
   m_PrefabInstance: {fileID: 509610947329524472}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5234712903017481916
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2895469548532804758}
+    m_Modifications:
+    - target: {fileID: 4542798082378094779, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_Name
+      value: Swag Soda VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3170ecc44d6653d4d933b87c48f2dd64, type: 3}
+--- !u!4 &8629375447455086947 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4568018473066397663, guid: 3170ecc44d6653d4d933b87c48f2dd64,
+    type: 3}
+  m_PrefabInstance: {fileID: 5234712903017481916}
   m_PrefabAsset: {fileID: 0}

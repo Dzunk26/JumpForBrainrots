@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7375156109659705698}
+  - {fileID: 1390980698351638542}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1860763169796268159
@@ -146,4 +147,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 80833d4c6d64eab449d607110e9bec53,
     type: 3}
   m_PrefabInstance: {fileID: 7049092283079915145}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8572066132586261949
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4911064002908853776}
+    m_Modifications:
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795029579845495835, guid: c32f935d18730e54bbc15e362ba26e8a,
+        type: 3}
+      propertyPath: m_Name
+      value: Tigroligre Frutonni VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c32f935d18730e54bbc15e362ba26e8a, type: 3}
+--- !u!4 &1390980698351638542 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7330691585796568499, guid: c32f935d18730e54bbc15e362ba26e8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8572066132586261949}
   m_PrefabAsset: {fileID: 0}

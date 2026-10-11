@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5559731900273009700}
+  - {fileID: 691098255996261792}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1804136057424368295
@@ -58,6 +59,70 @@ MonoBehaviour:
   wiggleTimerMax: 0.6
   wiggleRestTimerMin: 0.8
   wiggleRestTimerMax: 2.5
+--- !u!1001 &685137161233045585
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2674498665569969500}
+    m_Modifications:
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916058134382034049, guid: fa9c5c3209138a54dbeedbefb5f85372,
+        type: 3}
+      propertyPath: m_Name
+      value: Strawberry Elephant VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa9c5c3209138a54dbeedbefb5f85372, type: 3}
+--- !u!4 &691098255996261792 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6015075797929457, guid: fa9c5c3209138a54dbeedbefb5f85372,
+    type: 3}
+  m_PrefabInstance: {fileID: 685137161233045585}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5378032195251422159
 PrefabInstance:
   m_ObjectHideFlags: 0
