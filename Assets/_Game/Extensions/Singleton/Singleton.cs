@@ -16,4 +16,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
             return instance;
         }
     }
+
+    public static bool HasInstance => instance != null;
 }

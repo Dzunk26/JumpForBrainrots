@@ -39,7 +39,7 @@ public class Bot : Character {
     }
 
     public override void InitBaseHouse() {
-        baseHouse.OnInit(this, Random.Range(0, baseHouse.GetMaxLevel() + 1));
+        baseHouse.OnInit(this, Random.Range(1, baseHouse.GetMaxLevel() + 1));
         base.InitBaseHouse();
     }
 

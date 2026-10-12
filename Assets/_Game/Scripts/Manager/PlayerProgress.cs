@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
+    public event EventHandler OnLoadPlayerData;
+
     private int jumpLevel;
     private int moveSpeedLevel;
     private int baseHouseLevel; 
@@ -14,6 +17,8 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
         moveSpeedLevel = gameData.moveSpeedLevel;
         baseHouseLevel = gameData.baseHouseLevel;
         totalMoney = gameData.totalMoney;
+
+        OnLoadPlayerData?.Invoke(this, EventArgs.Empty);
     }
 
     public void SaveData(ref GameData gameData) {

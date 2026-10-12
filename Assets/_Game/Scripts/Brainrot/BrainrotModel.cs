@@ -74,6 +74,10 @@ public class BrainrotModel : MonoBehaviour {
         currentAnimType = animType;
     }
 
+    public void ResetLocalRotation() {
+        TF.localRotation = Quaternion.identity;
+    }
+
     // luu transform goc roi chon kieu nhay, lech pha de cac con khong nhay giong het nhau
     private void OnInitAnim() {
         baseLocalPosition = TF.localPosition;

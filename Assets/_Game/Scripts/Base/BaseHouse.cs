@@ -5,21 +5,32 @@ using UnityEngine;
 
 public class BaseHouse : MonoBehaviour {
     public event EventHandler OnHouseLevelChanged;
+    public Transform TF {
+        get {
+            if (tf == null) {
+                tf = transform;
+            }
+
+            return tf;
+        }
+    }
 
     [SerializeField] private List<BaseFloor> listBaseFloor;
     [SerializeField] private BaseHouseSO baseHouseSO;
+    [SerializeField] private Transform spawnPoint;
 
     private Character owner;
     private int houseLevel;
+    private Transform tf;
 
     public void OnInit(Character owner, int houseLevel) {
         this.owner = owner;
-        this.houseLevel = Mathf.Clamp(houseLevel, 0, GetMaxLevel());
+        this.houseLevel = Mathf.Clamp(houseLevel, 1, GetMaxLevel());
 
         for (int i = 0; i < listBaseFloor.Count; i++) {
             listBaseFloor[i].OnInit(this);
 
-            if (i <= this.houseLevel) {
+            if (i < this.houseLevel) {
                 listBaseFloor[i].UnLock();
             }
             else {
@@ -34,7 +45,7 @@ public class BaseHouse : MonoBehaviour {
         if (IsMaxLevel()) return;
 
         houseLevel++;
-        listBaseFloor[houseLevel].UnLock();
+        listBaseFloor[houseLevel - 1].UnLock();
         OnHouseLevelChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -47,7 +58,7 @@ public class BaseHouse : MonoBehaviour {
     }
 
     public int GetMaxLevel() {
-        return listBaseFloor.Count - 1;
+        return listBaseFloor.Count;
     }
 
     public int GetHouseLevel() {
@@ -55,6 +66,24 @@ public class BaseHouse : MonoBehaviour {
     }
 
     public double GetUpgradeCost() {
-        return baseHouseSO.GetUpgradeCost(houseLevel);
+        return baseHouseSO.GetUpgradeCost(houseLevel - 1);
+    }
+
+    public Vector3 GetSpawnPosition() {
+        return spawnPoint.position;
+    }
+
+    public Vector3 GetSpawnForward() {
+        return spawnPoint.forward;
+    }
+
+    public void OnClickUpgrade() {
+        if (!IsOwnedByPlayer()) return;
+
+        owner.UpgradeBaseHouse();
+    }
+
+    public bool IsOwnedByPlayer() {
+        return owner is Player;
     }
 }

@@ -12,6 +12,6 @@ public class GameData {
         jumpLevel = 0;
         moveSpeedLevel = 0;
         totalMoney = 0f;
-        baseHouseLevel = 0;
+        baseHouseLevel = 1;
     }
 }

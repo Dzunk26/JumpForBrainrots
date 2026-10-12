@@ -6,7 +6,7 @@ public class BaseFloor : MonoBehaviour {
     public bool IsUnlocked => isUnlocked;
 
     [SerializeField] private List<BaseSlot> listBaseSlot;
-    //[SerializeField] private GameObject lockBarrier;
+    [SerializeField] private List<GameObject> listFloorObject;
 
     private bool isUnlocked;
 
@@ -18,7 +18,7 @@ public class BaseFloor : MonoBehaviour {
 
     public void UnLock() {
         isUnlocked = true;
-        //lockBarrier.SetActive(false);
+        SetActiveFloor(true);
 
         for (int i = 0; i < listBaseSlot.Count; i++) {
             listBaseSlot[i].UnLock();
@@ -27,7 +27,7 @@ public class BaseFloor : MonoBehaviour {
 
     public void Lock() {
         isUnlocked = false;
-        //lockBarrier.SetActive(true);
+        SetActiveFloor(false);
 
         for (int i = 0; i < listBaseSlot.Count; i++) {
             listBaseSlot[i].Lock();
@@ -36,5 +36,13 @@ public class BaseFloor : MonoBehaviour {
 
     public List<BaseSlot> GetListBaseSlot() {
         return listBaseSlot;
+    }
+
+    private void SetActiveFloor(bool isActive) {
+        gameObject.SetActive(isActive);
+
+        for (int i = 0; i < listFloorObject.Count; i++) {
+            listFloorObject[i].SetActive(isActive);
+        }
     }
 }

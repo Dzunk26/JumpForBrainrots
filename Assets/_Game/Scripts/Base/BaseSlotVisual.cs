@@ -14,6 +14,7 @@ public class BaseSlotVisual : MonoBehaviour {
         }
 
         currentModel = GetBrainrotModel(brainrotSO);
+        currentModel.ResetLocalRotation();
         currentModel.Active();
     }
 

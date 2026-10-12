@@ -15,11 +15,14 @@ public class Character : MonoBehaviour {
     [SerializeField] protected CharacterStat characterStat;
     [SerializeField] protected CharacterVisual characterVisual;
     [SerializeField] protected BaseHouse baseHouse;
+
     protected BrainrotSO currentCapturedBrainrotSO;
+    protected Vector3 spawnPoint;
 
     private Transform tf;
 
     public virtual void OnInit() {
+        spawnPoint = baseHouse.GetSpawnPosition();
         InitBaseHouse();
     }
 
@@ -32,6 +35,8 @@ public class Character : MonoBehaviour {
     public virtual void Dead() { }
 
     public virtual void InitBaseHouse() { }
+
+    public virtual void UpgradeBaseHouse() { }
 
     public BaseHouse GetBaseHouse() {
         return baseHouse;

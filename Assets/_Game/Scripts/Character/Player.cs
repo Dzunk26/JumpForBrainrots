@@ -11,6 +11,7 @@ public enum PlayerState {
     Climb,
     Jump,
     Fall,
+    LadderJump,
     Dead,
 }
 
@@ -29,7 +30,7 @@ public class Player : Character {
     [SerializeField] private CharacterController characterController;
     [SerializeField] private BrainrotInteractor brainrotInteractor;
     [SerializeField] private SlotInteractor baseSlotInteractor;
-    [SerializeField] private Vector3 playerSpawnPoint = Vector3.zero;
+    [SerializeField] private CameraController cameraController;
 
     [SerializeField] private float rotateSpeed = 15f;
     [SerializeField] private float riseGravity = -150f;
@@ -37,7 +38,6 @@ public class Player : Character {
 
     [SerializeField] private float ladderEnterDelta = 0.5f;
 
-    [SerializeField] private float fallTimerMax = 0.15f;
     [SerializeField] private LayerMask floorLayerMask;
     [SerializeField] private float floorCheckDistance = 0.3f;
     [SerializeField] private LayerMask groundLayerMask;
@@ -56,6 +56,11 @@ public class Player : Character {
 
     [SerializeField] private float groundStepOffset = 1.25f;
 
+    [SerializeField] private float ladderJumpOffSpeed = 10f;
+    [SerializeField] private float ladderJumpDuration = 0.3f;
+
+    [SerializeField] private float climbInputDeadZone = 0.3f;
+
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
     private float fallMoveSpeed;
@@ -67,8 +72,15 @@ public class Player : Character {
     private PlayerState currentState;
     private RaycastHit ladderHit;
     private float maxFallSpeed;
-    private float lastGroundedTime;
     private float stateTimer = 0f;
+    private Vector3 ladderJumpDirection;
+    private float ladderJumpUpVelocity;
+    private float ladderJumpTimer;
+    private float climbInput;
+
+    private void OnEnable() {
+        PlayerProgress.Instance.OnLoadPlayerData += PlayerProgress_OnLoadPlayerData;
+    }
 
     private void Update() {
         ListenInput();
@@ -82,14 +94,24 @@ public class Player : Character {
         HandlePlayerState();
     }
 
+    private void OnDisable() {
+        if (!PlayerProgress.HasInstance) return;
+
+        PlayerProgress.Instance.OnLoadPlayerData -= PlayerProgress_OnLoadPlayerData;
+    }
+
+    private void PlayerProgress_OnLoadPlayerData(object sender, EventArgs e) {
+        CalculateStats();
+    }
+
     public override void OnInit() {
+        base.OnInit();
         stateTimer = 0f;
         characterVisual.OnInit();
         isJumping = false;
         ChangeState(PlayerState.Idle);
         CalculateStats();
-        TeleportTo(playerSpawnPoint);
-        base.OnInit();
+        TeleportTo(spawnPoint);
     }
 
     public override void OnDespawn() {
@@ -97,7 +119,8 @@ public class Player : Character {
         currentCapturedBrainrotSO = null;
         isJumping = false;
         verticalVelocity = 0f;
-        TeleportTo(playerSpawnPoint);
+        TeleportTo(spawnPoint);
+        FaceToBaseHouse();
         characterVisual.OnInit();
         ChangeState(PlayerState.Idle);
         base.OnDespawn();
@@ -108,19 +131,24 @@ public class Player : Character {
         baseSlotInteractor.OnInit(baseHouse);
     }
 
-    public void UpgradeBaseHouse() {
+    public override void UpgradeBaseHouse() {
         if (baseHouse.IsMaxLevel()) return;
 
-        double cost = baseHouse.GetUpgradeCost();
-        if (!PlayerProgress.Instance.IsEnoughMoney(cost)) return;
+        //double cost = baseHouse.GetUpgradeCost();
+        //if (!PlayerProgress.Instance.IsEnoughMoney(cost)) return;
 
-        PlayerProgress.Instance.SpendMoney(cost);
+        //PlayerProgress.Instance.SpendMoney(cost);
         baseHouse.Upgrade();
         PlayerProgress.Instance.SetBaseHouseLevel(baseHouse.GetHouseLevel());
     }
 
     public void Jump() {
         lastJumpPressedTime = Time.time;
+
+        if (currentState == PlayerState.Climb) {
+            StartLadderJump();
+            return;
+        }
 
         if ((currentState == PlayerState.Idle || currentState == PlayerState.Run) && IsGrounded() && !isJumping) {
             StartJump();
@@ -244,6 +272,26 @@ public class Player : Character {
         maxFallSpeed = Mathf.Max(baseMaxFallSpeed, initialJumpVelocity);
     }
 
+    private void StartLadderJump() {
+        ladderJumpDirection = GetLadderJumpDirection();
+        ladderJumpTimer = 0f;
+        isJumping = true;
+        lastJumpPressedTime = -1f;
+        verticalVelocity = ladderJumpUpVelocity;
+        characterVisual.OnStartJump();
+        ChangeState(PlayerState.LadderJump);
+    }
+
+    private Vector3 GetLadderJumpDirection() {
+        Vector3 direction = ladderHit.normal;
+        direction.y = 0f;
+        if (direction.sqrMagnitude < 0.001f) {
+            direction = -playerVisualContainer.forward;
+        }
+
+        return direction.normalized;
+    }
+
     private void HandlePlayerState() {
         switch (currentState) {
             case PlayerState.Idle:
@@ -260,6 +308,9 @@ public class Player : Character {
                 break;
             case PlayerState.Fall:
                 HandleFall();
+                break;
+            case PlayerState.LadderJump:
+                HandleLadderJump();
                 break;
             case PlayerState.Dead:
                 HandleDead();
@@ -297,7 +348,7 @@ public class Player : Character {
 
         characterController.Move(nextPosition);
 
-        if (inputVector.sqrMagnitude > 0.001f) {
+        if (moveDir.sqrMagnitude > 0.001f) {
             Quaternion targetRot = Quaternion.LookRotation(moveDir);
             playerVisualContainer.rotation = Quaternion.Slerp(playerVisualContainer.rotation, targetRot, rotateSpeed * Time.deltaTime);
         }
@@ -316,7 +367,7 @@ public class Player : Character {
     }
 
     private void HandleClimbMovement() {
-        float climbInput = Mathf.Abs(inputVector.y) >= Mathf.Abs(inputVector.x) ? inputVector.y : inputVector.x;
+        float climbInput = GetClimbInput(); ;
 
         characterController.Move(Vector3.up * climbInput * climpMoveSpeed * Time.deltaTime);
         characterVisual.SetClimbSpeed(climbInput);
@@ -327,6 +378,19 @@ public class Player : Character {
             Quaternion targetRot = Quaternion.LookRotation(ladderDirection);
             playerVisualContainer.rotation = Quaternion.Slerp(playerVisualContainer.rotation, targetRot, rotateSpeed * Time.deltaTime);
         }
+    }
+
+    private float GetClimbInput() {
+        if (!IsMoving()) return 0f;
+
+        Vector3 ladderDirection = -ladderHit.normal;
+        ladderDirection.y = 0f;
+        ladderDirection.Normalize();
+
+        float input = Vector3.Dot(GetMoveDirection(), ladderDirection);
+        if (Mathf.Abs(input) < climbInputDeadZone) return 0f;
+
+        return Mathf.Sign(input);
     }
 
     private bool CanStartClimb() {
@@ -352,13 +416,8 @@ public class Player : Character {
         HandleMovement();
         characterVisual.OnClimbing();
 
-        if (inputVector.x + inputVector.y < 0f && IsGrounded()) {
-            if (IsMoving()) {
-                ChangeState(PlayerState.Run);
-            }
-            else {
-                ChangeState(PlayerState.Idle);
-            }
+        if (climbInput <= 0f && IsMoving() && IsGrounded()) {
+            ChangeState(PlayerState.Run);
         }
     }
 
@@ -402,6 +461,15 @@ public class Player : Character {
         }
     }
 
+    private void HandleLadderJump() {
+        characterController.Move(ladderJumpDirection * ladderJumpOffSpeed * Time.deltaTime);
+
+        ladderJumpTimer += Time.deltaTime;
+        if (ladderJumpTimer >= ladderJumpDuration) {
+            ChangeState(PlayerState.Fall);
+        }
+    }
+
     private void HandleGravity() {
         if (currentState == PlayerState.Climb) return;
 
@@ -419,7 +487,10 @@ public class Player : Character {
             verticalVelocity = Mathf.Max(verticalVelocity, -maxFallSpeed);
         }
 
-        characterController.Move(Vector3.up * deltaY);
+        CollisionFlags collisionFlags = characterController.Move(Vector3.up * deltaY);
+        if (verticalVelocity > 0f && (collisionFlags & CollisionFlags.Above) != 0) {
+            verticalVelocity = 0f;
+        }
     }
 
     private void HandleFall() {
@@ -517,6 +588,15 @@ public class Player : Character {
         characterController.enabled = false;
         TF.position = position;
         characterController.enabled = true;
+    }
+
+    private void FaceToBaseHouse() {
+        Vector3 direction = baseHouse.GetSpawnForward();
+        direction.y = 0f;
+        if (direction.sqrMagnitude < 0.001f) return;
+
+        playerVisualContainer.rotation = Quaternion.LookRotation(direction);
+        cameraController.LookAtDirection(direction);
     }
 
     private void DropBrainrot() {
