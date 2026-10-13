@@ -15,6 +15,10 @@ public class BrainrotVisual : MonoBehaviour {
         currentModel.Active();
     }
 
+    public Vector3 GetInfoLocalPosition() {
+        return currentModel.GetInfoLocalPosition();
+    }
+
     private BrainrotModel GetBrainrotModel(BrainrotSO brainrotSO) {
         if (!dictBrainrotModel.ContainsKey(brainrotSO)) {
             dictBrainrotModel[brainrotSO] = Instantiate(brainrotSO.GetBrainrotModel(), transform);

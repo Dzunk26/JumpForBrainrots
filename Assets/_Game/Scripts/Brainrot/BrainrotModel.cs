@@ -34,6 +34,11 @@ public class BrainrotModel : MonoBehaviour {
     [SerializeField] private float wiggleTimerMax = 0.6f;
     [SerializeField] private float wiggleRestTimerMin = 0.8f;
     [SerializeField] private float wiggleRestTimerMax = 2.5f;
+    [Header("Anim Interact")]
+    [SerializeField] private float flyTimerMax = 0.3f;
+    [SerializeField] private float flyArcHeight = 1.5f;
+    [Header("Infomation")]
+    [SerializeField] private Transform infoPoint;
 
     private Transform tf;
     private Vector3 baseLocalPosition;
@@ -46,8 +51,17 @@ public class BrainrotModel : MonoBehaviour {
     private float wiggleRestTimer;
     private float currentWiggleRestTimerMax;
     private bool isWiggling;
+    private Vector3 flyStartLocalPosition;
+    private float flyTimer;
+    private bool isFlying;
+    private Vector3 infoLocalPosition;
 
     private void Update() {
+        if (isFlying) {
+            HandleFly();
+            return;
+        }
+
         if (currentAnimType == BrainrotAnimType.None) return;
 
         animTimer += Time.deltaTime * currentAnimSpeed;
@@ -63,6 +77,8 @@ public class BrainrotModel : MonoBehaviour {
         ResetAnimTransform();
         currentAnimType = BrainrotAnimType.None;
         gameObject.SetActive(false);
+        isFlying = false;
+        TF.localPosition = baseLocalPosition;
     }
 
     public void ResetLocalPosition() {
@@ -78,11 +94,35 @@ public class BrainrotModel : MonoBehaviour {
         TF.localRotation = Quaternion.identity;
     }
 
-    // luu transform goc roi chon kieu nhay, lech pha de cac con khong nhay giong het nhau
+    public void FlyFrom(Vector3 worldPosition) {
+        flyStartLocalPosition = TF.parent.InverseTransformPoint(worldPosition);
+        flyTimer = 0f;
+        isFlying = true;
+        TF.localPosition = flyStartLocalPosition;
+    }
+
+    public Vector3 GetInfoLocalPosition() {
+        return infoLocalPosition;
+    }
+
+    private void HandleFly() {
+        flyTimer += Time.deltaTime;
+        float progress = Mathf.Clamp01(flyTimer / flyTimerMax);
+        float easedProgress = 1f - (1f - progress) * (1f - progress);
+        float arc = Mathf.Sin(progress * Mathf.PI) * flyArcHeight;
+
+        TF.localPosition = Vector3.Lerp(flyStartLocalPosition, baseLocalPosition, easedProgress) + Vector3.up * arc;
+
+        if (progress >= 1f) {
+            isFlying = false;
+        }
+    }
+
     private void OnInitAnim() {
         baseLocalPosition = TF.localPosition;
         baseLocalRotation = TF.localRotation;
         baseLocalScale = TF.localScale;
+        infoLocalPosition = TF.parent.InverseTransformPoint(infoPoint.position);
 
         animTimer = Random.Range(0f, 10f);
         currentAnimSpeed = animSpeed * Random.Range(1f - animSpeedRandom, 1f + animSpeedRandom);
