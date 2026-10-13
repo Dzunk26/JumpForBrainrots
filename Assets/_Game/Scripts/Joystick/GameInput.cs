@@ -146,7 +146,7 @@ public class GameInput : Singleton<GameInput> {
         }
         else if (movedFinger == cameraFinger) {
             Vector2 pos = movedFinger.currentTouch.screenPosition;
-            cameraInputVetor = pos - cameraStartPosition;
+            cameraInputVetor += pos - cameraStartPosition;
             cameraStartPosition = pos;
         }
     }
