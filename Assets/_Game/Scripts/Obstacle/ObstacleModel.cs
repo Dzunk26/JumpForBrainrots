@@ -15,7 +15,7 @@ public class ObstacleModel : MonoBehaviour {
 
     private Transform tf;
 
-    public void Active() {
+    public virtual void Active() {
         gameObject.SetActive(true);
     }
 
