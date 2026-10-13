@@ -7,6 +7,10 @@ public class BrainrotSpawner : MonoBehaviour {
     [SerializeField] private ListBrainrotSO listBrainrotSO;
     [SerializeField] private BoxCollider spawnArea;
 
+    [Header("Spawn Config")]
+    [SerializeField] private float minDisBetweenSpawnPoints = 10f;
+    [SerializeField] private int spawnRetryLimit = 30;
+
     private FloorSpawnConfigSO floorSpawnConfigSO;
     private List<Brainrot> spawnedBrainrots = new List<Brainrot>();
     private List<BrainrotSO> spawnableBrainrotSOs;
@@ -20,8 +24,6 @@ public class BrainrotSpawner : MonoBehaviour {
     }
 
     private void Update() {
-        RemoveInvalidBrainrots();
-
         HandleSpawn();
     }
 
@@ -35,8 +37,9 @@ public class BrainrotSpawner : MonoBehaviour {
         InitialSpawn();
     }
 
-    public void OnBrainrotDespawn(Brainrot brainrot) {
+    public void Despawn(Brainrot brainrot) {
         spawnedBrainrots.Remove(brainrot);
+        SimplePool.ReturnToPool(brainrot);
     }
 
     private void InitialSpawn() {
@@ -60,26 +63,43 @@ public class BrainrotSpawner : MonoBehaviour {
     private void Spawn(Vector3 spawnPoint) {
         Brainrot brainrot = SimplePool.GetFromPool<Brainrot>(PoolType.Brainrot, spawnPoint, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
         BrainrotSO brainrotSO = GetRandomBrainrotSO();
-        brainrot.OnInit(brainrotSO);
+        brainrot.OnInit(brainrotSO, this);
         spawnedBrainrots.Add(brainrot);
-    }
-
-    private void Despawn(Brainrot brainrot) {
-        SimplePool.ReturnToPool(brainrot);
-        spawnedBrainrots.Remove(brainrot);
     }
 
     private Vector3 GetRandomSpawnPoint() {
         Bounds bounds = spawnArea.bounds;
-        return new Vector3(Random.Range(bounds.min.x, bounds.max.x), bounds.min.y, Random.Range(bounds.min.z, bounds.max.z));
-    }
+        Vector3 bestPoint = Vector3.zero;
+        float bestSqrDistance = -1f;
 
-    private void RemoveInvalidBrainrots() {
-        for (int i = spawnedBrainrots.Count - 1; i >=0; i--) {
-            if (!spawnedBrainrots[i].IsAlive) {
-                Despawn(spawnedBrainrots[i]);
+        for (int i = 0; i < spawnRetryLimit; i++) {
+            Vector3 point = new Vector3(Random.Range(bounds.min.x, bounds.max.x), bounds.min.y, Random.Range(bounds.min.z, bounds.max.z));
+            float sqrDistance = GetClosestSqrDistance(point);
+
+            if (sqrDistance >= minDisBetweenSpawnPoints * minDisBetweenSpawnPoints) return point;
+
+            if (sqrDistance > bestSqrDistance) {
+                bestSqrDistance = sqrDistance;
+                bestPoint = point;
             }
         }
+
+        return bestPoint;
+    }
+
+    private float GetClosestSqrDistance(Vector3 point) {
+        float closestSqrDistance = float.MaxValue;
+
+        for (int i = 0; i < spawnedBrainrots.Count; i++) {
+            Vector3 offset = spawnedBrainrots[i].TF.position - point;
+            offset.y = 0f;
+
+            if (offset.sqrMagnitude < closestSqrDistance) {
+                closestSqrDistance = offset.sqrMagnitude;
+            }
+        }
+
+        return closestSqrDistance;
     }
 
     private BrainrotSO GetRandomBrainrotSO() {
