@@ -32,6 +32,7 @@ Transform:
   m_Children:
   - {fileID: 4307614880690233105}
   - {fileID: 4766030340685421610}
+  - {fileID: 6394660987586708679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2883556107616695664
@@ -59,6 +60,40 @@ MonoBehaviour:
   wiggleTimerMax: 0.6
   wiggleRestTimerMin: 0.8
   wiggleRestTimerMax: 2.5
+  flyTimerMax: 0.3
+  flyArcHeight: 1.5
+  infoPoint: {fileID: 6394660987586708679}
+--- !u!1 &4524950441191729419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6394660987586708679}
+  m_Layer: 0
+  m_Name: InfoPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6394660987586708679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4524950441191729419}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0888518, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5227085985247588643}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4345130951555627258
 PrefabInstance:
   m_ObjectHideFlags: 0
