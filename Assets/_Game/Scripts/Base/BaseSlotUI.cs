@@ -1,17 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class BaseSlotUI : MonoBehaviour {
-    [SerializeField] private TextMeshProUGUI totalIncomeText;
+    public Transform TF {
+        get {
+            if (tf == null) {
+                tf = transform;
+            }
+
+            return tf;
+        }
+    }
+
+    [SerializeField] private TextMeshPro totalIncomeText;
     [SerializeField] private BaseSlot baseSlot;
+    [SerializeField] private float checkTimerMax = 0.1f;
+    [SerializeField] private float showDistance = 40f;
+    [SerializeField] private float hideDistance = 45f;
+
+    private Transform tf;
+    private Transform cameraTF;
+    private float checkTimer;
+    private bool isShowing;
 
     private void Start() {
         baseSlot.OnTotalIncomeChanged += BaseSlot_OnTotalIncomeChanged;
         baseSlot.OnBrainrotChanged += BaseSlot_OnBrainrotChanged;
+        cameraTF = Camera.main.transform;
 
         UpdateVisual();
+    }
+
+    private void LateUpdate() {
+        HandleCheckDistance();
+        LookAtCamera();
     }
 
     private void OnDestroy() {
@@ -28,20 +50,39 @@ public class BaseSlotUI : MonoBehaviour {
     }
 
     private void UpdateVisual() {
-        if (!baseSlot.IsActive) {
-            HideText();
-            return;
-        }
+        UpdateTextActive();
+        if (!baseSlot.IsActive) return;
 
-        ShowText();
         totalIncomeText.SetText(Constant.MONEY_SYMBOL + baseSlot.GetTotalIncome());
     }
 
-    private void ShowText() {
-        totalIncomeText.gameObject.SetActive(true);
+    private void HandleCheckDistance() {
+        checkTimer += Time.deltaTime;
+        if (checkTimer < checkTimerMax) return;
+
+        checkTimer = 0f;
+        float sqrDistance = (cameraTF.position - TF.position).sqrMagnitude;
+        if (isShowing) {
+            if (sqrDistance > hideDistance * hideDistance) {
+                isShowing = false;
+                UpdateTextActive();
+            }
+        }
+        else {
+            if (sqrDistance < showDistance * showDistance) {
+                isShowing = true;
+                UpdateTextActive();
+            }
+        }
     }
 
-    private void HideText() {
-        totalIncomeText.gameObject.SetActive(false);
+    private void LookAtCamera() {
+        if (!isShowing) return;
+
+        totalIncomeText.gameObject.transform.rotation = cameraTF.rotation;
+    }
+
+    private void UpdateTextActive() {
+        totalIncomeText.gameObject.SetActive(baseSlot.IsActive && isShowing);
     }
 }

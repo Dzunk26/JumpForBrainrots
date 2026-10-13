@@ -45,16 +45,18 @@ public class BaseSlot : MonoBehaviour {
         incomeAmount = currentBrainrotSO.GetIncomeAmount();
     }
 
-    public void PlaceBrainrot(BrainrotSO brainrotSO) {
+    public void PlaceBrainrot(BrainrotSO brainrotSO, Vector3 fromPosition) {
         if (brainrotSO == null) return;
 
         SetBrainrot(brainrotSO);
+        baseSlotVisual.FlyBrainrotFrom(fromPosition);
     }
 
-    public BrainrotSO SwapBrainrot(BrainrotSO newBrainrot) {
+    public BrainrotSO SwapBrainrot(BrainrotSO newBrainrot, Vector3 fromPosition) {
         BrainrotSO oldBrainrotSO = currentBrainrotSO;
         CollectIncome();
         SetBrainrot(newBrainrot);
+        baseSlotVisual.FlyBrainrotFrom(fromPosition);
         return oldBrainrotSO;
     }
 
@@ -87,6 +89,10 @@ public class BaseSlot : MonoBehaviour {
 
     public bool IsMatchBaseHouse(BaseHouse baseHouse) {
         return this.baseHouse != null && this.baseHouse == baseHouse;
+    }
+
+    public Vector3 GetDisplayPosition() {
+        return baseSlotVisual.GetDisplayPosition();
     }
 
     private void HandleIncome() {
