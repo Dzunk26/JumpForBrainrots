@@ -52,6 +52,15 @@ public class CameraController : MonoBehaviour {
         targetDistance = thirdPersonFollow.CameraDistance;
     }
 
+    public void LookAtDirection(Vector3 direction) {
+        direction.y = 0f;
+        if (direction.sqrMagnitude < 0.001f) return;
+
+        cinemachineTargetYaw = Quaternion.LookRotation(direction).eulerAngles.y;
+        ApplyRotation(cinemachineTargetPitch, cinemachineTargetYaw);
+        cinemachineVirtualCamera.PreviousStateIsValid = false;
+    }
+
     private void ListenInput() {
         lookInputVector = GameInput.Instance.GetLookVectorNormalizer();
         zoomInput = GameInput.Instance.GetZoomInput();

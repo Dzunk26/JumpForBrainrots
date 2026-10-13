@@ -180,13 +180,14 @@ public class Player : Character {
         Brainrot brainrot = brainrotInteractor.GetSelectedTarget();
         if (brainrot == null) return;
 
-        HoldBrainrot(brainrot.GetBrainrotSO());
+        HoldBrainrot(brainrot.GetBrainrotSO(), brainrot.TF.position);
         brainrot.OnCaptured();
         brainrotInteractor.ClearSelectedTarget();
     }
 
     public Brainrot GetCaptureableTarget() {
-        if (!IsOnFloor()) return null;
+        if (!IsOnFloor() || !CanCapture()) return null;
+
         return brainrotInteractor.GetSelectedTarget();
     }
 
@@ -232,22 +233,28 @@ public class Player : Character {
     }
 
     private void PlaceBrainrot(BaseSlot baseSlot) {
-        baseSlot.PlaceBrainrot(currentCapturedBrainrotSO);
+        Vector3 fromPosition = characterVisual.GetBrainrotHoldPosition();
+        baseSlot.PlaceBrainrot(currentCapturedBrainrotSO, fromPosition);
         DropBrainrot();
     }
 
     private void SwapBrainrot(BaseSlot baseSlot) {
-        BrainrotSO oldBrainrotSO = baseSlot.SwapBrainrot(currentCapturedBrainrotSO);
-        HoldBrainrot(oldBrainrotSO);
+        Vector3 holdPosition = characterVisual.GetBrainrotHoldPosition();
+        Vector3 slotPosition = baseSlot.GetDisplayPosition();
+
+        BrainrotSO oldBrainrotSO = baseSlot.SwapBrainrot(currentCapturedBrainrotSO, holdPosition);
+        HoldBrainrot(oldBrainrotSO, slotPosition);
     }
 
     private void PickUpBrainrot(BaseSlot baseSlot) {
-        HoldBrainrot(baseSlot.RemoveBrainrot());
+        Vector3 slotPosition = baseSlot.GetDisplayPosition();
+        HoldBrainrot(baseSlot.RemoveBrainrot(), slotPosition);
     }
 
-    private void HoldBrainrot(BrainrotSO brainrotSO) {
+    private void HoldBrainrot(BrainrotSO brainrotSO, Vector3 fromPosition) {
         currentCapturedBrainrotSO = brainrotSO;
         characterVisual.OnCaptureBrainrot(brainrotSO);
+        characterVisual.FlyBrainrotFrom(fromPosition);
     }
 
     private void CalculateStats() {

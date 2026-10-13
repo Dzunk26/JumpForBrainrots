@@ -87,6 +87,23 @@ public class CharacterVisual : MonoBehaviour {
         currentModel.ChangeAnimType(BrainrotAnimType.Wiggle);
     }
 
+    public void OnDropBrainrot() {
+        if (currentModel == null) return;
+
+        currentModel.DeActive();
+        currentModel = null;
+    }
+
+    public Vector3 GetBrainrotHoldPosition() {
+        return brainrotHoldPoint.position;
+    }
+
+    public void FlyBrainrotFrom(Vector3 fromPosition) {
+        if (currentModel == null) return;
+
+        currentModel.FlyFrom(fromPosition);
+    }
+
     private void ChangeAnimState(AnimState animState) {
         if (currentAnimState == animState) return;
 
@@ -107,12 +124,5 @@ public class CharacterVisual : MonoBehaviour {
         }
 
         return dictBrainrotModel[brainrotSO];
-    }
-
-    public void OnDropBrainrot() {
-        if (currentModel == null) return;
-
-        currentModel.DeActive();
-        currentModel = null;
     }
 }
