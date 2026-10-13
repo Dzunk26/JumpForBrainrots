@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class Constant {
+    public static string[] SUFFIXES = new string[] {
+        "", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No"
+    };
+
     public static string FLOOR_AREA = "Floor";
 
     public static string PLACE_TEXT = "Place!";

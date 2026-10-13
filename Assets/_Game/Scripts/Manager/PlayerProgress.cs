@@ -1,3 +1,4 @@
+using BreakInfinity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
     private int moveSpeedLevel;
     private int baseHouseLevel; 
 
-    private double totalMoney;
+    private BigDouble totalMoney;
 
     public void LoadData(GameData gameData) {
         jumpLevel = gameData.jumpLevel;
@@ -50,19 +51,19 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
         }
     }
 
-    public void AddMoney(double amount) {
+    public void AddMoney(BigDouble amount) {
         totalMoney += amount;
     }
 
-    public void SpendMoney(double amount) {
+    public void SpendMoney(BigDouble amount) {
         totalMoney -= amount;
     }
 
-    public bool IsEnoughMoney(double spendAmount) {
+    public bool IsEnoughMoney(BigDouble spendAmount) {
         return totalMoney >= spendAmount;
     }
 
-    public double GetMoney() {
+    public BigDouble GetMoney() {
         return totalMoney;
     }
 
