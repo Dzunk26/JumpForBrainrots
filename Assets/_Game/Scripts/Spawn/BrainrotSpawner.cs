@@ -42,6 +42,12 @@ public class BrainrotSpawner : MonoBehaviour {
         SimplePool.ReturnToPool(brainrot);
     }
 
+    public Brainrot GetRandomBrainrot() {
+        if (spawnedBrainrots.Count == 0) return null;
+
+        return spawnedBrainrots[Random.Range(0, spawnedBrainrots.Count)];
+    }
+
     private void InitialSpawn() {
         while (spawnedBrainrots.Count < spawnCapMax) {
             Spawn(GetRandomSpawnPoint());
@@ -107,4 +113,5 @@ public class BrainrotSpawner : MonoBehaviour {
 
         return spawnableBrainrotSOs[randomIndex];
     }
+
 }

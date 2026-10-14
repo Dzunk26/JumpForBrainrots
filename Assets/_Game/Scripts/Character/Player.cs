@@ -165,7 +165,7 @@ public class Player : Character {
         CalculateStats();
     }
 
-    public void OnDead() {
+    public override void Dead() {
         if (currentState == PlayerState.Dead) return;
 
         DropBrainrot();
@@ -249,12 +249,6 @@ public class Player : Character {
     private void PickUpBrainrot(BaseSlot baseSlot) {
         Vector3 slotPosition = baseSlot.GetDisplayPosition();
         HoldBrainrot(baseSlot.RemoveBrainrot(), slotPosition);
-    }
-
-    private void HoldBrainrot(BrainrotSO brainrotSO, Vector3 fromPosition) {
-        currentCapturedBrainrotSO = brainrotSO;
-        characterVisual.OnCaptureBrainrot(brainrotSO);
-        characterVisual.FlyBrainrotFrom(fromPosition);
     }
 
     private void CalculateStats() {
@@ -604,11 +598,6 @@ public class Player : Character {
 
         playerVisualContainer.rotation = Quaternion.LookRotation(direction);
         cameraController.LookAtDirection(direction);
-    }
-
-    private void DropBrainrot() {
-        currentCapturedBrainrotSO = null;
-        characterVisual.OnDropBrainrot();
     }
 
     private void ChangeState(PlayerState state) {

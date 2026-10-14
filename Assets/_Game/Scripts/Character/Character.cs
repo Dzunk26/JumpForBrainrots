@@ -41,4 +41,15 @@ public class Character : MonoBehaviour {
     public BaseHouse GetBaseHouse() {
         return baseHouse;
     }
+
+    protected virtual void HoldBrainrot(BrainrotSO brainrotSO, Vector3 fromPosition) {
+        currentCapturedBrainrotSO = brainrotSO;
+        characterVisual.OnCaptureBrainrot(brainrotSO);
+        characterVisual.FlyBrainrotFrom(fromPosition);
+    }
+
+    protected virtual void DropBrainrot() {
+        currentCapturedBrainrotSO = null;
+        characterVisual.OnDropBrainrot();
+    }
 }

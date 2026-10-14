@@ -6,6 +6,7 @@ public static class Cache {
     private static Dictionary<AnimState, string> dictAnimName = new Dictionary<AnimState, string>();
     private static Dictionary<AnimState, int> dictAnimHash = new Dictionary<AnimState, int>();
     private static Dictionary<Collider, Player> dictPlayer = new Dictionary<Collider, Player>();
+    private static Dictionary<Collider, Character> dictCharacter = new Dictionary<Collider, Character>();
     private static Dictionary<Collider, Brainrot> dictBrainrot = new Dictionary<Collider, Brainrot>();
     private static Dictionary<Collider, BaseSlot> dictBaseSlot = new Dictionary<Collider, BaseSlot>();
 
@@ -33,6 +34,15 @@ public static class Cache {
         }
 
         return dictPlayer[collider];
+    }
+
+    public static Character GetCharacter(Collider collider) {
+        if (!dictCharacter.ContainsKey(collider)) {
+            Character character = collider.GetComponent<Character>();
+            dictCharacter[collider] = character;
+        }
+
+        return dictCharacter[collider];
     }
 
     public static Brainrot GetBrainrot(Collider collider) {

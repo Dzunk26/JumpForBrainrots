@@ -22,10 +22,10 @@ public class Obstacle : GameUnit {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag(Constant.PLAYER_TAG)) {
-            Player player = Cache.GetPlayer(other);
-            player.OnDead();
-        }
+        Character character = Cache.GetCharacter(other);
+        if (character == null) return;
+
+        character.Dead();
     }
 
     public void OnInit(ObstacleSO obstacleSO, Vector3 endPoint) {
