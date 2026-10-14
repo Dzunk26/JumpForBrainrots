@@ -639,6 +639,8 @@ MonoBehaviour:
   floor: {fileID: 4686283043589095672}
   listBrainrotSO: {fileID: 11400000, guid: b1d9c61ce0b0fee4a9b94798d0cdcdac, type: 2}
   spawnArea: {fileID: 2167930559575149645}
+  minDisBetweenSpawnPoints: 10
+  spawnRetryLimit: 20
 --- !u!65 &2167930559575149645
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -759,6 +759,8 @@ MonoBehaviour:
   floor: {fileID: 3339613224079516770}
   listBrainrotSO: {fileID: 11400000, guid: b1d9c61ce0b0fee4a9b94798d0cdcdac, type: 2}
   spawnArea: {fileID: 8623693208894964254}
+  minDisBetweenSpawnPoints: 10
+  spawnRetryLimit: 20
 --- !u!65 &8623693208894964254
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -924,6 +926,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b8a7d2f8199e3a8438b41294cbea2269,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b8a7d2f8199e3a8438b41294cbea2269,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7e161216941c37e4498832061e142fd8, type: 2}
@@ -1055,6 +1062,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: d5db62f10deb0a34fbe6546e1c17faf1,
         type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d5db62f10deb0a34fbe6546e1c17faf1,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6429ccf58b23b9341a3b86ec67111056, type: 2}
@@ -1145,6 +1157,11 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d5db62f10deb0a34fbe6546e1c17faf1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d5db62f10deb0a34fbe6546e1c17faf1,
+        type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: d5db62f10deb0a34fbe6546e1c17faf1,

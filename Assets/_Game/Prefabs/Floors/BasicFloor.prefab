@@ -220,6 +220,8 @@ MonoBehaviour:
   floor: {fileID: 8039333161650823888}
   listBrainrotSO: {fileID: 11400000, guid: b1d9c61ce0b0fee4a9b94798d0cdcdac, type: 2}
   spawnArea: {fileID: 5233317608032425274}
+  minDisBetweenSpawnPoints: 10
+  spawnRetryLimit: 20
 --- !u!65 &5233317608032425274
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -918,6 +920,11 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 484d51d81d5886048a23ebe2708ac464,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 484d51d81d5886048a23ebe2708ac464,
+        type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 484d51d81d5886048a23ebe2708ac464,
