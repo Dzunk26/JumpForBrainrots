@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cda2e8698abf4e4abe037db48a6e9f2, type: 3}
-  m_Name: Tornado Blue SO
+  m_Name: Rolling White Rock SO
   m_EditorClassIdentifier: 
-  obstacleModel: {fileID: 1690919450259136930, guid: c55e4a507bfef9b45a9917160048afc9,
+  obstacleModel: {fileID: 7525855785137798424, guid: a46982153e0b712459258d901d3947b1,
     type: 3}
   speed: 27.5

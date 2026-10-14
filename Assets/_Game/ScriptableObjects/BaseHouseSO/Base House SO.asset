@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Base House SO
   m_EditorClassIdentifier: 
   listUpgradeCost:
-  - 0
-  - 0
-  - 0
+  - mantissa: 5
+    exponent: 7
+  - mantissa: 5
+    exponent: 11
+  - mantissa: 5
+    exponent: 12
