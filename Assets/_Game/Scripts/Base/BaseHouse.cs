@@ -1,3 +1,4 @@
+using BreakInfinity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ public class BaseHouse : MonoBehaviour {
         return houseLevel;
     }
 
-    public double GetUpgradeCost() {
+    public BigDouble GetUpgradeCost() {
         return baseHouseSO.GetUpgradeCost(houseLevel - 1);
     }
 

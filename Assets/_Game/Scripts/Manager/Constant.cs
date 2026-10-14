@@ -7,6 +7,15 @@ public static class Constant {
         "", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No"
     };
 
+    public static List<string> SUFFIXPARTS = new List<string>
+    {
+        "", "U", "D", "T", "QU", "QI", "SX", "SP", "O", "N",
+        "", "Dc", "Vg", "Tg", "Qug", "Qig", "Sxg", "Spg", "Og", "Ng",
+        "", "CE", "DC", "TC", "QUC", "QIC", "SXC", "SPC", "OC", "NC",
+        "", "-Mi", "-Du", "-Tr"
+    };
+    public static int MAX_NAMED_EXPONENT = 3003;
+
     public static string FLOOR_AREA = "Floor";
 
     public static string PLACE_TEXT = "Place!";
@@ -17,6 +26,8 @@ public static class Constant {
     public static float INCOME_INTERVAL = 1f;
 
     public static string PLAYER_TAG = "Player";
+
+    public static string CHARACTER_TAG = "Character";
 
     public static string PLAYER_DATA = "PlayerData";
 

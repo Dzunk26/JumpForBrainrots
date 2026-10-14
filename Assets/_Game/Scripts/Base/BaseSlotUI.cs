@@ -1,3 +1,4 @@
+using BreakInfinity;
 using TMPro;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class BaseSlotUI : MonoBehaviour {
     private Transform cameraTF;
     private float checkTimer;
     private bool isShowing;
+    private string notatedMoney;
 
     private void Start() {
         baseSlot.OnTotalIncomeChanged += BaseSlot_OnTotalIncomeChanged;
@@ -53,7 +55,10 @@ public class BaseSlotUI : MonoBehaviour {
         UpdateTextActive();
         if (!baseSlot.IsActive) return;
 
-        totalIncomeText.SetText(Constant.MONEY_SYMBOL + baseSlot.GetTotalIncome());
+        BigDouble totalIncome = baseSlot.GetTotalIncome();
+        notatedMoney = Utils.SciNotToUSName(totalIncome);
+
+        totalIncomeText.SetText(Constant.MONEY_SYMBOL + notatedMoney);
     }
 
     private void HandleCheckDistance() {

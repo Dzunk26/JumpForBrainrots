@@ -1,3 +1,4 @@
+using BreakInfinity;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -30,6 +31,7 @@ public class BrainrotInfor : MonoBehaviour {
     private float checkTimer;
     private bool isShowing;
     private int currentLifeSecond;
+    private string notatedMoney;
 
     private void LateUpdate() {
         HandleCheckDistance();
@@ -41,7 +43,9 @@ public class BrainrotInfor : MonoBehaviour {
         cameraTF = Camera.main.transform;
         TF.localPosition = infoLocalPosition;
         rarityText.SetText(brainrotSO.GetRarity().ToString());
-        incomeText.SetText(brainrotSO.GetIncomeAmount() + "/s");
+        BigDouble incomeAmount = brainrotSO.GetIncomeAmount();
+        notatedMoney = Utils.SciNotToUSName(incomeAmount);
+        incomeText.SetText(notatedMoney);
         nameText.SetText(brainrotSO.GetName());
         isShowing = false;
         infoRoot.SetActive(false);

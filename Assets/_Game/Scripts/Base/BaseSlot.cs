@@ -1,3 +1,4 @@
+using BreakInfinity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,8 +28,8 @@ public class BaseSlot : MonoBehaviour {
     private Transform tf;
     private BrainrotSO currentBrainrotSO;
     private float incomeTimer = 0f;
-    private float totalIncome = 0f;
-    private float incomeAmount;
+    private BigDouble totalIncome = 0f;
+    private BigDouble incomeAmount;
 
     private void Update() {
         HandleIncome();
@@ -75,7 +76,7 @@ public class BaseSlot : MonoBehaviour {
         isUnlocked = false;
     }
 
-    public float GetTotalIncome() {
+    public BigDouble GetTotalIncome() {
         return totalIncome;
     }
 
@@ -105,7 +106,7 @@ public class BaseSlot : MonoBehaviour {
         }
     }
 
-    private void AddMoney(float amount) {
+    private void AddMoney(BigDouble amount) {
         totalIncome += amount;
         OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
     }

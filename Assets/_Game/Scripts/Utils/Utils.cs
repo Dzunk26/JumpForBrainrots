@@ -1,6 +1,8 @@
 using BreakInfinity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public static class Utils {
@@ -9,30 +11,35 @@ public static class Utils {
     }
 
     public static string SciNotToUSName(BigDouble value) {
-        string displayNumber = $"{(value.Mantissa * BigDouble.Pow(10, value.Exponent % 3)):G3}";
+        if (value.Exponent < 3) return value.ToDouble().ToString("0.##", CultureInfo.InvariantCulture);
+        if (value.Exponent >= Constant.MAX_NAMED_EXPONENT) return value.ToString("E2");
 
-        int suffixIndex = (int)BigDouble.Floor(BigDouble.Abs(value.Exponent)).ToDouble();
-        string name = string.Empty;
+        int exponent = (int)value.Exponent;
+        int groupIndex = exponent / 3;
+        int remainder = exponent % 3;
+
+        double displayValue = Math.Round(value.Mantissa * Math.Pow(10, remainder), 2 - remainder);
+        if (Math.Abs(displayValue) >= 1000) {
+            displayValue /= 1000;
+            groupIndex++;
+        }
+
+        return displayValue.ToString("0.##", CultureInfo.InvariantCulture) + "" + GetSuffixName(groupIndex);
+    }
+
+    private static string GetSuffixName(int groupIndex) {
+        if (groupIndex < Constant.SUFFIXES.Length) return Constant.SUFFIXES[groupIndex];
+
+        int latinIndex = groupIndex - 1;
         int suffixOffset = 0;
+        string name = string.Empty;
 
-        if (value.Exponent < 33) {
-            suffixIndex /= 3;
-            name += $"{Constant.SUFFIXES[suffixIndex]}";
-        }
-        else {
-            suffixIndex = (suffixIndex - 3) / 3;
-            int tempSuffixIndex = suffixIndex;
-            List<int> indices = new List<int>();
-
-            for (int i = 0; i < suffixIndex.ToString().Length; i++) {
-                int lastNum = tempSuffixIndex % 10;
-                indices.Add(lastNum);
-                tempSuffixIndex /= 10;
-                name += Constant.SUFFIXES[indices[i] + suffixIndex];
-                suffixOffset += 10;
-            }
+        while (latinIndex > 0) {
+            name += Constant.SUFFIXPARTS[latinIndex % 10 + suffixOffset];
+            latinIndex /= 10;
+            suffixOffset += 10;
         }
 
-        return $"{displayNumber} {name}";
+        return name;
     }
 }
