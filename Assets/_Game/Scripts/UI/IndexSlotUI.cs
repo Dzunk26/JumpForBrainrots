@@ -7,16 +7,18 @@ using UnityEngine.UI;
 public class IndexSlotUI : MonoBehaviour {
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Image iconImage;
+    [SerializeField] private TextMeshProUGUI rarityText;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Color collectedIconColor = Color.white;
     [SerializeField] private Color lockedIconColor = Color.black;
 
     private BrainrotSO brainrotSO;
 
-    public void OnInit(BrainrotSO brainrotSO, Material backgroundMaterial, bool isCollected) {
+    public void OnInit(BrainrotSO brainrotSO, IndexRarityConfig rarityConfig, bool isCollected) {
         this.brainrotSO = brainrotSO;
 
-        backgroundImage.material = backgroundMaterial;
+        backgroundImage.material = rarityConfig.backgroundMaterial;
+        rarityText.SetText(rarityConfig.rarity.ToString());
         iconImage.sprite = brainrotSO.GetIndexIcon();
         nameText.SetText(brainrotSO.GetName());
 

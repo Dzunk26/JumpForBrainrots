@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-// dung prefab CanvasIndex (Resources/UI) + IndexTab, IndexSlot (Prefabs/UI) bang code
+// dung prefab CanvasIndex (Resources/UI) + IndexSlot (Prefabs/UI) bang code
 // anh nen panel, nut... la placeholder lay tu built-in UI sprite, sau nay tu thay
 public class ToolCreateIndexPopup : EditorWindow {
     private static string DEFAULT_LIST_BRAINROT_SO_PATH = "Assets/_Game/ScriptableObjects/BrainrotSOs/List Brainrot SO.asset";
@@ -42,7 +42,7 @@ public class ToolCreateIndexPopup : EditorWindow {
         font = (TMP_FontAsset)EditorGUILayout.ObjectField("Font", font, typeof(TMP_FontAsset), false);
 
         EditorGUILayout.Space();
-        EditorGUILayout.HelpBox("Tao (ghi de) " + ITEM_PREFAB_FOLDER + "/IndexTab.prefab, IndexSlot.prefab va " + CANVAS_PREFAB_FOLDER + "/CanvasIndex.prefab", MessageType.Info);
+        EditorGUILayout.HelpBox("Tao (ghi de) " + ITEM_PREFAB_FOLDER + "/IndexSlot.prefab va " + CANVAS_PREFAB_FOLDER + "/CanvasIndex.prefab", MessageType.Info);
 
         if (GUILayout.Button("Create Index Popup")) {
             CreateIndexPopup();
@@ -64,9 +64,8 @@ public class ToolCreateIndexPopup : EditorWindow {
         EnsureFolder(ITEM_PREFAB_FOLDER);
         EnsureFolder(CANVAS_PREFAB_FOLDER);
 
-        IndexTabUI tabPrefab = CreateTabPrefab();
         IndexSlotUI slotPrefab = CreateSlotPrefab();
-        GameObject canvasPrefab = CreateCanvasPrefab(tabPrefab, slotPrefab);
+        GameObject canvasPrefab = CreateCanvasPrefab(slotPrefab);
 
         AssetDatabase.SaveAssets();
         Selection.activeObject = canvasPrefab;
@@ -74,68 +73,36 @@ public class ToolCreateIndexPopup : EditorWindow {
         Debug.Log("Created index popup at " + AssetDatabase.GetAssetPath(canvasPrefab));
     }
 
-    // o tab rarity ben trai: khung chon + nen material + ten + so luong
-    private IndexTabUI CreateTabPrefab() {
-        GameObject root = CreateUIObject("IndexTab", null);
-        SetRect(root, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(280f, 68f));
-
-        GameObject selectedFrame = CreateUIObject("SelectedFrame", root.transform);
-        Stretch(selectedFrame, -5f, -5f, -5f, -5f);
-        AddImage(selectedFrame, roundSprite, Color.white, false);
-
-        GameObject background = CreateUIObject("Background", root.transform);
-        Stretch(background, 0f, 0f, 0f, 0f);
-        Image backgroundImage = AddImage(background, null, Color.white, true);
-        backgroundImage.material = GetRarityMaterial(BrainrotRarity.Basic);
-
-        GameObject nameObject = CreateUIObject("NameText", root.transform);
-        SetAnchors(nameObject, new Vector2(0f, 0f), new Vector2(0.68f, 1f), 18f, 0f, 0f, 0f);
-        TextMeshProUGUI nameText = AddText(nameObject, "Basic", 30f, TextAlignmentOptions.MidlineLeft);
-
-        GameObject countObject = CreateUIObject("CountText", root.transform);
-        SetAnchors(countObject, new Vector2(0.68f, 0f), new Vector2(1f, 1f), 0f, 16f, 0f, 0f);
-        TextMeshProUGUI countText = AddText(countObject, "0/0", 26f, TextAlignmentOptions.MidlineRight);
-
-        Button tabButton = root.AddComponent<Button>();
-        tabButton.targetGraphic = backgroundImage;
-
-        IndexTabUI tab = root.AddComponent<IndexTabUI>();
-        SetReference(tab, "tabButton", tabButton);
-        SetReference(tab, "backgroundImage", backgroundImage);
-        SetReference(tab, "selectedFrame", selectedFrame);
-        SetReference(tab, "nameText", nameText);
-        SetReference(tab, "countText", countText);
-
-        selectedFrame.SetActive(false);
-
-        return SavePrefab(root, ITEM_PREFAB_FOLDER + "/IndexTab.prefab").GetComponent<IndexTabUI>();
-    }
-
-    // o brainrot trong grid: nen material + icon + ten
+    // o brainrot trong grid: nen material + rarity + icon + ten
     private IndexSlotUI CreateSlotPrefab() {
         GameObject root = CreateUIObject("IndexSlot", null);
-        SetRect(root, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(200f, 250f));
+        SetRect(root, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(260f, 260f));
 
         GameObject background = CreateUIObject("Background", root.transform);
         Stretch(background, 0f, 0f, 0f, 0f);
         Image backgroundImage = AddImage(background, null, Color.white, false);
         backgroundImage.material = GetRarityMaterial(BrainrotRarity.Basic);
 
+        GameObject rarityObject = CreateUIObject("RarityText", root.transform);
+        SetOffsets(rarityObject, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(8f, -48f), new Vector2(-8f, -6f));
+        TextMeshProUGUI rarityText = AddText(rarityObject, "Basic", 30f, TextAlignmentOptions.Center);
+
         GameObject icon = CreateUIObject("Icon", root.transform);
-        Stretch(icon, 14f, 14f, 14f, 58f);
+        Stretch(icon, 14f, 14f, 50f, 50f);
         Image iconImage = AddImage(icon, null, Color.black, false);
         iconImage.preserveAspect = true;
 
         GameObject nameObject = CreateUIObject("NameText", root.transform);
-        SetOffsets(nameObject, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(8f, 6f), new Vector2(-8f, 56f));
+        SetOffsets(nameObject, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(8f, 6f), new Vector2(-8f, 48f));
         TextMeshProUGUI nameText = AddText(nameObject, "Brainrot Name", 24f, TextAlignmentOptions.Center);
         nameText.enableAutoSizing = true;
         nameText.fontSizeMin = 14f;
-        nameText.fontSizeMax = 24f;
+        nameText.fontSizeMax = 26f;
 
         IndexSlotUI slot = root.AddComponent<IndexSlotUI>();
         SetReference(slot, "backgroundImage", backgroundImage);
         SetReference(slot, "iconImage", iconImage);
+        SetReference(slot, "rarityText", rarityText);
         SetReference(slot, "nameText", nameText);
 
         return SavePrefab(root, ITEM_PREFAB_FOLDER + "/IndexSlot.prefab").GetComponent<IndexSlotUI>();
@@ -144,11 +111,9 @@ public class ToolCreateIndexPopup : EditorWindow {
     // CanvasIndex
     // |- Blocker
     // \- Panel
-    //   |- Header (TotalProgressText, TitleText, CloseButton)
-    //   |- TabList
-    //   |- RarityHeader (RarityTitleText, ProgressBar)
-    //   \- ScrollView > Viewport > Content (grid slot)
-    private GameObject CreateCanvasPrefab(IndexTabUI tabPrefab, IndexSlotUI slotPrefab) {
+    //   |- Header (IndexIcon, TitleText, TotalProgressText, CloseButton)
+    //   \- ScrollView > Viewport > Content (grid slot, tat ca rarity)
+    private GameObject CreateCanvasPrefab(IndexSlotUI slotPrefab) {
         GameObject root = CreateUIObject("CanvasIndex", null);
         Canvas canvas = root.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -172,13 +137,17 @@ public class ToolCreateIndexPopup : EditorWindow {
         SetOffsets(header, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, -110f), Vector2.zero);
         AddImage(header, roundSprite, new Color(0.1f, 0.12f, 0.2f, 1f), false);
 
+        GameObject headerIcon = CreateUIObject("IndexIcon", header.transform);
+        SetRect(headerIcon, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(25f, 0f), new Vector2(80f, 80f));
+        AddImage(headerIcon, roundSprite, Color.white, false);
+
         GameObject title = CreateUIObject("TitleText", header.transform);
-        Stretch(title, 0f, 0f, 0f, 0f);
-        AddText(title, "INDEX", 64f, TextAlignmentOptions.Center);
+        SetAnchors(title, new Vector2(0f, 0f), new Vector2(0.5f, 1f), 120f, 0f, 0f, 0f);
+        AddText(title, "Index", 64f, TextAlignmentOptions.MidlineLeft);
 
         GameObject totalProgress = CreateUIObject("TotalProgressText", header.transform);
-        SetAnchors(totalProgress, new Vector2(0f, 0f), new Vector2(0.3f, 1f), 30f, 0f, 0f, 0f);
-        TextMeshProUGUI totalProgressText = AddText(totalProgress, "0/0", 40f, TextAlignmentOptions.MidlineLeft);
+        SetAnchors(totalProgress, new Vector2(0.5f, 0f), new Vector2(1f, 1f), 0f, 120f, 0f, 0f);
+        TextMeshProUGUI totalProgressText = AddText(totalProgress, "0/0", 40f, TextAlignmentOptions.MidlineRight);
 
         GameObject closeObject = CreateUIObject("CloseButton", header.transform);
         SetRect(closeObject, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-15f, 0f), new Vector2(84f, 84f));
@@ -189,45 +158,9 @@ public class ToolCreateIndexPopup : EditorWindow {
         Stretch(closeLabel, 0f, 0f, 0f, 0f);
         AddText(closeLabel, "X", 52f, TextAlignmentOptions.Center);
 
-        // list tab rarity ben trai
-        GameObject tabList = CreateUIObject("TabList", panel.transform);
-        SetOffsets(tabList, new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(20f, 20f), new Vector2(320f, -130f));
-        VerticalLayoutGroup tabLayout = tabList.AddComponent<VerticalLayoutGroup>();
-        tabLayout.padding = new RectOffset(10, 10, 6, 6);
-        tabLayout.spacing = 10f;
-        tabLayout.childAlignment = TextAnchor.UpperCenter;
-        tabLayout.childControlWidth = true;
-        tabLayout.childControlHeight = false;
-        tabLayout.childForceExpandWidth = true;
-        tabLayout.childForceExpandHeight = false;
-
-        // thong tin rarity dang chon
-        GameObject rarityHeader = CreateUIObject("RarityHeader", panel.transform);
-        SetOffsets(rarityHeader, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(340f, -220f), new Vector2(-20f, -130f));
-        AddImage(rarityHeader, roundSprite, new Color(0.1f, 0.12f, 0.2f, 1f), false);
-
-        GameObject rarityTitle = CreateUIObject("RarityTitleText", rarityHeader.transform);
-        SetAnchors(rarityTitle, new Vector2(0f, 0f), new Vector2(0.45f, 1f), 30f, 0f, 0f, 0f);
-        TextMeshProUGUI rarityTitleText = AddText(rarityTitle, "Basic", 48f, TextAlignmentOptions.MidlineLeft);
-
-        GameObject progressBar = CreateUIObject("ProgressBar", rarityHeader.transform);
-        SetOffsets(progressBar, new Vector2(0.45f, 0.5f), new Vector2(1f, 0.5f), new Vector2(0f, -23f), new Vector2(-30f, 23f));
-        AddImage(progressBar, roundSprite, new Color(0.05f, 0.06f, 0.1f, 1f), false);
-
-        GameObject progressFill = CreateUIObject("Fill", progressBar.transform);
-        Stretch(progressFill, 4f, 4f, 4f, 4f);
-        Image progressFillImage = AddImage(progressFill, null, new Color(0.35f, 0.85f, 0.3f, 1f), false);
-        progressFillImage.type = Image.Type.Filled;
-        progressFillImage.fillMethod = Image.FillMethod.Horizontal;
-        progressFillImage.fillAmount = 0f;
-
-        GameObject progressTextObject = CreateUIObject("ProgressText", progressBar.transform);
-        Stretch(progressTextObject, 0f, 0f, 0f, 0f);
-        TextMeshProUGUI rarityProgressText = AddText(progressTextObject, "0/0", 30f, TextAlignmentOptions.Center);
-
         // grid brainrot co scroll
         GameObject scrollView = CreateUIObject("ScrollView", panel.transform);
-        Stretch(scrollView, 340f, 20f, 240f, 20f);
+        Stretch(scrollView, 20f, 20f, 130f, 20f);
         AddImage(scrollView, roundSprite, new Color(0f, 0f, 0f, 0.25f), true);
         ScrollRect scrollRect = scrollView.AddComponent<ScrollRect>();
 
@@ -241,8 +174,10 @@ public class ToolCreateIndexPopup : EditorWindow {
         contentRect.pivot = new Vector2(0.5f, 1f);
         GridLayoutGroup gridLayout = content.AddComponent<GridLayoutGroup>();
         gridLayout.padding = new RectOffset(20, 20, 20, 20);
-        gridLayout.cellSize = new Vector2(200f, 250f);
-        gridLayout.spacing = new Vector2(20f, 20f);
+        gridLayout.cellSize = new Vector2(260f, 260f);
+        gridLayout.spacing = new Vector2(16f, 16f);
+        gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        gridLayout.constraintCount = 5;
         gridLayout.childAlignment = TextAnchor.UpperCenter;
         ContentSizeFitter contentSizeFitter = content.AddComponent<ContentSizeFitter>();
         contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -258,14 +193,9 @@ public class ToolCreateIndexPopup : EditorWindow {
         SetReference(canvasIndex, "listBrainrotSO", listBrainrotSO);
         SetReference(canvasIndex, "panel", panel.GetComponent<RectTransform>());
         SetReference(canvasIndex, "closeButton", closeButton);
-        SetReference(canvasIndex, "tabPrefab", tabPrefab);
-        SetReference(canvasIndex, "tabParent", tabList.transform);
         SetReference(canvasIndex, "slotPrefab", slotPrefab);
         SetReference(canvasIndex, "slotParent", content.transform);
         SetReference(canvasIndex, "slotScrollRect", scrollRect);
-        SetReference(canvasIndex, "rarityTitleText", rarityTitleText);
-        SetReference(canvasIndex, "rarityProgressText", rarityProgressText);
-        SetReference(canvasIndex, "rarityProgressFill", progressFillImage);
         SetReference(canvasIndex, "totalProgressText", totalProgressText);
         SetRarityConfigs(canvasIndex);
 
