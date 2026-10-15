@@ -232,6 +232,10 @@ public class Player : Character {
         return SlotInteractType.PickUp;
     }
 
+    public Camera GetPlayerCamera() {
+        return playerCamera;
+    }
+
     private void PlaceBrainrot(BaseSlot baseSlot) {
         Vector3 fromPosition = characterVisual.GetBrainrotHoldPosition();
         baseSlot.PlaceBrainrot(currentCapturedBrainrotSO, fromPosition);

@@ -2,24 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour {
-    public Transform TF {
-        get {
-            if (tf == null) {
-                tf = transform;
-            }
-            return tf;
-        }
-    }
-
+public class Character : GameUnit {
     [SerializeField] protected CharacterStat characterStat;
     [SerializeField] protected CharacterVisual characterVisual;
     [SerializeField] protected BaseHouse baseHouse;
 
     protected BrainrotSO currentCapturedBrainrotSO;
     protected Vector3 spawnPoint;
-
-    private Transform tf;
+    protected string characterName;
 
     public virtual void OnInit() {
         spawnPoint = baseHouse.GetSpawnPosition();
@@ -40,6 +30,10 @@ public class Character : MonoBehaviour {
 
     public BaseHouse GetBaseHouse() {
         return baseHouse;
+    }
+
+    public string GetCharacterName() {
+        return characterName;
     }
 
     protected virtual void HoldBrainrot(BrainrotSO brainrotSO, Vector3 fromPosition) {

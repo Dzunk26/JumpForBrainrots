@@ -14,6 +14,10 @@ public class TestUpgradeButton : MonoBehaviour {
         upgradeButton.OnTouchDown -= UpgradeButton_OnTouchDown;
     }
 
+    public void OnInit(Player player) {
+        this.player = player;
+    }
+
     private void UpgradeButton_OnTouchDown(object sender, System.EventArgs e) {
         player.TestOnUpgrade(); ;
     }

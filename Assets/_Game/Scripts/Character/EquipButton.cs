@@ -30,6 +30,11 @@ public class EquipButton : MonoBehaviour {
         equipButton.OnTouchDown -= EquipButton_OnTouchDown;
     }
 
+    public void OnInit(Player player, Camera playerCamera) {
+        this.player = player;
+        this.playerCamera = playerCamera;
+    }
+
     private void EquipButton_OnTouchDown(object sender, System.EventArgs e) {
         OnClickEquipButton();
     }

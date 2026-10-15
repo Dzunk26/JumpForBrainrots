@@ -37,5 +37,8 @@ public class GameManager : Singleton<GameManager> {
         DataManager.Instance.OnInit();
         DataManager.Instance.LoadGame();
         player.OnInit();
+        BotManager.Instance.OnInit();
+        CanvasGamePlay canvasGamePlay = UIManager.Instance.OpenUI<CanvasGamePlay>();
+        canvasGamePlay.OnInit(player, player.GetPlayerCamera());
     }
 }

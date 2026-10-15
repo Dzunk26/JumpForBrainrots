@@ -4,7 +4,9 @@ using UnityEngine;
 
 public enum PoolType {
     Brainrot,
-    Obstacle
+    Obstacle,
+    Bot,
+    Player
 }
 
 [System.Serializable]

@@ -14,6 +14,10 @@ public class TestJumpButton : MonoBehaviour {
         JumpButton.OnTouchDown -= JumpButton_OnTouchDown;
     }
 
+    public void OnInit(Player player) {
+        this.player = player;
+    }
+
     private void JumpButton_OnTouchDown(object sender, System.EventArgs e) {
         player.Jump();
     }

@@ -8,11 +8,13 @@ public class GameData {
     public int moveSpeedLevel;
     public BigDouble totalMoney;
     public int baseHouseLevel;
+    public string playerName;
 
     public GameData() {
         jumpLevel = 0;
         moveSpeedLevel = 0;
         totalMoney = 0;
         baseHouseLevel = 1;
+        playerName = "Player";
     }
 }

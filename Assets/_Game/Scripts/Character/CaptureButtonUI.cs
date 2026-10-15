@@ -27,6 +27,11 @@ public class CaptureButtonUI : MonoBehaviour {
         
     }
 
+    public void OnInit(Player player, Camera playerCamera) {
+        this.player = player;
+        this.playerCamera = playerCamera;
+    }
+
     private void CaptureButton_OnTouchDown(object sender, System.EventArgs e) {
         OnClickCaptureButton();
     }
