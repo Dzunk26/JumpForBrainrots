@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class BaseHouse : MonoBehaviour {
     public event EventHandler OnHouseLevelChanged;
+    public bool IsEmpty => owner == null;
     public Transform TF {
         get {
             if (tf == null) {
@@ -17,8 +18,10 @@ public class BaseHouse : MonoBehaviour {
     }
 
     [SerializeField] private List<BaseFloor> listBaseFloor;
+    [SerializeField] private BaseBoard baseBoard;
     [SerializeField] private BaseHouseSO baseHouseSO;
     [SerializeField] private Transform spawnPoint;
+
 
     private Character owner;
     private int houseLevel;
@@ -27,11 +30,29 @@ public class BaseHouse : MonoBehaviour {
     public void OnInit(Character owner, int houseLevel) {
         this.owner = owner;
         this.houseLevel = Mathf.Clamp(houseLevel, 1, GetMaxLevel());
+        baseBoard.OnInit(owner);
 
         for (int i = 0; i < listBaseFloor.Count; i++) {
             listBaseFloor[i].OnInit(this);
 
             if (i < this.houseLevel) {
+                listBaseFloor[i].UnLock();
+            }
+            else {
+                listBaseFloor[i].Lock();
+            }
+        }
+
+        OnHouseLevelChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void OnDespawn() {
+        owner = null;
+        houseLevel = 0;
+        baseBoard.OnDespawn();
+
+        for (int i = 0; i < listBaseFloor.Count; i++) {
+            if (i == 0) {
                 listBaseFloor[i].UnLock();
             }
             else {
