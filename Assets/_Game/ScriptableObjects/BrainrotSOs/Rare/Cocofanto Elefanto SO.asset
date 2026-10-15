@@ -20,4 +20,4 @@ MonoBehaviour:
   lifeTimerMax: 60
   incomeAmount: 0
   afkIncomeAmount: 0
-  indexIcon: {fileID: 0}
+  indexIcon: {fileID: 21300000, guid: 50ee33e36a9fd1741aff0a0c7017df82, type: 3}
