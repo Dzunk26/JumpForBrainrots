@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2abbe140a4a192949884e0ae9780201d, type: 3}
+  m_Name: List Bot Name SO
+  m_EditorClassIdentifier: 
+  listBotName:
+  - xXShadowSlayerXx
+  - NoobMaster_69
+  - Bacon_Hair2011
+  - ProGamer4Life
+  - iiCxndyy
+  - Sk8rBoi_XD
+  - BuilderBob2009
+  - OofKing_777
+  - TrollFace_Gaming
+  - DarkNinja1337
+  - Robloxian_Pro
+  - xXPinkKittyXx
+  - GuestDoge_404
+  - Dino_Lover123
+  - SpeedyRush_YT
+  - KawaiiBunny_uwu
+  - Blox_Hunter99
+  - CoolKid_2010
+  - PizzaDude_88
+  - EpicNoob_X
+  - SweatyTryhardd
+  - ItzMeMario
+  - Itz_Luna
+  - xXFrostByteXx
+  - Brainrot_Enjoyer
+  - SkibidiToilet_99
+  - SigmaRizzler_01
+  - OhioFinalBoss
+  - CapybaraKing22
+  - BeeSwarm_Fan
+  - AdoptMeQueen
+  - Jailbreak_Cop1
+  - TowerOfHell_Pro
+  - obby_master2015
+  - RainbowUnicorn_x
+  - lilmochi_kitty
+  - ImNotAHacker1
+  - DonutThief_07
+  - SussyBaka_123
+  - ToxicGamer_13
+  - Nugget_Lord
+  - ChickenNugget_YT
+  - BanHammer_Dodger
+  - xXNightmareXx
+  - Mr_Robux
+  - FreeRobuxPlz
+  - TheRealBuilderman
+  - LaggyLarry2008
+  - WifiLagger_99
+  - PeanutButter_Jam
+  - Zombie_Slayer55
+  - FlamingoFanboy
+  - Rizzler_9000
+  - Turbo_Turtle
+  - GlitchMaster_X
+  - BloxyCola_Addict
+  - CrimsonKnight_77
+  - iiSophiaBloxx
+  - Strawberry_Milkk
+  - AquaGirl_2013
+  - MrBeastFan_101
+  - Toasty_Bread
+  - YeetMaster3000
+  - SkyWarrior_Z
+  - NotSus_Trust
+  - Potato_Gamer21
+  - Bloxburg_Builder
+  - GhostRider_RBX
+  - ParkourPro_9
+  - BigChungus_04
+  - RandomGuy_8822
+  - ItzJustJake
+  - Kitty_Meowz
+  - LavaJumper_01
+  - NoScopeNinja
+  - CookieMonster_7
+  - Pixel_Panda88
+  - SlimeySteve
+  - DiamondHands_RB
+  - Golden_Noob
+  - Ultra_Sweat
+  - Hyper_Jumper
+  - BrainrotCollector
+  - Tralalero_Fan
+  - TungTung_Sahur
+  - BombardiroCroc1
+  - CappuccinoNinja
+  - Moon_Walker2011
+  - Sneaky_Snek
+  - xXDragonFireXx
+  - IceCream_Queen
+  - Ninja_Frog42
+  - Galaxy_Gamer
+  - Chaos_Kid2009
+  - BlueberryBoi
+  - Mango_Smoothie
+  - JumpKing_Pro
+  - OofMcOofface
+  - Banana_Splitz
+  - MegaNoob_3000

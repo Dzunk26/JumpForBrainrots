@@ -9,8 +9,8 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     private int jumpLevel;
     private int moveSpeedLevel;
-    private int baseHouseLevel; 
-
+    private int baseHouseLevel;
+    private string playerName;
     private BigDouble totalMoney;
 
     public void LoadData(GameData gameData) {
@@ -18,6 +18,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
         moveSpeedLevel = gameData.moveSpeedLevel;
         baseHouseLevel = gameData.baseHouseLevel;
         totalMoney = gameData.totalMoney;
+        playerName = gameData.playerName;
 
         OnLoadPlayerData?.Invoke(this, EventArgs.Empty);
     }
@@ -27,6 +28,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
         gameData.moveSpeedLevel = moveSpeedLevel;
         gameData.baseHouseLevel = baseHouseLevel;
         gameData.totalMoney = totalMoney;
+        gameData.playerName = playerName;
     }
 
     public void IncreaseLevel(UpgradeType upgradeType) {
@@ -73,5 +75,9 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     public void SetBaseHouseLevel(int level) {
         baseHouseLevel = level;
+    }
+
+    public string GetPlayerName() {
+        return playerName;
     }
 }

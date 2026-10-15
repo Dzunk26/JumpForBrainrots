@@ -10,6 +10,8 @@ public enum LinkMoveType {
 }
 
 public class Bot : Character {
+    public bool IsReadyToLeave => stayTimer <= 0f && !isTraversingLink && (currentState == BotStates.Idle || currentState == BotStates.Patrol);
+
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stateTimerMax = 5f;
 
@@ -32,7 +34,6 @@ public class Bot : Character {
     [SerializeField] private int returnSampleRetry = 10;
 
     [Header("Patrol State")]
-    [SerializeField] private BoxCollider patrolArea;
     [SerializeField] private float patrolSampleDistance = 2f;
     [SerializeField] private int patrolSampleRetry = 10;
 
@@ -65,16 +66,16 @@ public class Bot : Character {
     private Brainrot targetBrainrot;
     private List<BrainrotSO> capturedBrainrotSOs = new List<BrainrotSO>();
     private bool isHoldingRandomBrainrot;
-
-    private void OnEnable() {
-        OnInit();
-    }
+    private BoxCollider patrolArea;
+    private float stayTimer;
 
     private void Update() {
         if (currentState == BotStates.Dead) {
             currentState.OnExecute(this);
             return;
         }
+
+        stayTimer -= Time.deltaTime;
 
         if (agent.isOnOffMeshLink) {
             HandleTraverseLink();
@@ -102,11 +103,24 @@ public class Bot : Character {
         ChangeState(BotStates.Idle);
     }
 
+    public void OnInit(BaseHouse basehouse, BoxCollider patrolArea, float stayTimer, string characterName) {
+        this.baseHouse = basehouse;
+        this.patrolArea = patrolArea;
+        this.stayTimer = stayTimer;
+        this.characterName = characterName;
+        capturedBrainrotSOs.Clear();
+        OnInit();
+    }
+
     public override void OnDespawn() {
-        ResetToSpawnPoint();
-        ChangeState(BotStates.Idle);
+        ChangeState(null);
+        StopMoving();
+        DropBrainrot();
+        isHoldingRandomBrainrot = false;
+        isTraversingLink = false;
         base.OnDespawn();
     }
+
 
     public override void InitBaseHouse() {
         baseHouse.OnInit(this, Random.Range(1, baseHouse.GetMaxLevel() + 1));
@@ -117,6 +131,11 @@ public class Bot : Character {
         if (currentState == BotStates.Dead) return;
 
         ChangeState(BotStates.Dead);
+    }
+
+    public void OnRespawn() {
+        ResetToSpawnPoint();
+        ChangeState(BotStates.Idle);
     }
 
     public void OnEnterIdle() {
@@ -212,7 +231,7 @@ public class Bot : Character {
         stateTimer -= Time.deltaTime;
         if (stateTimer > 0) return;
 
-        OnDespawn();
+        OnRespawn();
     }
 
     public void StopMoving() {
@@ -257,7 +276,6 @@ public class Bot : Character {
 
     private void HandleRotation() {
         Vector3 moveDirection = agent.velocity;
-        Debug.Log(agent.velocity);
         moveDirection.y = 0f;
         if (moveDirection.sqrMagnitude < 0.01f) return;
 

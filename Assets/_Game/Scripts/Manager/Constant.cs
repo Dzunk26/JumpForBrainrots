@@ -16,6 +16,9 @@ public static class Constant {
     };
     public static int MAX_NAMED_EXPONENT = 3003;
 
+    public static string DEFAULT_BASE_NAME = "Nobody";
+    public static string DEFAULT_BASE_NAME_SUFFIX = "'s Base";
+
     public static string FLOOR_AREA = "Floor";
 
     public static string PLACE_TEXT = "Place!";
