@@ -14,11 +14,11 @@ public class IndexSlotUI : MonoBehaviour {
 
     private BrainrotSO brainrotSO;
 
-    public void OnInit(BrainrotSO brainrotSO, IndexRarityConfig rarityConfig, bool isCollected) {
+    public void OnInit(BrainrotSO brainrotSO, RarityConfigSO rarityConfig, bool isCollected) {
         this.brainrotSO = brainrotSO;
 
-        backgroundImage.material = rarityConfig.backgroundMaterial;
-        rarityText.SetText(rarityConfig.rarity.ToString());
+        backgroundImage.material = rarityConfig.GetBackgroundMaterial();
+        rarityText.SetText(rarityConfig.GetBrainrotRarity().ToString());
         iconImage.sprite = brainrotSO.GetIndexIcon();
         nameText.SetText(brainrotSO.GetName());
 

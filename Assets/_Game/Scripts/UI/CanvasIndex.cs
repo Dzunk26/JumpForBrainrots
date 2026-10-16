@@ -4,15 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class IndexRarityConfig {
-    public BrainrotRarity rarity;
-    public Material backgroundMaterial;
-}
-
 public class CanvasIndex : UICanvas {
     [SerializeField] private ListBrainrotSO listBrainrotSO;
-    [SerializeField] private List<IndexRarityConfig> rarityConfigs;
+    [SerializeField] private ListRarityConfigSO listRarityConfig;
     [SerializeField] private RectTransform panel;
     [SerializeField] private Button closeButton;
     [SerializeField] private IndexSlotUI slotPrefab;
@@ -48,8 +42,9 @@ public class CanvasIndex : UICanvas {
         int slotIndex = 0;
         int collectedCount = 0;
 
-        for (int i = 0; i < rarityConfigs.Count; i++) {
-            List<BrainrotSO> brainrotSOs = listBrainrotSO.GetBrainrotSOsByRarity(rarityConfigs[i].rarity);
+        for (int i = 0; i < listRarityConfig.GetRarityAmount(); i++) {
+            RarityConfigSO rarityConfig = listRarityConfig.GetRarityConfigByIndex(i);
+            List<BrainrotSO> brainrotSOs = listBrainrotSO.GetBrainrotSOsByRarity(rarityConfig.GetBrainrotRarity());
 
             for (int j = 0; j < brainrotSOs.Count; j++) {
                 if (slotIndex >= slots.Count) {
@@ -62,7 +57,7 @@ public class CanvasIndex : UICanvas {
                 }
 
                 slots[slotIndex].gameObject.SetActive(true);
-                slots[slotIndex].OnInit(brainrotSOs[j], rarityConfigs[i], isCollected);
+                slots[slotIndex].OnInit(brainrotSOs[j], rarityConfig, isCollected);
                 slotIndex++;
             }
         }
@@ -71,7 +66,7 @@ public class CanvasIndex : UICanvas {
             slots[i].gameObject.SetActive(false);
         }
 
-        totalProgressText.SetText(collectedCount + "/" + slotIndex);
+        totalProgressText.SetText("{0}/{1}", collectedCount, slotIndex);
     }
 
     // TODO: chua co inventory, sau nay check brainrot da bat duoc chua o day

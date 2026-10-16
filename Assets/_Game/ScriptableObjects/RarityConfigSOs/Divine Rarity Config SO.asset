@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b221c83bc99e584428f471a2712f4ae4, type: 3}
+  m_Name: Divine Rarity Config SO
+  m_EditorClassIdentifier: 
+  rarity: 7
+  backgroundMaterial: {fileID: 2100000, guid: 8ce5443e58ba31f438e2c67cf7ae899e, type: 2}
+  textMaterial: {fileID: 2100000, guid: d355e2047d644060a031e9c61edabe0a, type: 2}

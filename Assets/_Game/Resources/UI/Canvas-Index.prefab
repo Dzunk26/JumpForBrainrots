@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 7864479938373253633}
   - component: {fileID: 7113414795585134}
   m_Layer: 5
-  m_Name: CanvasIndex
+  m_Name: Canvas-Index
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,34 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDestroyOnClose: 0
   listBrainrotSO: {fileID: 11400000, guid: b1d9c61ce0b0fee4a9b94798d0cdcdac, type: 2}
-  rarityConfigs:
-  - rarity: 0
-    backgroundMaterial: {fileID: 2100000, guid: 1dad4aab99b4eb144a86c722bfe0793d,
-      type: 2}
-  - rarity: 1
-    backgroundMaterial: {fileID: 2100000, guid: f4417ce38783efd47bc1c7bacf0ed077,
-      type: 2}
-  - rarity: 2
-    backgroundMaterial: {fileID: 2100000, guid: 73b3cf9cd3ddd2449b2007a1765b23b3,
-      type: 2}
-  - rarity: 3
-    backgroundMaterial: {fileID: 2100000, guid: 524fd9fe67d66784e9123760ba93270a,
-      type: 2}
-  - rarity: 4
-    backgroundMaterial: {fileID: 2100000, guid: 8e9fd7bc0b29846408c76a104ac95bed,
-      type: 2}
-  - rarity: 5
-    backgroundMaterial: {fileID: 2100000, guid: 8e3155974960e984395dc27b4d0d98a7,
-      type: 2}
-  - rarity: 6
-    backgroundMaterial: {fileID: 2100000, guid: c898c987918329442a5daf978f73ce33,
-      type: 2}
-  - rarity: 7
-    backgroundMaterial: {fileID: 2100000, guid: 8ce5443e58ba31f438e2c67cf7ae899e,
-      type: 2}
-  - rarity: 8
-    backgroundMaterial: {fileID: 2100000, guid: 8751f18e8b960514fbc0ed81e13ce1cf,
-      type: 2}
+  listRarityConfig: {fileID: 11400000, guid: 9a164ee705b9a9946b9bfebcfd6376e5, type: 2}
   panel: {fileID: 3407894960802906110}
   closeButton: {fileID: 6058013940836189893}
   slotPrefab: {fileID: 6717081129715525373, guid: 649de44b33fbb334b81cb62122c6d537,
@@ -513,8 +486,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -55}
-  m_SizeDelta: {x: -40, y: -150}
+  m_AnchoredPosition: {x: 0, y: -45}
+  m_SizeDelta: {x: -40, y: -130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3886116288994661898
 CanvasRenderer:
@@ -1351,7 +1324,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 580, y: 0}
-  m_SizeDelta: {x: 1404, y: 0}
+  m_SizeDelta: {x: 1160, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &7034365827053186220
 MonoBehaviour:
@@ -1373,10 +1346,10 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 220, y: 220}
-  m_Spacing: {x: 15, y: 15}
-  m_Constraint: 0
-  m_ConstraintCount: 5
+  m_CellSize: {x: 240, y: 240}
+  m_Spacing: {x: 10, y: 10}
+  m_Constraint: 1
+  m_ConstraintCount: 4
 --- !u!114 &6088367981469408773
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -38,8 +38,6 @@ public class Bot : Character {
     [SerializeField] private int patrolSampleRetry = 10;
 
     [Header("Inventory")]
-    [SerializeField] private LayerMask floorLayerMask;
-    [SerializeField] private float floorCheckDistance = 2f;
     [SerializeField] private int inventoryCapacity = 20;
     [SerializeField] private float holdRandomBrainrotRate = 0.3f;
     [SerializeField] private float dropRandomBrainrotRate = 0.5f;
@@ -65,7 +63,6 @@ public class Bot : Character {
     private BrainrotSpawner targetBrainrotSpawner;
     private Brainrot targetBrainrot;
     private List<BrainrotSO> capturedBrainrotSOs = new List<BrainrotSO>();
-    private bool isHoldingRandomBrainrot;
     private BoxCollider patrolArea;
     private float stayTimer;
 
@@ -116,11 +113,19 @@ public class Bot : Character {
         ChangeState(null);
         StopMoving();
         DropBrainrot();
-        isHoldingRandomBrainrot = false;
         isTraversingLink = false;
         base.OnDespawn();
     }
 
+    public override void StoreCapturedBrainrot() {
+        if (!IsHoldingCapturedBrainrot()) return;
+
+        if (capturedBrainrotSOs.Count >= inventoryCapacity) {
+            capturedBrainrotSOs.RemoveAt(0);
+        }
+        capturedBrainrotSOs.Add(currentHoldBrainrotSO);
+        DropBrainrot();
+    }
 
     public override void InitBaseHouse() {
         baseHouse.OnInit(this, Random.Range(1, baseHouse.GetMaxLevel() + 1));
@@ -150,7 +155,7 @@ public class Bot : Character {
 
         if (stateTimer > 0) return;
 
-        if (currentCapturedBrainrotSO == null && Random.value < catchRate) {
+        if (currentHoldBrainrotSO == null && Random.value < catchRate) {
             ChangeState(BotStates.Catch);
         }
         else {
@@ -209,10 +214,6 @@ public class Bot : Character {
     public void OnExecuteReturn() {
         characterVisual.OnRun();
 
-        if (IsHoldingCapturedBrainrot() && !IsOnFloor()) {
-            StoreCapturedBrainrot();
-        }
-
         if (!IsArrived()) return;
 
         ChangeState(BotStates.Idle);
@@ -223,7 +224,6 @@ public class Bot : Character {
         isTraversingLink = false;
         StopMoving();
         DropBrainrot();
-        isHoldingRandomBrainrot = false;
         characterVisual.OnDead();
     }
 
@@ -304,7 +304,7 @@ public class Bot : Character {
     }
 
     private void CaptureTargetBrainrot() {
-        HoldBrainrot(targetBrainrot.GetBrainrotSO(), targetBrainrot.TF.position);
+        HoldBrainrot(targetBrainrot.GetBrainrotSO(), targetBrainrot.TF.position, HeldBrainrotSource.Captured);
         targetBrainrot.OnCaptured();
         targetBrainrot = null;
     }
@@ -400,37 +400,21 @@ public class Bot : Character {
     }
 
     private void HandleRandomHoldBrainrot() {
-        if (currentCapturedBrainrotSO == null) {
+        if (currentHoldBrainrotSO == null) {
             if (capturedBrainrotSOs.Count == 0 || Random.value >= holdRandomBrainrotRate) return;
 
             BrainrotSO brainrotSO = capturedBrainrotSOs[Random.Range(0, capturedBrainrotSOs.Count)];
-            HoldBrainrot(brainrotSO, characterVisual.GetBrainrotHoldPosition());
-            isHoldingRandomBrainrot = true;
+            HoldBrainrot(brainrotSO, characterVisual.GetBrainrotHoldPosition(), HeldBrainrotSource.Inventory);
             return;
         }
 
-        if (!isHoldingRandomBrainrot || Random.value >= dropRandomBrainrotRate) return;
+        if (heldBrainrotSource != HeldBrainrotSource.Inventory || Random.value >= dropRandomBrainrotRate) return;
 
         DropBrainrot();
-        isHoldingRandomBrainrot = false;
     }
 
     private bool IsHoldingCapturedBrainrot() {
-        return currentCapturedBrainrotSO != null && !isHoldingRandomBrainrot;
-    }
-
-    private bool IsOnFloor() {
-        Vector3 origin = TF.position + Vector3.up;
-        return Physics.Raycast(origin, Vector3.down, floorCheckDistance, floorLayerMask, QueryTriggerInteraction.Ignore);
-    }
-
-    private void StoreCapturedBrainrot() {
-        if (capturedBrainrotSOs.Count >= inventoryCapacity) {
-            capturedBrainrotSOs.RemoveAt(0);
-        }
-
-        capturedBrainrotSOs.Add(currentCapturedBrainrotSO);
-        DropBrainrot();
+        return heldBrainrotSource == HeldBrainrotSource.Captured;
     }
 
     private void FaceToBaseHouse() {
@@ -443,8 +427,7 @@ public class Bot : Character {
 
     private void ResetToSpawnPoint() {
         isTraversingLink = false;
-        isHoldingRandomBrainrot = false;
-        currentCapturedBrainrotSO = null;
+        DropBrainrot();
         agent.Warp(spawnPoint);
         TF.position = spawnPoint;
         FaceToBaseHouse();

@@ -16,6 +16,8 @@ public static class Constant {
     };
     public static int MAX_NAMED_EXPONENT = 3003;
 
+    public const int HOTBAR_SIZE = 5;
+
     public static string DEFAULT_BASE_NAME = "Nobody";
     public static string DEFAULT_BASE_NAME_SUFFIX = "'s Base";
 

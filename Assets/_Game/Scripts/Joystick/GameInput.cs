@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Etouch = UnityEngine.InputSystem.EnhancedTouch;
@@ -35,6 +37,8 @@ public class GameInput : Singleton<GameInput> {
     private bool isZooming;
     private bool isFirstTouch = true;
     private PlayerInputActions inputActions;
+
+    private List<RaycastResult> uiRaycastResults = new List<RaycastResult>();
 
     private void Awake() {
         maxMovement = joystickSize.x / 2;
@@ -158,6 +162,8 @@ public class GameInput : Singleton<GameInput> {
         if (zoomFinger != null && !zoomFinger.isActive) { zoomFinger = null; isZooming = false; }
         if (cameraFinger != null && !cameraFinger.isActive) ResetCameraTouch();
 
+        if (IsPointerOverUI(touchedFinger.screenPosition)) return;
+
         if (isFirstTouch) {
             OnFirstTourch?.Invoke(this, EventArgs.Empty);
             isFirstTouch = false;
@@ -237,5 +243,17 @@ public class GameInput : Singleton<GameInput> {
         }
 
         return inputVector;
+    }
+
+    private bool IsPointerOverUI(Vector2 screenPosition) {
+        if (EventSystem.current == null) return false;
+
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current) {
+            position = screenPosition
+        };
+        uiRaycastResults.Clear();
+        EventSystem.current.RaycastAll(pointerEventData, uiRaycastResults);
+
+        return uiRaycastResults.Count > 0;
     }
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b221c83bc99e584428f471a2712f4ae4, type: 3}
+  m_Name: Epic Rarity Config SO
+  m_EditorClassIdentifier: 
+  rarity: 2
+  backgroundMaterial: {fileID: 2100000, guid: 73b3cf9cd3ddd2449b2007a1765b23b3, type: 2}
+  textMaterial: {fileID: 2100000, guid: 24be3bae7fba44f8bbf4211aabe838af, type: 2}

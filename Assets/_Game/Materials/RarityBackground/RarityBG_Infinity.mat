@@ -36,7 +36,7 @@ Material:
     - _EdgeShadeSize: 0.15
     - _GradientAngle: 8
     - _GradientScale: 0.7
-    - _GradientSpeed: 0.15
+    - _GradientSpeed: 0.375
     - _GradientWave: 0.06
     - _GradientWaveFrequency: 2.5
     - _Rainbow: 1

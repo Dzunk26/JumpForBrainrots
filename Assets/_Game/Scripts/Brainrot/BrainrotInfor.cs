@@ -15,6 +15,7 @@ public class BrainrotInfor : MonoBehaviour {
         }
     }
 
+    [SerializeField] private ListRarityConfigSO listRarityConfig;
     [SerializeField] private GameObject infoRoot;
     [SerializeField] private GameObject lifeTimeRoot;     
     [SerializeField] private TextMeshPro lifeTimeText;
@@ -42,9 +43,11 @@ public class BrainrotInfor : MonoBehaviour {
         gameObject.SetActive(true);
         cameraTF = Camera.main.transform;
         TF.localPosition = infoLocalPosition;
-        rarityText.SetText(brainrotSO.GetRarity().ToString());
+        BrainrotRarity rarity = brainrotSO.GetRarity();
         BigDouble incomeAmount = brainrotSO.GetIncomeAmount();
         notatedMoney = Utils.SciNotToUSName(incomeAmount);
+        rarityText.SetText(brainrotSO.GetRarity().ToString());
+        rarityText.fontSharedMaterial = listRarityConfig.GetRarityConfig(rarity).GetTextMaterial();
         incomeText.SetText(notatedMoney);
         nameText.SetText(brainrotSO.GetName());
         isShowing = false;

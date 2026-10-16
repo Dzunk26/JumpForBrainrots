@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72339e038c0598c48bb91e996ec21d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listRarityConfig: {fileID: 11400000, guid: 9a164ee705b9a9946b9bfebcfd6376e5, type: 2}
   infoRoot: {fileID: 7768005110339971307}
   lifeTimeRoot: {fileID: 1683991617685938854}
   lifeTimeText: {fileID: 1645171106638676037}
@@ -832,8 +833,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278255376
+  m_fontColor: {r: 0.06170082, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

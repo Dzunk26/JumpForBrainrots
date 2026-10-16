@@ -50,7 +50,7 @@ public class Player : Character {
     [SerializeField] private float fallCheckDistance = 2f;
 
     [SerializeField] private float fallMoveSpeedMultiplier = 0.7f;
-    [SerializeField] private float climpMoveSpeedMultiplier = 0.8f;
+    [SerializeField] private float climbMoveSpeedMultiplier = 0.8f;
 
     [SerializeField] private float statTimerMax = 3f;
 
@@ -58,15 +58,15 @@ public class Player : Character {
 
     [SerializeField] private float ladderJumpOffSpeed = 10f;
     [SerializeField] private float ladderJumpDuration = 0.3f;
+    [SerializeField] private float ladderJumpUpVelocity = 2.5f;
 
     [SerializeField] private float climbInputDeadZone = 0.3f;
 
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
     private float fallMoveSpeed;
-    private float climpMoveSpeed;
+    private float climbMoveSpeed;
     private Vector2 inputVector;
-    private bool isJumping;
     private float verticalVelocity;
     private float initialJumpVelocity;
     private PlayerState currentState;
@@ -74,7 +74,6 @@ public class Player : Character {
     private float maxFallSpeed;
     private float stateTimer = 0f;
     private Vector3 ladderJumpDirection;
-    private float ladderJumpUpVelocity;
     private float ladderJumpTimer;
     private float climbInput;
 
@@ -84,8 +83,6 @@ public class Player : Character {
 
     private void Update() {
         ListenInput();
-
-        HasGroundBelow();
 
         UpdateStepOffset();
 
@@ -108,7 +105,6 @@ public class Player : Character {
         base.OnInit();
         stateTimer = 0f;
         characterVisual.OnInit();
-        isJumping = false;
         ChangeState(PlayerState.Idle);
         CalculateStats();
         TeleportTo(spawnPoint);
@@ -116,14 +112,21 @@ public class Player : Character {
 
     public override void OnDespawn() {
         stateTimer = 0f;
-        currentCapturedBrainrotSO = null;
-        isJumping = false;
+        DropBrainrot();
         verticalVelocity = 0f;
         TeleportTo(spawnPoint);
         FaceToBaseHouse();
         characterVisual.OnInit();
         ChangeState(PlayerState.Idle);
         base.OnDespawn();
+    }
+
+    public override void StoreCapturedBrainrot() {
+        if (heldBrainrotSource != HeldBrainrotSource.Captured) return;
+
+        BrainrotSO brainrotSO = currentHoldBrainrotSO;
+        DropBrainrot();
+        InventoryManager.Instance.AddBrainrot(brainrotSO);
     }
 
     public override void InitBaseHouse() {
@@ -150,7 +153,7 @@ public class Player : Character {
             return;
         }
 
-        if ((currentState == PlayerState.Idle || currentState == PlayerState.Run) && IsGrounded() && !isJumping) {
+        if ((currentState == PlayerState.Idle || currentState == PlayerState.Run) && IsGrounded()) {
             StartJump();
         }
     }
@@ -168,6 +171,9 @@ public class Player : Character {
     public override void Dead() {
         if (currentState == PlayerState.Dead) return;
 
+        if (heldBrainrotSource == HeldBrainrotSource.Inventory) {
+            InventoryManager.Instance.ClearSelection();
+        }
         DropBrainrot();
         characterVisual.OnDead();
         ChangeState(PlayerState.Dead);
@@ -175,24 +181,23 @@ public class Player : Character {
 
 
     public override void OnCaptureBrainrot() {
-        if (!CanCapture()) return;
+        if (!CanEquipBrainrot()) return;
 
         Brainrot brainrot = brainrotInteractor.GetSelectedTarget();
         if (brainrot == null) return;
 
-        HoldBrainrot(brainrot.GetBrainrotSO(), brainrot.TF.position);
+        if (heldBrainrotSource == HeldBrainrotSource.Inventory) {
+            InventoryManager.Instance.ClearSelection();
+        }
+        HoldBrainrot(brainrot.GetBrainrotSO(), brainrot.TF.position, HeldBrainrotSource.Captured);
         brainrot.OnCaptured();
         brainrotInteractor.ClearSelectedTarget();
     }
 
     public Brainrot GetCaptureableTarget() {
-        if (!IsOnFloor() || !CanCapture()) return null;
+        if (!IsOnFloor() || !CanEquipBrainrot()) return null;
 
         return brainrotInteractor.GetSelectedTarget();
-    }
-
-    private bool CanCapture() {
-        return currentCapturedBrainrotSO == null;
     }
 
     public override void OnInteractBaseSlot() {
@@ -219,13 +224,11 @@ public class Player : Character {
     public SlotInteractType GetSlotInteractType(BaseSlot baseSlot) {
         if (baseSlot == null || !baseSlot.IsUnlocked) return SlotInteractType.None;
 
-        bool isHoldingBrainrot = currentCapturedBrainrotSO != null;
-
         if (!baseSlot.IsActive) {
             return SlotInteractType.Place;
         }
 
-        if (isHoldingBrainrot) {
+        if (currentHoldBrainrotSO != null) {
             return SlotInteractType.Swap;
         }
 
@@ -236,9 +239,24 @@ public class Player : Character {
         return playerCamera;
     }
 
+    public bool CanEquipBrainrot() {
+        return heldBrainrotSource != HeldBrainrotSource.Captured;
+    }
+
+    public void EquipBrainrot(BrainrotSO brainrotSO) {
+        HoldBrainrot(brainrotSO, characterVisual.GetBrainrotHoldPosition(), HeldBrainrotSource.Inventory);
+    }
+
+    public void UnequipBrainrot() {
+        if (heldBrainrotSource != HeldBrainrotSource.Inventory) return;
+
+        DropBrainrot();
+    }
+
     private void PlaceBrainrot(BaseSlot baseSlot) {
         Vector3 fromPosition = characterVisual.GetBrainrotHoldPosition();
-        baseSlot.PlaceBrainrot(currentCapturedBrainrotSO, fromPosition);
+        baseSlot.PlaceBrainrot(currentHoldBrainrotSO, fromPosition);
+        InventoryManager.Instance.RemoveSelectedItem();
         DropBrainrot();
     }
 
@@ -246,13 +264,13 @@ public class Player : Character {
         Vector3 holdPosition = characterVisual.GetBrainrotHoldPosition();
         Vector3 slotPosition = baseSlot.GetDisplayPosition();
 
-        BrainrotSO oldBrainrotSO = baseSlot.SwapBrainrot(currentCapturedBrainrotSO, holdPosition);
-        HoldBrainrot(oldBrainrotSO, slotPosition);
+        BrainrotSO oldBrainrotSO = baseSlot.SwapBrainrot(currentHoldBrainrotSO, holdPosition);
+        InventoryManager.Instance.ReplaceSelectedItem(oldBrainrotSO);
+        HoldBrainrot(oldBrainrotSO, slotPosition, HeldBrainrotSource.Inventory);
     }
 
     private void PickUpBrainrot(BaseSlot baseSlot) {
-        Vector3 slotPosition = baseSlot.GetDisplayPosition();
-        HoldBrainrot(baseSlot.RemoveBrainrot(), slotPosition);
+        InventoryManager.Instance.AddBrainrot(baseSlot.RemoveBrainrot());
     }
 
     private void CalculateStats() {
@@ -271,7 +289,7 @@ public class Player : Character {
 
     private void SetupStats() {
         moveSpeed = characterStat.GetMoveSpeed();
-        climpMoveSpeed = moveSpeed * climpMoveSpeedMultiplier;
+        climbMoveSpeed = moveSpeed * climbMoveSpeedMultiplier;
         fallMoveSpeed = moveSpeed * fallMoveSpeedMultiplier;
         initialJumpVelocity = Mathf.Sqrt(-2f * riseGravity * characterStat.GetJumpHeight());
         maxFallSpeed = Mathf.Max(baseMaxFallSpeed, initialJumpVelocity);
@@ -280,7 +298,6 @@ public class Player : Character {
     private void StartLadderJump() {
         ladderJumpDirection = GetLadderJumpDirection();
         ladderJumpTimer = 0f;
-        isJumping = true;
         lastJumpPressedTime = -1f;
         verticalVelocity = ladderJumpUpVelocity;
         characterVisual.OnStartJump();
@@ -288,13 +305,7 @@ public class Player : Character {
     }
 
     private Vector3 GetLadderJumpDirection() {
-        Vector3 direction = ladderHit.normal;
-        direction.y = 0f;
-        if (direction.sqrMagnitude < 0.001f) {
-            direction = -playerVisualContainer.forward;
-        }
-
-        return direction.normalized;
+        return -GetLadderDirection();
     }
 
     private void HandlePlayerState() {
@@ -324,10 +335,7 @@ public class Player : Character {
     }
 
     private void HandleRun() {
-        if (CanStartClimb()) {
-            StartClimb();
-            return;
-        }
+        if (TryStartClimb()) return;
 
         if (IsFall()) {
             ChangeState(PlayerState.Fall);
@@ -352,11 +360,7 @@ public class Player : Character {
         Vector3 nextPosition = moveDir * GetHorizontalMoveSpeed() * Time.deltaTime;
 
         characterController.Move(nextPosition);
-
-        if (moveDir.sqrMagnitude > 0.001f) {
-            Quaternion targetRot = Quaternion.LookRotation(moveDir);
-            playerVisualContainer.rotation = Quaternion.Slerp(playerVisualContainer.rotation, targetRot, rotateSpeed * Time.deltaTime);
-        }
+        RotateVisualTowards(moveDir);
     }
 
     private Vector3 GetMoveDirection() {
@@ -372,27 +376,25 @@ public class Player : Character {
     }
 
     private void HandleClimbMovement() {
-        float climbInput = GetClimbInput(); ;
+        climbInput = GetClimbInput(); ;
 
-        characterController.Move(Vector3.up * climbInput * climpMoveSpeed * Time.deltaTime);
+        characterController.Move(Vector3.up * climbInput * climbMoveSpeed * Time.deltaTime);
         characterVisual.SetClimbSpeed(climbInput);
 
-        Vector3 ladderDirection = -ladderHit.normal;
-        ladderDirection.y = 0f;
-        if (ladderDirection.sqrMagnitude > 0.001f) {
-            Quaternion targetRot = Quaternion.LookRotation(ladderDirection);
-            playerVisualContainer.rotation = Quaternion.Slerp(playerVisualContainer.rotation, targetRot, rotateSpeed * Time.deltaTime);
-        }
+        RotateVisualTowards(GetLadderDirection());
+    }
+
+    private void RotateVisualTowards(Vector3 direction) {
+        if (direction.sqrMagnitude < 0.001f) return;
+
+        Quaternion targetRot = Quaternion.LookRotation(direction);
+        playerVisualContainer.rotation = Quaternion.Slerp(playerVisualContainer.rotation, targetRot, rotateSpeed * Time.deltaTime);
     }
 
     private float GetClimbInput() {
         if (!IsMoving()) return 0f;
 
-        Vector3 ladderDirection = -ladderHit.normal;
-        ladderDirection.y = 0f;
-        ladderDirection.Normalize();
-
-        float input = Vector3.Dot(GetMoveDirection(), ladderDirection);
+        float input = Vector3.Dot(GetMoveDirection(), GetLadderDirection());
         if (Mathf.Abs(input) < climbInputDeadZone) return 0f;
 
         return Mathf.Sign(input);
@@ -405,9 +407,15 @@ public class Player : Character {
     }
 
     private void StartClimb() {
-        isJumping = false;
         verticalVelocity = 0f;
         ChangeState(PlayerState.Climb);
+    }
+
+    private bool TryStartClimb() {
+        if (!CanStartClimb()) return false;
+
+        StartClimb();
+        return true;
     }
 
     private void HandleClimb() {
@@ -446,7 +454,6 @@ public class Player : Character {
     }
 
     private void StartJump() {
-        isJumping = true;
         lastJumpPressedTime = -1f;
         verticalVelocity = initialJumpVelocity;
         characterVisual.OnStartJump();
@@ -454,10 +461,7 @@ public class Player : Character {
     }
 
     private void HandleJump() {
-        if (CanStartClimb()) {
-            StartClimb();
-            return;
-        }
+        if (TryStartClimb()) return;
 
         HandleMovement();
 
@@ -473,6 +477,12 @@ public class Player : Character {
         if (ladderJumpTimer >= ladderJumpDuration) {
             ChangeState(PlayerState.Fall);
         }
+    }
+
+    private Vector3 GetLadderDirection() {
+        Vector3 direction = -ladderHit.normal;
+        direction.y = 0f;
+        return direction.normalized;
     }
 
     private void HandleGravity() {
@@ -499,10 +509,7 @@ public class Player : Character {
     }
 
     private void HandleFall() {
-        if (CanStartClimb()) {
-            StartClimb();
-            return;
-        }
+        if (TryStartClimb()) return;
 
         HandleMovement();
         characterVisual.OnFalling();
@@ -514,14 +521,8 @@ public class Player : Character {
             }
 
             verticalVelocity = Constant.GROUNDED_GRAVITY;
-            isJumping = false;
 
-            if (IsMoving()) {
-                ChangeState(PlayerState.Run);
-            }
-            else {
-                ChangeState(PlayerState.Idle);
-            }
+            ChangeState(IsMoving() ? PlayerState.Run : PlayerState.Idle);
         }
     }
 
@@ -579,9 +580,7 @@ public class Player : Character {
         Vector3 startPosition = TF.position + Vector3.up * characterController.height * bodyRatio;
         Vector3 direction = playerVisualContainer.forward;
         float distance = characterController.radius + ladderRaycastDistance;
-        if (!Physics.Raycast(startPosition, direction, out ladderHit, distance, ladderLayerMask, QueryTriggerInteraction.Collide)) return false;
-
-        return true;
+        return Physics.Raycast(startPosition, direction, out ladderHit, distance, ladderLayerMask, QueryTriggerInteraction.Collide);
     }
 
 
