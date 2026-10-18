@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class BaseHouse : MonoBehaviour {
     public event EventHandler OnHouseLevelChanged;
+    public bool IsDirty { get; private set; }
+    public void MarkDirty() => IsDirty = true;
+    public void ClearDirty() => IsDirty = false;
     public bool IsEmpty => owner == null;
     public Transform TF {
         get {
@@ -68,6 +71,7 @@ public class BaseHouse : MonoBehaviour {
 
         houseLevel++;
         listBaseFloor[houseLevel - 1].UnLock();
+        MarkDirty();
         OnHouseLevelChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -108,4 +112,57 @@ public class BaseHouse : MonoBehaviour {
     public bool IsOwnedByPlayer() {
         return owner is Player;
     }
+
+    public BigDouble AddAfkIncome(long afkSeconds) {
+        BigDouble total = 0;
+
+        for (int i = 0; i < listBaseFloor.Count; i++) {
+            List<BaseSlot> slots = listBaseFloor[i].GetListBaseSlot();
+
+            for (int j = 0; j < slots.Count; j++) {
+                total += slots[j].AddAfkIncome(afkSeconds);
+            }
+        }
+
+        if (total > 0) MarkDirty();
+
+        return total;
+    }
+    public List<BaseSlotData> GetSlotsData() {
+        List<BaseSlotData> result = new List<BaseSlotData>();
+
+        for (int i = 0; i < listBaseFloor.Count; i++) {
+            List<BaseSlot> slots = listBaseFloor[i].GetListBaseSlot();
+
+            for (int j = 0; j < slots.Count; j++) {
+                if (!slots[j].IsActive) continue;
+
+                result.Add(new BaseSlotData {
+                    floorIndex = i,
+                    slotIndex = j,
+                    brainrotID = slots[j].GetCurrentBrainrot().GetID(),
+                    pendingIncome = slots[j].GetTotalIncome(),
+                });
+            }
+        }
+
+        return result;
+    }
+
+    public void LoadSlots(List<BaseSlotData> slotsData, ListBrainrotSO listBrainrotSO) {
+        if (slotsData == null) return;
+
+        foreach (BaseSlotData data in slotsData) {
+            if (data.floorIndex >= listBaseFloor.Count) continue;
+
+            List<BaseSlot> slots = listBaseFloor[data.floorIndex].GetListBaseSlot();
+            if (data.slotIndex >= slots.Count) continue;
+
+            BrainrotSO brainrotSO = listBrainrotSO.GetBrainrotSOByID(data.brainrotID);
+            if (brainrotSO == null) continue;
+
+            slots[data.slotIndex].LoadBrainrot(brainrotSO, data.pendingIncome);
+        }
+    }
+
 }

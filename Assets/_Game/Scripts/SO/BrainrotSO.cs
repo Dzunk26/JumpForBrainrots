@@ -31,6 +31,10 @@ public class BrainrotSO : ScriptableObject {
         return this.id == id;
     }
 
+    public int GetID() {
+        return id;
+    }
+
     public string GetName() {
         return brainrotName;
     }
@@ -53,6 +57,10 @@ public class BrainrotSO : ScriptableObject {
 
     public float GetIncomeAmount() {
         return incomeAmount;
+    }
+
+    public float GetAfkIncomeAmount() {
+        return afkIncomeAmount;
     }
 
     public Sprite GetIndexIcon() {

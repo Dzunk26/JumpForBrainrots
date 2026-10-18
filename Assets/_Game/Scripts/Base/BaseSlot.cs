@@ -96,6 +96,23 @@ public class BaseSlot : MonoBehaviour {
         return baseSlotVisual.GetDisplayPosition();
     }
 
+    public BigDouble AddAfkIncome(long afkSeconds) {
+        if (!IsActive || afkSeconds <= 0) return 0;
+
+        BigDouble afkIncome = (BigDouble)currentBrainrotSO.GetAfkIncomeAmount() * (afkSeconds / Constant.INCOME_INTERVAL);
+        AddMoney(afkIncome);
+        return afkIncome;
+    }
+
+    public BrainrotSO GetCurrentBrainrot() {
+        return currentBrainrotSO;
+    }
+
+    public void LoadBrainrot(BrainrotSO brainrotSO, BigDouble pendingIncome) {
+        SetBrainrot(brainrotSO);
+        AddMoney(pendingIncome);
+    }
+
     private void HandleIncome() {
         if (!IsActive) return;
 
@@ -123,6 +140,7 @@ public class BaseSlot : MonoBehaviour {
             baseSlotVisual.OnClear();
         }
 
+        baseHouse.MarkDirty();
         OnBrainrotChanged?.Invoke(this, EventArgs.Empty);
     }
 

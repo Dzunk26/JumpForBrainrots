@@ -16,7 +16,14 @@ public static class Constant {
     };
     public static int MAX_NAMED_EXPONENT = 3003;
 
-    public const int HOTBAR_SIZE = 5;
+    public static string UNKNOW_BRAINROT_NAME = "???";
+
+    public static float SAVE_DELAY = 1f;
+    public static float AUTO_SAVE_INTERVAL = 30f;
+
+    public static long AFK_MAX_SECONDS = 24 * 60 * 60;
+
+    public static int HOTBAR_SIZE = 5;
 
     public static string DEFAULT_BASE_NAME = "Nobody";
     public static string DEFAULT_BASE_NAME_SUFFIX = "'s Base";

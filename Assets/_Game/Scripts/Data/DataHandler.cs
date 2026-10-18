@@ -14,5 +14,6 @@ public class DataHandler {
     public void Save(GameData data) {
         string dataToStore = JsonUtility.ToJson(data, true);
         PlayerPrefs.SetString(Constant.PLAYER_DATA, dataToStore);
+        PlayerPrefs.Save();
     }
 }

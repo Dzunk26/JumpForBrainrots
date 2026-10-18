@@ -22,8 +22,11 @@ public enum SlotInteractType {
     PickUp
 }
 
-public class Player : Character {
+public class Player : Character, IDataPersistence {
+    public bool IsDirty => baseHouse.IsDirty;
+
     [SerializeField] private ListUpgradeConfigSO listUpgradeConfigSO;
+    [SerializeField] private ListBrainrotSO listBrainrotSO;
 
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform playerVisualContainer;
@@ -76,9 +79,11 @@ public class Player : Character {
     private Vector3 ladderJumpDirection;
     private float ladderJumpTimer;
     private float climbInput;
+    private List<BaseSlotData> savedSlots;
 
     private void OnEnable() {
         PlayerProgress.Instance.OnLoadPlayerData += PlayerProgress_OnLoadPlayerData;
+        DataManager.Instance.OnReturnFromAfk += DataManager_OnReturnFromAfk;
     }
 
     private void Update() {
@@ -92,13 +97,21 @@ public class Player : Character {
     }
 
     private void OnDisable() {
-        if (!PlayerProgress.HasInstance) return;
+        if (PlayerProgress.HasInstance) {
+            PlayerProgress.Instance.OnLoadPlayerData -= PlayerProgress_OnLoadPlayerData;
+        }
 
-        PlayerProgress.Instance.OnLoadPlayerData -= PlayerProgress_OnLoadPlayerData;
+        if (DataManager.HasInstance) {
+            DataManager.Instance.OnReturnFromAfk -= DataManager_OnReturnFromAfk;
+        }
     }
 
     private void PlayerProgress_OnLoadPlayerData(object sender, EventArgs e) {
         CalculateStats();
+    }
+
+    private void DataManager_OnReturnFromAfk(long afkSeconds) {
+        baseHouse.AddAfkIncome(afkSeconds);
     }
 
     public override void OnInit() {
@@ -127,10 +140,14 @@ public class Player : Character {
         BrainrotSO brainrotSO = currentHoldBrainrotSO;
         DropBrainrot();
         InventoryManager.Instance.AddBrainrot(brainrotSO);
+        IndexManager.Instance.Collect(brainrotSO);
     }
 
     public override void InitBaseHouse() {
         baseHouse.OnInit(this, PlayerProgress.Instance.GetBaseHouseLevel());
+        baseHouse.LoadSlots(savedSlots, listBrainrotSO);
+        baseHouse.AddAfkIncome(DataManager.Instance.OfflineSeconds);
+        savedSlots = null;
         baseSlotInteractor.OnInit(baseHouse);
     }
 
@@ -166,6 +183,15 @@ public class Player : Character {
 
     public void OnUpgrade(UpgradeType upgradeType) {
         CalculateStats();
+    }
+
+    public void LoadData(GameData gameData) {
+        savedSlots = gameData.baseSlots;
+    }
+
+    public void SaveData(ref GameData gameData) {
+        gameData.baseSlots = baseHouse.GetSlotsData();
+        baseHouse.ClearDirty();
     }
 
     public override void Dead() {
@@ -270,7 +296,11 @@ public class Player : Character {
     }
 
     private void PickUpBrainrot(BaseSlot baseSlot) {
-        InventoryManager.Instance.AddBrainrot(baseSlot.RemoveBrainrot());
+        BrainrotSO brainrot = baseSlot.RemoveBrainrot();
+        Vector3 slotPosition = baseSlot.GetDisplayPosition();
+
+        InventoryManager.Instance.AddAndSelectBrainrot(brainrot);
+        HoldBrainrot(brainrot, slotPosition, HeldBrainrotSource.Inventory);
     }
 
     private void CalculateStats() {

@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
+    public bool IsDirty => isDirty;
     public event EventHandler OnLoadPlayerData;
 
+    private bool isDirty;
     private int jumpLevel;
     private int moveSpeedLevel;
     private int baseHouseLevel;
@@ -29,6 +31,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
         gameData.baseHouseLevel = baseHouseLevel;
         gameData.totalMoney = totalMoney;
         gameData.playerName = playerName;
+        isDirty = false;
     }
 
     public void IncreaseLevel(UpgradeType upgradeType) {
@@ -41,6 +44,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
                 break;
         }
         Debug.Log(jumpLevel);
+        isDirty = true;
     }
 
     public int GetLevel(UpgradeType upgradeType) {
@@ -55,10 +59,12 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     public void AddMoney(BigDouble amount) {
         totalMoney += amount;
+        isDirty = true;
     }
 
     public void SpendMoney(BigDouble amount) {
         totalMoney -= amount;
+        isDirty = true;
     }
 
     public bool IsEnoughMoney(BigDouble spendAmount) {
@@ -75,6 +81,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     public void SetBaseHouseLevel(int level) {
         baseHouseLevel = level;
+        isDirty = true;
     }
 
     public string GetPlayerName() {

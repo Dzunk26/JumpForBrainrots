@@ -20,7 +20,6 @@ public class IndexSlotUI : MonoBehaviour {
         backgroundImage.material = rarityConfig.GetBackgroundMaterial();
         rarityText.SetText(rarityConfig.GetBrainrotRarity().ToString());
         iconImage.sprite = brainrotSO.GetIndexIcon();
-        nameText.SetText(brainrotSO.GetName());
 
         SetCollected(isCollected);
     }
@@ -32,5 +31,6 @@ public class IndexSlotUI : MonoBehaviour {
     // chua bat duoc thi icon den xi (nhan mau den, giu nguyen alpha)
     public void SetCollected(bool isCollected) {
         iconImage.color = isCollected ? collectedIconColor : lockedIconColor;
+        nameText.SetText(isCollected ? brainrotSO.GetName() : Constant.UNKNOW_BRAINROT_NAME);
     }
 }

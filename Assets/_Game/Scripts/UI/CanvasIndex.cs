@@ -69,10 +69,8 @@ public class CanvasIndex : UICanvas {
         totalProgressText.SetText("{0}/{1}", collectedCount, slotIndex);
     }
 
-    // TODO: chua co inventory, sau nay check brainrot da bat duoc chua o day
     private bool IsBrainrotCollected(BrainrotSO brainrotSO) {
-        //return Inventory.Instance.HasBrainrot(brainrotSO);
-        return false;
+        return IndexManager.Instance.IsCollected(brainrotSO);
     }
 
     private void OnClickCloseButton() {
