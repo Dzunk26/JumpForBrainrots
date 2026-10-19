@@ -1,3 +1,4 @@
+using BreakInfinity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,12 @@ using UnityEngine;
 public enum SlotType {
     Hotbar,
     Backpack,
+}
+
+public struct InventoryItem {
+    public SlotType slotType;
+    public int index;
+    public BrainrotSO brainrotSO;
 }
 
 public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
@@ -112,6 +119,51 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
             backpackItems[selectedIndex] = brainrotSO;
         }
 
+        NotifyChanged();
+    }
+
+
+    public List<InventoryItem> GetAllItems() {
+        List<InventoryItem> items = new List<InventoryItem>();
+
+        for (int i = 0; i < hotbarItems.Length; i++) {
+            if (hotbarItems[i] == null) continue;
+            items.Add(new InventoryItem { slotType = SlotType.Hotbar, index = i, brainrotSO = hotbarItems[i] });
+        }
+
+        for (int i = 0; i < backpackItems.Count; i++) {
+            items.Add(new InventoryItem { slotType = SlotType.Backpack, index = i, brainrotSO = backpackItems[i] });
+        }
+
+        return items;
+    }
+
+    public void SellItems(List<InventoryItem> sellItems) {
+        BigDouble totalPrice = 0;
+        List<int> backpackIndexes = new List<int>();
+
+        foreach (InventoryItem item in sellItems) {
+            totalPrice += item.brainrotSO.GetSellPrice();
+            if (IsSelected(item.slotType, item.index)) Deselect();
+
+            if (item.slotType == SlotType.Hotbar) {
+                hotbarItems[item.index] = null;
+            }
+            else {
+                backpackIndexes.Add(item.index);
+            }
+        }
+
+        if (selectedIndex != -1 && selectedSlotType == SlotType.Backpack) {
+            selectedIndex -= backpackIndexes.Count(i => i < selectedIndex);
+        }
+
+        backpackIndexes.Sort();
+        for (int i = backpackIndexes.Count - 1; i >= 0; i--) {
+            backpackItems.RemoveAt(backpackIndexes[i]);
+        }
+
+        PlayerProgress.Instance.AddMoney(totalPrice);
         NotifyChanged();
     }
 

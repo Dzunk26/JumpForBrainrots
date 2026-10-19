@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using BreakInfinity;
 
 public enum UpgradeType {
-    JumpPower,
-    MoveSpeed
+    JumpPower
 }
 
 [CreateAssetMenu()]
@@ -36,5 +36,20 @@ public class UpgradeConfigSO : ScriptableObject {
 
     public double GetCost(int level) {
         return Math.Floor(baseCost * Math.Pow(costGrowth, level));
+    }
+
+    public int GetUpgradeStep(int level, int step) {
+        return Mathf.Clamp(maxLevel - level, 0, step);
+    }
+
+    // tong tien de nang tu fromLevel len toLevel
+    public BigDouble GetTotalCost(int fromLevel, int toLevel) {
+        BigDouble totalCost = 0;
+
+        for (int i = fromLevel; i < toLevel; i++) {
+            totalCost += GetCost(i);
+        }
+
+        return totalCost;
     }
 }

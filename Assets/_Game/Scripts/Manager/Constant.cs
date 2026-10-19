@@ -16,6 +16,9 @@ public static class Constant {
     };
     public static int MAX_NAMED_EXPONENT = 3003;
 
+    public static string UPGRADE_STEP_PREFIX = "+";
+    public static string MAX_UPGRADE_TEXT = "MAX";
+
     public static string UNKNOW_BRAINROT_NAME = "???";
 
     public static float SAVE_DELAY = 1f;
@@ -24,6 +27,8 @@ public static class Constant {
     public static long AFK_MAX_SECONDS = 24 * 60 * 60;
 
     public static int HOTBAR_SIZE = 5;
+
+    public static string DEFAULT_PLAYER_NAME = "Player";
 
     public static string DEFAULT_BASE_NAME = "Nobody";
     public static string DEFAULT_BASE_NAME_SUFFIX = "'s Base";
@@ -35,6 +40,15 @@ public static class Constant {
     public static string PICK_UP_TEXT = "Take it!";
 
     public static string MONEY_SYMBOL = "$";
+
+    public static string REBIRTH_TEXT = "REBIRTH";
+    public static string MAX_REBIRTH_TEXT = "MAX";
+    public static string REBIRTH_TITLE_PREFIX = "REBIRTH ";
+    public static string REBIRTH_TITLE_SUFFIX = " REWARDS";
+    public static string MAX_REBIRTH_TITLE = "MAX REBIRTH";
+    public static string JUMP_POWER_PREFIX = "JumpPower ";
+    public static string MONEY_REWARD_SUFFIX = "x Money";
+    public static string SPEED_REWARD_SUFFIX = " Speed";
     public static float INCOME_INTERVAL = 1f;
 
     public static string PLAYER_TAG = "Player";

@@ -15,9 +15,9 @@ public class BaseSlotData {
 [System.Serializable]
 public class GameData {
     public int jumpLevel;
-    public int moveSpeedLevel;
     public BigDouble totalMoney;
     public int baseHouseLevel;
+    public int rebirthLevel;
     public string playerName;
     public int[] hotbarIds;
     public List<int> backpackIds;
@@ -27,10 +27,10 @@ public class GameData {
 
     public GameData() {
         jumpLevel = 0;
-        moveSpeedLevel = 0;
         totalMoney = 0;
         baseHouseLevel = 1;
-        playerName = "Player";
+        rebirthLevel = 0;
+        playerName = Constant.DEFAULT_PLAYER_NAME;
         hotbarIds = Enumerable.Repeat(-1, Constant.HOTBAR_SIZE).ToArray();
         backpackIds = new List<int>();
         baseSlots = new List<BaseSlotData>();

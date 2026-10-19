@@ -8,6 +8,8 @@ public class UICanvas : MonoBehaviour {
     private void Awake() {
         // xu ly tai tho
         RectTransform rect = GetComponent<RectTransform>();
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.overrideSorting = true;
         float ratio = (float)Screen.height / Screen.width;
         if (ratio > 2.1f) {
             Vector2 leftBottom = rect.offsetMin;

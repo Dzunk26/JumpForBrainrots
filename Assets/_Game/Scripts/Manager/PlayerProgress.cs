@@ -10,15 +10,15 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     private bool isDirty;
     private int jumpLevel;
-    private int moveSpeedLevel;
     private int baseHouseLevel;
+    private int rebirthLevel;
     private string playerName;
     private BigDouble totalMoney;
 
     public void LoadData(GameData gameData) {
         jumpLevel = gameData.jumpLevel;
-        moveSpeedLevel = gameData.moveSpeedLevel;
         baseHouseLevel = gameData.baseHouseLevel;
+        rebirthLevel = gameData.rebirthLevel;
         totalMoney = gameData.totalMoney;
         playerName = gameData.playerName;
 
@@ -27,20 +27,17 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     public void SaveData(ref GameData gameData) {
         gameData.jumpLevel = jumpLevel;
-        gameData.moveSpeedLevel = moveSpeedLevel;
         gameData.baseHouseLevel = baseHouseLevel;
+        gameData.rebirthLevel = rebirthLevel;
         gameData.totalMoney = totalMoney;
         gameData.playerName = playerName;
         isDirty = false;
     }
 
-    public void IncreaseLevel(UpgradeType upgradeType) {
+    public void IncreaseLevel(UpgradeType upgradeType, int amount) {
         switch (upgradeType) {
             case UpgradeType.JumpPower:
-                jumpLevel += 2;
-                break;
-            case UpgradeType.MoveSpeed:
-                moveSpeedLevel++; 
+                jumpLevel += amount;
                 break;
         }
         Debug.Log(jumpLevel);
@@ -52,8 +49,6 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
             default: return 0;
             case UpgradeType.JumpPower:
                 return jumpLevel;
-            case UpgradeType.MoveSpeed:
-                return moveSpeedLevel;
         }
     }
 
@@ -81,6 +76,16 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     public void SetBaseHouseLevel(int level) {
         baseHouseLevel = level;
+        isDirty = true;
+    }
+
+    public int GetRebirthLevel() {
+        return rebirthLevel;
+    }
+
+    public void Rebirth() {
+        rebirthLevel++;
+        jumpLevel = 0;
         isDirty = true;
     }
 

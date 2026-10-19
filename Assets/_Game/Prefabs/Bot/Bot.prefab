@@ -127,14 +127,20 @@ MonoBehaviour:
   returnSampleRetry: 10
   patrolSampleDistance: 2
   patrolSampleRetry: 10
-  floorLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  floorCheckDistance: 2
   inventoryCapacity: 20
   holdRandomBrainrotRate: 0.3
   dropRandomBrainrotRate: 0.5
   deadTimerMax: 3
+  listBrainrotSO: {fileID: 11400000, guid: b1d9c61ce0b0fee4a9b94798d0cdcdac, type: 2}
+  listRarityByLevel:
+  - minRarity: 0
+    maxRarity: 3
+  - minRarity: 4
+    maxRarity: 6
+  - minRarity: 6
+    maxRarity: 8
+  highRarityRate: 0.35
+  emptySlotRate: 0.1
   rotateSpeed: 15
 --- !u!114 &565410719091811577
 MonoBehaviour:

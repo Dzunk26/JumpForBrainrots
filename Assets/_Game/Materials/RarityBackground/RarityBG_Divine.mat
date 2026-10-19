@@ -32,7 +32,7 @@ Material:
     - _BorderWidth: 0.018
     - _ColorMask: 15
     - _CornerRadius: 0.06
-    - _EdgeShade: 0.22
+    - _EdgeShade: 0.12
     - _EdgeShadeSize: 0.15
     - _GradientAngle: 0
     - _GradientScale: 0.5
@@ -62,15 +62,15 @@ Material:
     - _TileHighlight: 0.1
     - _TileRoundness: 0.35
     - _TileRotation: 45
-    - _TileShadow: 0.22
+    - _TileShadow: 0.12
     - _TileSize: 0.52
     - _UseUIAlphaClip: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.607843, g: 0.34902, b: 0.682353, a: 1}
-    - _Color1: {r: 0.698039, g: 0.521569, b: 0.721569, a: 1}
-    - _Color2: {r: 0.796078, g: 0.756863, b: 0.713725, a: 1}
-    - _Color3: {r: 0.698039, g: 0.521569, b: 0.721569, a: 1}
+    - _Color0: {r: 0.737, g: 0.522, b: 0.8, a: 1}
+    - _Color1: {r: 0.8, g: 0.671, b: 0.824, a: 1}
+    - _Color2: {r: 0.914, g: 0.878, b: 0.835, a: 1}
+    - _Color3: {r: 0.8, g: 0.671, b: 0.824, a: 1}
     - _SparkleColor: {r: 1, g: 1, b: 1, a: 1}
     - _BorderColor: {r: 0.07058824, g: 0.07058824, b: 0.07058824, a: 1}
     - _PatternSpeed: {r: 0.25, g: 0.25, b: 0, a: 0}

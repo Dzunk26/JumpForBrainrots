@@ -1,3 +1,4 @@
+using BreakInfinity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ public class Player : Character, IDataPersistence {
     public bool IsDirty => baseHouse.IsDirty;
 
     [SerializeField] private ListUpgradeConfigSO listUpgradeConfigSO;
+    [SerializeField] private ListRebirthConfigSO listRebirthConfigSO;
     [SerializeField] private ListBrainrotSO listBrainrotSO;
 
     [SerializeField] private Camera playerCamera;
@@ -175,13 +177,82 @@ public class Player : Character, IDataPersistence {
         }
     }
 
-    public void TestOnUpgrade() {
-        UpgradeType upgradeType = UpgradeType.JumpPower;
-        PlayerProgress.Instance.IncreaseLevel(upgradeType);
+    public void OnUpgrade(UpgradeType upgradeType) {
+        CalculateStats();
+    }
+
+    public bool IsMaxUpgrade(UpgradeType upgradeType) {
+        UpgradeConfigSO upgradeConfigSO = listUpgradeConfigSO.GetConfigByType(upgradeType);
+        return upgradeConfigSO.IsMaxLevel(PlayerProgress.Instance.GetLevel(upgradeType));
+    }
+
+    public BigDouble GetUpgradeCost(UpgradeType upgradeType, int step) {
+        UpgradeConfigSO upgradeConfigSO = listUpgradeConfigSO.GetConfigByType(upgradeType);
+        int level = PlayerProgress.Instance.GetLevel(upgradeType);
+        return upgradeConfigSO.GetTotalCost(level, level + upgradeConfigSO.GetUpgradeStep(level, step));
+    }
+
+    public void BuyUpgrade(UpgradeType upgradeType, int step) {
+        if (IsMaxUpgrade(upgradeType)) return;
+
+        BigDouble cost = GetUpgradeCost(upgradeType, step);
+        if (!PlayerProgress.Instance.IsEnoughMoney(cost)) return;
+
+        PlayerProgress.Instance.SpendMoney(cost);
+        Upgrade(upgradeType, step);
+    }
+
+    public void Upgrade(UpgradeType upgradeType, int step) {
+        UpgradeConfigSO upgradeConfigSO = listUpgradeConfigSO.GetConfigByType(upgradeType);
+        int level = PlayerProgress.Instance.GetLevel(upgradeType);
+        int actualStep = upgradeConfigSO.GetUpgradeStep(level, step);
+        if (actualStep <= 0) return;
+
+        PlayerProgress.Instance.IncreaseLevel(upgradeType, actualStep);
         OnUpgrade(upgradeType);
     }
 
-    public void OnUpgrade(UpgradeType upgradeType) {
+    public override float GetMoneyMultiplier() {
+        return listRebirthConfigSO.GetMoneyMultiplier(PlayerProgress.Instance.GetRebirthLevel());
+    }
+
+    public float GetMoveSpeed() {
+        return moveSpeed;
+    }
+
+    public bool IsMaxRebirth() {
+        return listRebirthConfigSO.IsMaxRebirth(PlayerProgress.Instance.GetRebirthLevel());
+    }
+
+    public int GetRebirthRequiredJumpLevel() {
+        return listRebirthConfigSO.GetRequiredJumpLevel(PlayerProgress.Instance.GetRebirthLevel());
+    }
+
+    public bool IsReachedRebirth() {
+        return PlayerProgress.Instance.GetLevel(UpgradeType.JumpPower) >= GetRebirthRequiredJumpLevel();
+    }
+
+    public BigDouble GetRebirthCost() {
+        if (IsReachedRebirth()) return 0;
+
+        UpgradeConfigSO jumpConfigSO = listUpgradeConfigSO.GetConfigByType(UpgradeType.JumpPower);
+        return jumpConfigSO.GetTotalCost(PlayerProgress.Instance.GetLevel(UpgradeType.JumpPower), GetRebirthRequiredJumpLevel());
+    }
+
+    public void BuyRebirth() {
+        if (IsMaxRebirth()) return;
+
+        BigDouble cost = GetRebirthCost();
+        if (!PlayerProgress.Instance.IsEnoughMoney(cost)) return;
+
+        PlayerProgress.Instance.SpendMoney(cost);
+        Rebirth();
+    }
+
+    public void Rebirth() {
+        if (IsMaxRebirth()) return;
+
+        PlayerProgress.Instance.Rebirth();
         CalculateStats();
     }
 
@@ -313,6 +384,9 @@ public class Player : Character, IDataPersistence {
             int level = PlayerProgress.Instance.GetLevel(upgradeType);
             characterStat.OnUpgraded(upgradeConfigSO.GetModifier(level), null);
         }
+
+        float rebirthMoveSpeed = listRebirthConfigSO.GetMoveSpeedBonus(PlayerProgress.Instance.GetRebirthLevel());
+        characterStat.OnUpgraded(new StatModifier(0f, rebirthMoveSpeed), null);
 
         SetupStats();
     }

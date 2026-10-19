@@ -99,7 +99,7 @@ public class BaseSlot : MonoBehaviour {
     public BigDouble AddAfkIncome(long afkSeconds) {
         if (!IsActive || afkSeconds <= 0) return 0;
 
-        BigDouble afkIncome = (BigDouble)currentBrainrotSO.GetAfkIncomeAmount() * (afkSeconds / Constant.INCOME_INTERVAL);
+        BigDouble afkIncome = (BigDouble)currentBrainrotSO.GetAfkIncomeAmount() * (afkSeconds / Constant.INCOME_INTERVAL) * baseHouse.GetMoneyMultiplier();
         AddMoney(afkIncome);
         return afkIncome;
     }
@@ -113,12 +113,18 @@ public class BaseSlot : MonoBehaviour {
         AddMoney(pendingIncome);
     }
 
+    public void ClearSlot() {
+        totalIncome = 0f;
+        SetBrainrot(null);
+        OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     private void HandleIncome() {
         if (!IsActive) return;
 
         incomeTimer += Time.deltaTime;
         if (incomeTimer >= Constant.INCOME_INTERVAL) {
-            AddMoney(incomeAmount);
+            AddMoney(incomeAmount * baseHouse.GetMoneyMultiplier());
             incomeTimer = 0f;
         }
     }
@@ -140,7 +146,7 @@ public class BaseSlot : MonoBehaviour {
             baseSlotVisual.OnClear();
         }
 
-        baseHouse.MarkDirty();
+        baseHouse?.MarkDirty();
         OnBrainrotChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -150,14 +156,5 @@ public class BaseSlot : MonoBehaviour {
         PlayerProgress.Instance.AddMoney(totalIncome);
         totalIncome = 0f;
         OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void ClearBrainrot() {
-        PlayerProgress.Instance.AddMoney(totalIncome);
-        currentBrainrotSO = null;
-        incomeAmount = 0f;
-        totalIncome = 0f;
-        baseSlotVisual.OnClear();
-        OnBrainrotChanged?.Invoke(this, EventArgs.Empty);
     }
 }

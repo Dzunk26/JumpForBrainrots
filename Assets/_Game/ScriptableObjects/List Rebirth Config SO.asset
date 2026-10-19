@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f01b580de324677855c9174e3b5d054, type: 3}
+  m_Name: List Rebirth Config SO
+  m_EditorClassIdentifier: 
+  rebirthConfigs:
+  - requiredJumpLevel: 20
+    moneyMultiplier: 1.5
+    moveSpeedBonus: 1
+  - requiredJumpLevel: 40
+    moneyMultiplier: 2
+    moveSpeedBonus: 2
+  - requiredJumpLevel: 60
+    moneyMultiplier: 2.5
+    moveSpeedBonus: 3
+  - requiredJumpLevel: 80
+    moneyMultiplier: 3
+    moveSpeedBonus: 4
+  - requiredJumpLevel: 100
+    moneyMultiplier: 3.5
+    moveSpeedBonus: 5
+  - requiredJumpLevel: 120
+    moneyMultiplier: 4
+    moveSpeedBonus: 6
+  - requiredJumpLevel: 140
+    moneyMultiplier: 4.5
+    moveSpeedBonus: 7
+  - requiredJumpLevel: 160
+    moneyMultiplier: 5
+    moveSpeedBonus: 8
+  - requiredJumpLevel: 180
+    moneyMultiplier: 5.5
+    moveSpeedBonus: 9
+  - requiredJumpLevel: 200
+    moneyMultiplier: 6
+    moveSpeedBonus: 10
+  - requiredJumpLevel: 220
+    moneyMultiplier: 6.5
+    moveSpeedBonus: 11
+  - requiredJumpLevel: 240
+    moneyMultiplier: 7
+    moveSpeedBonus: 12
+  - requiredJumpLevel: 260
+    moneyMultiplier: 7.5
+    moveSpeedBonus: 13
+  - requiredJumpLevel: 280
+    moneyMultiplier: 8
+    moveSpeedBonus: 14

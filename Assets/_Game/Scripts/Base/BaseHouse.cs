@@ -55,6 +55,12 @@ public class BaseHouse : MonoBehaviour {
         baseBoard.OnDespawn();
 
         for (int i = 0; i < listBaseFloor.Count; i++) {
+            List<BaseSlot> slots = listBaseFloor[i].GetListBaseSlot();
+
+            for (int j = 0; j < slots.Count; j++) {
+                slots[j].ClearSlot();
+            }
+
             if (i == 0) {
                 listBaseFloor[i].UnLock();
             }
@@ -64,6 +70,16 @@ public class BaseHouse : MonoBehaviour {
         }
 
         OnHouseLevelChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public List<BaseSlot> GetUnlockedSlots() {
+        List<BaseSlot> unlockedSlots = new List<BaseSlot>();
+
+        for (int i = 0; i < houseLevel; i++) {
+            unlockedSlots.AddRange(listBaseFloor[i].GetListBaseSlot());
+        }
+
+        return unlockedSlots;
     }
 
     public void Upgrade() {
@@ -111,6 +127,12 @@ public class BaseHouse : MonoBehaviour {
 
     public bool IsOwnedByPlayer() {
         return owner is Player;
+    }
+
+    public float GetMoneyMultiplier() {
+        if (owner == null) return 1f;
+
+        return owner.GetMoneyMultiplier();
     }
 
     public BigDouble AddAfkIncome(long afkSeconds) {

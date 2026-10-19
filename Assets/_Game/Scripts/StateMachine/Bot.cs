@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum LinkMoveType {
-    Run,
-    Rise,
-    Fall
+[System.Serializable]
+public class BotRarityByLevel {
+    public BrainrotRarity minRarity;
+    public BrainrotRarity maxRarity;
 }
 
 public class Bot : Character {
@@ -29,9 +29,7 @@ public class Bot : Character {
     [SerializeField] private float jumpAirSpeed = 15f;
 
     [Header("Return State")]
-    [SerializeField] private float returnRadius = 8f;
     [SerializeField] private float arriveDistance = 1.5f;
-    [SerializeField] private int returnSampleRetry = 10;
 
     [Header("Patrol State")]
     [SerializeField] private float patrolSampleDistance = 2f;
@@ -44,6 +42,12 @@ public class Bot : Character {
 
     [Header("Dead State")]
     [SerializeField] private float deadTimerMax = 3f;
+
+    [Header("Base Slot")]
+    [SerializeField] private ListBrainrotSO listBrainrotSO;
+    [SerializeField] private List<BotRarityByLevel> listRarityByLevel;
+    [SerializeField] private float highRarityRate = 0.35f;
+    [SerializeField] private float emptySlotRate = 0.1f;
 
     [SerializeField] private float rotateSpeed = 15f;
 
@@ -129,6 +133,7 @@ public class Bot : Character {
 
     public override void InitBaseHouse() {
         baseHouse.OnInit(this, Random.Range(1, baseHouse.GetMaxLevel() + 1));
+        HandleRandomBaseSlots();
         base.InitBaseHouse();
     }
 
@@ -245,6 +250,42 @@ public class Bot : Character {
     public void SetDestination(Vector3 target) {
         this.currentTargetPoint = target;
         agent.SetDestination(target);
+    }
+
+    private void HandleRandomBaseSlots() {
+        BrainrotRarity lowRarity = GetRandomLowRarity();
+        BrainrotRarity highRarity = lowRarity < GetRarityByLevel().maxRarity ? lowRarity + 1 : lowRarity;
+        List<BrainrotSO> lowBrainrotSOs = listBrainrotSO.GetBrainrotSOsByRarity(lowRarity);
+        List<BrainrotSO> highBrainrotSOs = listBrainrotSO.GetBrainrotSOsByRarity(highRarity);
+        List<BaseSlot> unlockedSlots = baseHouse.GetUnlockedSlots();
+
+        for (int i = 0; i < unlockedSlots.Count; i++) {
+            if (Random.value < emptySlotRate) continue;
+
+            BrainrotSO brainrotSO = GetRandomBrainrotSO(lowBrainrotSOs, highBrainrotSOs);
+            if (brainrotSO == null) continue;
+
+            unlockedSlots[i].LoadBrainrot(brainrotSO, 0);
+        }
+    }
+
+    private BrainrotRarity GetRandomLowRarity() {
+        BotRarityByLevel rarityByLevel = GetRarityByLevel();
+
+        return (BrainrotRarity)Random.Range((int)rarityByLevel.minRarity, (int)rarityByLevel.maxRarity);
+    }
+
+    private BotRarityByLevel GetRarityByLevel() {
+        int levelIndex = Mathf.Clamp(baseHouse.GetHouseLevel() - 1, 0, listRarityByLevel.Count - 1);
+        return listRarityByLevel[levelIndex];
+    }
+
+    private BrainrotSO GetRandomBrainrotSO(List<BrainrotSO> lowBrainrotSOs, List<BrainrotSO> highBrainrotSOs) {
+        List<BrainrotSO> brainrotSOs = Random.value < highRarityRate ? highBrainrotSOs : lowBrainrotSOs;
+        if (brainrotSOs.Count == 0) brainrotSOs = lowBrainrotSOs.Count > 0 ? lowBrainrotSOs : highBrainrotSOs;
+        if (brainrotSOs.Count == 0) return null;
+
+        return brainrotSOs[Random.Range(0, brainrotSOs.Count)];
     }
 
     private void ChangeState(BotState newState) {
