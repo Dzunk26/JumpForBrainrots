@@ -19359,6 +19359,9 @@ MonoBehaviour:
   zoomFOVSpeed: 7.5
   zoomDistanceSensitivity: 10
   zoomDistanceSpeed: 7.5
+  jumpFOVOffset: 35
+  jumpFOVInSpeed: 5
+  jumpFOVOutSpeed: 7.5
 --- !u!1001 &1096958158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21849,7 +21852,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2086367558}
   - {fileID: 473742610}
   m_Father: {fileID: 463762273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22443,35 +22445,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1288116451}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1294195853 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5488740188105413313, guid: c98aa60cca8162714ac6e41e0f847773,
-    type: 3}
-  m_PrefabInstance: {fileID: 1602093393}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1294195855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294195853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Version: 3
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 0
 --- !u!1 &1297538443
 GameObject:
   m_ObjectHideFlags: 0
@@ -28261,98 +28234,6 @@ Transform:
   - {fileID: 2045392606}
   m_Father: {fileID: 1297538444}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!1001 &1602093393
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1217997883}
-    m_Modifications:
-    - target: {fileID: 1550367772448420744, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_Name
-      value: Saiyan Blue Aura Redraw VFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5488740188105413313, guid: c98aa60cca8162714ac6e41e0f847773,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1294195855}
-  m_SourcePrefab: {fileID: 100100000, guid: c98aa60cca8162714ac6e41e0f847773, type: 3}
 --- !u!4 &1604740747 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0266beb2b4b943c408b8f7f30b5750ea,
@@ -35091,12 +34972,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!4 &2086367558 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4536317864282661553, guid: c98aa60cca8162714ac6e41e0f847773,
-    type: 3}
-  m_PrefabInstance: {fileID: 1602093393}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2086746133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0266beb2b4b943c408b8f7f30b5750ea,
@@ -36138,6 +36013,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3385921865451584189, guid: add57d7bb9611eb4fb694132652f0cfd,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7052444926330731708, guid: add57d7bb9611eb4fb694132652f0cfd,
         type: 3}
       propertyPath: m_Name
@@ -36666,6 +36546,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BaseUpgrade
+      objectReference: {fileID: 0}
+    - target: {fileID: 6642972998668344458, guid: 82efad68862e4f143844a9142f0e136f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

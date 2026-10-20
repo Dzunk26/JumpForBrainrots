@@ -117,6 +117,7 @@ public class Player : Character, IDataPersistence {
     }
 
     public override void OnInit() {
+        characterName = PlayerProgress.Instance.GetPlayerName();
         base.OnInit();
         stateTimer = 0f;
         characterVisual.OnInit();
@@ -711,5 +712,10 @@ public class Player : Character, IDataPersistence {
         if (currentState == state) return;
 
         currentState = state;
+        cameraController.SetAirborne(IsAirborneState(state));
+    }
+
+    private bool IsAirborneState(PlayerState state) {
+        return state == PlayerState.Jump || state == PlayerState.Fall || state == PlayerState.LadderJump;
     }
 }

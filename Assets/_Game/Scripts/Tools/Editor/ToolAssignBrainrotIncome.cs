@@ -1,3 +1,4 @@
+using BreakInfinity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ public class ToolAssignBrainrotIncome : EditorWindow {
         public IncomeRange[] incomeRanges;
         public float afkIncomePercent = 10f;
         public bool roundAfkIncome = true;
+        public float sellPriceMultiplier = 10f;
+        public bool roundSellPrice = true;
     }
 
     [SerializeField] private DefaultAsset soFolder;
@@ -78,6 +81,19 @@ public class ToolAssignBrainrotIncome : EditorWindow {
 
         if (GUILayout.Button("Assign AFK Income Amount")) {
             AssignAfkIncomeAmount();
+        }
+
+        // sell price = income amount * multiplier
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Sell Price", EditorStyles.boldLabel);
+
+        settings.sellPriceMultiplier = EditorGUILayout.FloatField("Sell Price Multiplier", settings.sellPriceMultiplier);
+        settings.roundSellPrice = EditorGUILayout.Toggle("Round Sell Price", settings.roundSellPrice);
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("Assign Sell Price")) {
+            AssignSellPrice();
         }
 
         if (EditorGUI.EndChangeCheck()) {
@@ -159,6 +175,49 @@ public class ToolAssignBrainrotIncome : EditorWindow {
 
         AssetDatabase.SaveAssets();
         Debug.Log("Assigned AFK income amount for " + brainrotSOs.Count + " BrainrotSOs");
+    }
+
+    private void AssignSellPrice() {
+        if (soFolder == null) {
+            Debug.LogError("SO folder is missing");
+            return;
+        }
+
+        if (settings.sellPriceMultiplier < 0) {
+            Debug.LogError("Sell price multiplier must be >= 0");
+            return;
+        }
+
+        List<BrainrotSO> brainrotSOs = GetBrainrotSOs(AssetDatabase.GetAssetPath(soFolder));
+
+        foreach (BrainrotSO brainrotSO in brainrotSOs) {
+            float incomeAmount = brainrotSO.GetIncomeAmount();
+            BigDouble sellPrice = new BigDouble(incomeAmount) * settings.sellPriceMultiplier;
+
+            if (settings.roundSellPrice) {
+                sellPrice = RoundSellPrice(sellPrice);
+            }
+
+            // sellPrice la BigDouble nen phai set qua mantissa va exponent
+            SerializedObject serializedObject = new SerializedObject(brainrotSO);
+            SerializedProperty sellPriceProperty = serializedObject.FindProperty("sellPrice");
+            sellPriceProperty.FindPropertyRelative("mantissa").doubleValue = sellPrice.Mantissa;
+            sellPriceProperty.FindPropertyRelative("exponent").longValue = sellPrice.Exponent;
+            serializedObject.ApplyModifiedProperties();
+
+            EditorUtility.SetDirty(brainrotSO);
+            Debug.Log(brainrotSO.name + " (" + brainrotSO.GetRarity() + "): income " + incomeAmount + " -> sell price " + sellPrice);
+        }
+
+        AssetDatabase.SaveAssets();
+        Debug.Log("Assigned sell price for " + brainrotSOs.Count + " BrainrotSOs");
+    }
+
+    // giong RoundIncome nhung cho BigDouble: < 10 lam tron so nguyen, con lai giu 2 chu so dau
+    private BigDouble RoundSellPrice(BigDouble value) {
+        if (value < 10) return Math.Round(value.ToDouble(), MidpointRounding.AwayFromZero);
+
+        return new BigDouble(Math.Round(value.Mantissa, 1, MidpointRounding.AwayFromZero), value.Exponent);
     }
 
     // min va max deu duoc tinh

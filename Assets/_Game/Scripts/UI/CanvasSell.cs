@@ -10,8 +10,10 @@ public class CanvasSell : UICanvas {
     [SerializeField] private Button sortValueButton;
     [SerializeField] private Button selectAllButton;
     [SerializeField] private Button sellButton;
-    [SerializeField] private GameObject sortValueActiveImage;
-    [SerializeField] private GameObject selectAllActiveImage;
+    [SerializeField] private GameObject selectAllVisual;
+    [SerializeField] private GameObject clearVisual;
+    [SerializeField] private GameObject sortDescVisual;
+    [SerializeField] private GameObject sortAscVisual;
     [SerializeField] private TextMeshProUGUI totalValueText;
     [SerializeField] private SellSlotUI slotPrefab;
     [SerializeField] private Transform slotParent;
@@ -20,7 +22,7 @@ public class CanvasSell : UICanvas {
     private List<SellSlotUI> slots = new List<SellSlotUI>();
     private List<InventoryItem> items = new List<InventoryItem>();
     private List<bool> isSelecteds = new List<bool>();
-    private bool isSortByValue;
+    private bool isSortDescending = true;
 
     private void OnEnable() {
         closeButton.onClick.AddListener(OnClickCloseButton);
@@ -38,6 +40,7 @@ public class CanvasSell : UICanvas {
 
     public override void SetUp() {
         base.SetUp();
+        isSortDescending = true;
         ReloadItems();
         slotScrollRect.verticalNormalizedPosition = 1f;
     }
@@ -54,10 +57,7 @@ public class CanvasSell : UICanvas {
 
     private void ReloadItems() {
         items = InventoryManager.Instance.GetAllItems();
-
-        if (isSortByValue) {
-            items.Sort(CompareSellPrice);
-        }
+        SortItems();
 
         isSelecteds.Clear();
         for (int i = 0; i < items.Count; i++) {
@@ -66,7 +66,16 @@ public class CanvasSell : UICanvas {
 
         UpdateSlotsVisual();
         UpdateFooterVisual();
-        sortValueActiveImage.SetActive(isSortByValue);
+        UpdateSortVisual();
+    }
+
+    private void SortItems() {
+        items.Sort(CompareSellPrice);
+    }
+
+    private void UpdateSortVisual() {
+        sortDescVisual.SetActive(isSortDescending);
+        sortAscVisual.SetActive(!isSortDescending);
     }
 
     private void UpdateSlotsVisual() {
@@ -88,7 +97,10 @@ public class CanvasSell : UICanvas {
         BigDouble totalValue = GetTotalValue();
         totalValueText.SetText(Constant.MONEY_SYMBOL + Utils.SciNotToUSName(totalValue));
         sellButton.interactable = totalValue > 0;
-        selectAllActiveImage.SetActive(IsAllSelected());
+
+        bool isAllSelected = IsAllSelected();
+        selectAllVisual.SetActive(!isAllSelected);
+        clearVisual.SetActive(isAllSelected);
     }
 
     private BigDouble GetTotalValue() {
@@ -105,12 +117,28 @@ public class CanvasSell : UICanvas {
     }
 
     private int CompareSellPrice(InventoryItem a, InventoryItem b) {
-        return b.brainrotSO.GetSellPrice().CompareTo(a.brainrotSO.GetSellPrice());
+        int result = a.brainrotSO.GetSellPrice().CompareTo(b.brainrotSO.GetSellPrice());
+        return isSortDescending ? -result : result;
     }
 
     private void OnClickSortValueButton() {
-        isSortByValue = !isSortByValue;
-        ReloadItems();
+        isSortDescending = !isSortDescending;
+
+        HashSet<InventoryItem> selectedItems = new HashSet<InventoryItem>();
+        for (int i = 0; i < items.Count; i++) {
+            if (isSelecteds[i]) selectedItems.Add(items[i]);
+        }
+
+        SortItems();
+
+        for (int i = 0; i < items.Count; i++) {
+            isSelecteds[i] = selectedItems.Contains(items[i]);
+        }
+
+        UpdateSlotsVisual();
+        UpdateFooterVisual();
+        UpdateSortVisual();
+        slotScrollRect.verticalNormalizedPosition = 1f;
     }
 
     private void OnClickSelectAllButton() {

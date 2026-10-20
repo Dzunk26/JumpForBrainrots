@@ -21,6 +21,11 @@ public class CameraController : MonoBehaviour {
     [SerializeField] private float zoomDistanceSensitivity = 10f;
     [SerializeField] private float zoomDistanceSpeed = 5f;
 
+    [Header("Jump FOV")]
+    [SerializeField] private float jumpFOVOffset = 15f;
+    [SerializeField] private float jumpFOVInSpeed = 3f;
+    [SerializeField] private float jumpFOVOutSpeed = 6f;
+
     private float cinemachineTargetPitch;
     private float cinemachineTargetYaw;
     private Vector2 lookInputVector;
@@ -29,6 +34,8 @@ public class CameraController : MonoBehaviour {
     private float targetZoom;
     private float targetDistance;
     private Cinemachine3rdPersonFollow thirdPersonFollow;
+    private float baseFOV;
+    private bool isAirborne;
 
     private void Awake() {
         OnInit();
@@ -43,13 +50,19 @@ public class CameraController : MonoBehaviour {
         HandleCameraZoomDistance();
 
         HandleCameraRotate();
+        HandleJumpFOV();
     }
 
     public void OnInit() {
         thirdPersonFollow = cinemachineVirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        baseFOV = cinemachineVirtualCamera.m_Lens.FieldOfView;
         originPosition = transform.position;
         targetZoom = cinemachineVirtualCamera.m_Lens.FieldOfView;
         targetDistance = thirdPersonFollow.CameraDistance;
+    }
+
+    public void SetAirborne(bool airborne) {
+        isAirborne = airborne;
     }
 
     public void LookAtDirection(Vector3 direction) {
@@ -102,5 +115,13 @@ public class CameraController : MonoBehaviour {
         targetDistance = Mathf.Clamp(targetDistance, minCameraDistance, maxCameraDistance);
 
         thirdPersonFollow.CameraDistance = Mathf.Lerp(thirdPersonFollow.CameraDistance, targetDistance, Time.deltaTime * zoomDistanceSpeed);
+    }
+
+    private void HandleJumpFOV() {
+        float targetFOV = isAirborne ? baseFOV + jumpFOVOffset : baseFOV;
+        float speed = isAirborne ? jumpFOVInSpeed : jumpFOVOutSpeed;
+
+        ref float fov = ref cinemachineVirtualCamera.m_Lens.FieldOfView;
+        fov = Mathf.Lerp(fov, targetFOV, Time.deltaTime * speed);
     }
 }

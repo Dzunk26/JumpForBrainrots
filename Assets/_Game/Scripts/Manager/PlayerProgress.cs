@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
     public bool IsDirty => isDirty;
     public event EventHandler OnLoadPlayerData;
+    public event Action OnDataChanged;
 
     private bool isDirty;
     private int jumpLevel;
@@ -23,6 +24,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
         playerName = gameData.playerName;
 
         OnLoadPlayerData?.Invoke(this, EventArgs.Empty);
+        OnDataChanged?.Invoke();
     }
 
     public void SaveData(ref GameData gameData) {
@@ -41,7 +43,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
                 break;
         }
         Debug.Log(jumpLevel);
-        isDirty = true;
+        MarkDirty();
     }
 
     public int GetLevel(UpgradeType upgradeType) {
@@ -54,12 +56,12 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     public void AddMoney(BigDouble amount) {
         totalMoney += amount;
-        isDirty = true;
+        MarkDirty();
     }
 
     public void SpendMoney(BigDouble amount) {
         totalMoney -= amount;
-        isDirty = true;
+        MarkDirty();
     }
 
     public bool IsEnoughMoney(BigDouble spendAmount) {
@@ -76,7 +78,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
 
     public void SetBaseHouseLevel(int level) {
         baseHouseLevel = level;
-        isDirty = true;
+        MarkDirty();
     }
 
     public int GetRebirthLevel() {
@@ -86,10 +88,15 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
     public void Rebirth() {
         rebirthLevel++;
         jumpLevel = 0;
-        isDirty = true;
+        MarkDirty();
     }
 
     public string GetPlayerName() {
         return playerName;
+    }
+
+    private void MarkDirty() {
+        isDirty = true;
+        OnDataChanged?.Invoke();
     }
 }

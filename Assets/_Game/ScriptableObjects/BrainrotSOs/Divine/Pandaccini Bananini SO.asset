@@ -19,5 +19,8 @@ MonoBehaviour:
     type: 3}
   lifeTimerMax: 60
   incomeAmount: 2700000
-  afkIncomeAmount: 0
+  afkIncomeAmount: 1400000
+  sellPrice:
+    mantissa: 2.7
+    exponent: 8
   indexIcon: {fileID: 21300000, guid: 2ded150310aa35348a26505ceb513618, type: 3}
