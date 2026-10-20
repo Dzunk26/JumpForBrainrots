@@ -45,7 +45,7 @@ public class BrainrotInfor : MonoBehaviour {
         TF.localPosition = infoLocalPosition;
         BrainrotRarity rarity = brainrotSO.GetRarity();
         BigDouble incomeAmount = brainrotSO.GetIncomeAmount();
-        notatedMoney = Utils.SciNotToUSName(incomeAmount);
+        notatedMoney = Utils.SciNotToUSName(incomeAmount) + Constant.INCOME_SUFIXES;
         rarityText.SetText(brainrotSO.GetRarity().ToString());
         rarityText.fontSharedMaterial = listRarityConfig.GetRarityConfig(rarity).GetTextMaterial();
         incomeText.SetText(notatedMoney);

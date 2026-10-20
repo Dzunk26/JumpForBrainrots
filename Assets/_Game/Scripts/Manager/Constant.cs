@@ -40,6 +40,7 @@ public static class Constant {
     public static string PICK_UP_TEXT = "Take it!";
 
     public static string MONEY_SYMBOL = "$";
+    public static string INCOME_SUFIXES = "/s";
 
     public static string REBIRTH_TEXT = "REBIRTH";
     public static string MAX_REBIRTH_TEXT = "MAX";

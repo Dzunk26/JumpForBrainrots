@@ -26,6 +26,9 @@ public enum SlotInteractType {
 public class Player : Character, IDataPersistence {
     public bool IsDirty => baseHouse.IsDirty;
 
+    [Header("Drop")]
+    [SerializeField] private PoolType dropVFXPoolType = PoolType.DespawnPoofVFX;
+
     [SerializeField] private ListUpgradeConfigSO listUpgradeConfigSO;
     [SerializeField] private ListRebirthConfigSO listRebirthConfigSO;
     [SerializeField] private ListBrainrotSO listBrainrotSO;
@@ -140,10 +143,9 @@ public class Player : Character, IDataPersistence {
     public override void StoreCapturedBrainrot() {
         if (heldBrainrotSource != HeldBrainrotSource.Captured) return;
 
-        BrainrotSO brainrotSO = currentHoldBrainrotSO;
-        DropBrainrot();
-        InventoryManager.Instance.AddBrainrot(brainrotSO);
-        IndexManager.Instance.Collect(brainrotSO);
+        heldBrainrotSource = HeldBrainrotSource.Inventory;
+        InventoryManager.Instance.AddAndSelectBrainrot(currentHoldBrainrotSO);
+        IndexManager.Instance.Collect(currentHoldBrainrotSO);
     }
 
     public override void InitBaseHouse() {
@@ -163,6 +165,25 @@ public class Player : Character, IDataPersistence {
         //PlayerProgress.Instance.SpendMoney(cost);
         baseHouse.Upgrade();
         PlayerProgress.Instance.SetBaseHouseLevel(baseHouse.GetHouseLevel());
+    }
+
+    public Vector3 GetDropButtonSpawnPoint() {
+        return characterVisual.GetDropButtonSpawnPoint();
+    }
+
+    public bool IsHoldingCapturedBrainrot() {
+        return heldBrainrotSource == HeldBrainrotSource.Captured;
+    }
+
+    public BrainrotSO GetCurrentHoldBrainrotSO() {
+        return currentHoldBrainrotSO;
+    }
+
+    public void DropCapturedBrainrot() {
+        if (heldBrainrotSource != HeldBrainrotSource.Captured) return;
+
+        SimplePool.GetFromPool<DespawnVFX>(dropVFXPoolType, characterVisual.GetBrainrotHoldPosition(), Quaternion.identity).OnInit();
+        DropBrainrot();
     }
 
     public void Jump() {

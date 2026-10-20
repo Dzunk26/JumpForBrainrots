@@ -1,4 +1,5 @@
 using BreakInfinity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,7 +11,11 @@ public class CanvasGamePlay : UICanvas {
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI jumpPowerText;
     [SerializeField] private Button indexButton;
+    [SerializeField] private Button sellButton;
     [SerializeField] private Button rebirthButton;
+    [SerializeField] private Button jumpUpgradeButton;
+    [SerializeField] private Button settingButton;
+    [SerializeField] private DropButtonUI dropButton;
     [SerializeField] private CaptureButtonUI captureButtonUI;
     [SerializeField] private EquipButton equipButton;
     [SerializeField] private HotBarUI hotBarUI;
@@ -25,8 +30,11 @@ public class CanvasGamePlay : UICanvas {
     }
 
     private void Start() {
-        indexButton.onClick.AddListener(OnPressIndexButton);
-        rebirthButton.onClick.AddListener(OnPressRebirthButton);
+        indexButton.onClick.AddListener(OnClickIndexButton);
+        rebirthButton.onClick.AddListener(OnClickRebirthButton);
+        sellButton.onClick.AddListener(OnClickSellButton);
+        settingButton.onClick.AddListener(OnClickSettingButton);
+        jumpUpgradeButton.onClick.AddListener(OnCLickJumpUpgradeButton);
     }
 
     private void OnDisable() {
@@ -34,11 +42,20 @@ public class CanvasGamePlay : UICanvas {
         PlayerProgress.Instance.OnDataChanged -= PlayerProgress_OnDataChanged;
     }
 
+    private void OnDestroy() {
+        indexButton.onClick.RemoveListener(OnClickIndexButton);
+        rebirthButton.onClick.RemoveListener(OnClickRebirthButton);
+        sellButton.onClick.RemoveListener(OnClickSellButton);
+        settingButton.onClick.RemoveListener(OnClickSettingButton);
+        jumpUpgradeButton.onClick.RemoveListener(OnCLickJumpUpgradeButton);
+    }
+
     public void OnInit(Player player, Camera playerCamera) {
         this.player = player;
         captureButtonUI.OnInit(player, playerCamera);
         equipButton.OnInit(player, playerCamera);
         testJumpButton.OnInit(player);
+        dropButton.OnInit(player, playerCamera);
         hotBarUI.OnInit();
     }
 
@@ -51,12 +68,25 @@ public class CanvasGamePlay : UICanvas {
         jumpPowerText.SetText(PlayerProgress.Instance.GetLevel(UpgradeType.JumpPower).ToString());
     }
 
-    private void OnPressIndexButton() {
+    private void OnClickIndexButton() {
         UIManager.Instance.OpenUI<CanvasIndex>();
     }
 
-    private void OnPressRebirthButton() {
+    private void OnClickSellButton() {
+        UIManager.Instance.OpenUI<CanvasSell>();
+    }
+
+    private void OnClickRebirthButton() {
         CanvasRebirth canvasRebirth = UIManager.Instance.OpenUI<CanvasRebirth>();
         canvasRebirth.OnInit(player);
+    }
+
+    private void OnClickSettingButton() {
+        UIManager.Instance.OpenUI<CanvasSetting>();
+    }
+
+    private void OnCLickJumpUpgradeButton() {
+        CanvasUpgradeJump canvasUpgradeJump = UIManager.Instance.OpenUI<CanvasUpgradeJump>();
+        canvasUpgradeJump.OnInit(player);
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class CanvasSell : UICanvas {
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button blockerButton;
     [SerializeField] private Button sortValueButton;
     [SerializeField] private Button selectAllButton;
     [SerializeField] private Button sellButton;
@@ -26,6 +27,7 @@ public class CanvasSell : UICanvas {
 
     private void OnEnable() {
         closeButton.onClick.AddListener(OnClickCloseButton);
+        blockerButton.onClick.AddListener(OnClickCloseButton);
         sortValueButton.onClick.AddListener(OnClickSortValueButton);
         selectAllButton.onClick.AddListener(OnClickSelectAllButton);
         sellButton.onClick.AddListener(OnClickSellButton);
@@ -33,6 +35,7 @@ public class CanvasSell : UICanvas {
 
     private void OnDisable() {
         closeButton.onClick.RemoveListener(OnClickCloseButton);
+        blockerButton.onClick.RemoveListener(OnClickCloseButton);
         sortValueButton.onClick.RemoveListener(OnClickSortValueButton);
         selectAllButton.onClick.RemoveListener(OnClickSelectAllButton);
         sellButton.onClick.RemoveListener(OnClickSellButton);

@@ -6,6 +6,7 @@ public class BrainrotSpawner : MonoBehaviour {
     [SerializeField] private Floor floor;
     [SerializeField] private ListBrainrotSO listBrainrotSO;
     [SerializeField] private BoxCollider spawnArea;
+    [SerializeField] private float initialMaxLifeRatio = 0.75f;
 
     [Header("Spawn Config")]
     [SerializeField] private float minDisBetweenSpawnPoints = 10f;
@@ -50,7 +51,7 @@ public class BrainrotSpawner : MonoBehaviour {
 
     private void InitialSpawn() {
         while (spawnedBrainrots.Count < spawnCapMax) {
-            Spawn(GetRandomSpawnPoint());
+            Spawn(GetRandomSpawnPoint(), Random.Range(0f, initialMaxLifeRatio));
         }
 
         spawnTimer = 0;
@@ -63,13 +64,13 @@ public class BrainrotSpawner : MonoBehaviour {
         if (spawnTimer < spawnTimerMax) return;
 
         spawnTimer = 0f;
-        Spawn(GetRandomSpawnPoint());
+        Spawn(GetRandomSpawnPoint(), 0f);
     }
 
-    private void Spawn(Vector3 spawnPoint) {
+    private void Spawn(Vector3 spawnPoint, float startLifeRatio) {
         Brainrot brainrot = SimplePool.GetFromPool<Brainrot>(PoolType.Brainrot, spawnPoint, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
         BrainrotSO brainrotSO = GetRandomBrainrotSO();
-        brainrot.OnInit(brainrotSO, this);
+        brainrot.OnInit(brainrotSO, this, startLifeRatio);
         spawnedBrainrots.Add(brainrot);
     }
 

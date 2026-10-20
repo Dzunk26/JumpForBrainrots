@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CanvasUpgradeJump : UICanvas {
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button blockerButton;
     [SerializeField] private UpgradeStepUI[] upgradeStepUIs;
     [SerializeField] private Image progressFill;
     [SerializeField] private TextMeshProUGUI progressText;
@@ -14,6 +15,7 @@ public class CanvasUpgradeJump : UICanvas {
 
     private void OnEnable() {
         closeButton.onClick.AddListener(OnClickCloseButton);
+        blockerButton.onClick.AddListener(OnClickCloseButton);
     }
 
     private void Update() {
@@ -22,6 +24,7 @@ public class CanvasUpgradeJump : UICanvas {
 
     private void OnDisable() {
         closeButton.onClick.RemoveListener(OnClickCloseButton);
+        blockerButton.onClick.RemoveListener(OnClickCloseButton);
     }
 
     public void OnInit(Player player) {

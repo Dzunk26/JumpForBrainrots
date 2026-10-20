@@ -9,6 +9,7 @@ public class CanvasIndex : UICanvas {
     [SerializeField] private ListRarityConfigSO listRarityConfig;
     [SerializeField] private RectTransform panel;
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button blockerButton;
     [SerializeField] private IndexSlotUI slotPrefab;
     [SerializeField] private Transform slotParent;
     [SerializeField] private ScrollRect slotScrollRect;
@@ -21,10 +22,12 @@ public class CanvasIndex : UICanvas {
 
     private void OnEnable() {
         closeButton.onClick.AddListener(OnClickCloseButton);
+        blockerButton.onClick.AddListener(OnClickCloseButton);
     }
 
     private void OnDisable() {
         closeButton.onClick.RemoveListener(OnClickCloseButton);
+        blockerButton.onClick.RemoveListener(OnClickCloseButton);
     }
 
     public override void SetUp() {

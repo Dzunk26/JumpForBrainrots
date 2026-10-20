@@ -26,6 +26,7 @@ public class CharacterVisual : MonoBehaviour {
 
     [SerializeField] private Animator animator;
     [SerializeField] private Transform brainrotHoldPoint;
+    [SerializeField] private Transform dropButtonSpawnPoint;
 
     private Dictionary<BrainrotSO, BrainrotModel> dictBrainrotModel = new Dictionary<BrainrotSO, BrainrotModel>();
     private BrainrotModel currentModel;
@@ -102,6 +103,10 @@ public class CharacterVisual : MonoBehaviour {
         if (currentModel == null) return;
 
         currentModel.FlyFrom(fromPosition);
+    }
+
+    public Vector3 GetDropButtonSpawnPoint() {
+        return dropButtonSpawnPoint.position;
     }
 
     private void ChangeAnimState(AnimState animState) {

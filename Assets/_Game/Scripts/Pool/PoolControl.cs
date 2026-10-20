@@ -6,7 +6,10 @@ public enum PoolType {
     Brainrot,
     Obstacle,
     Bot,
-    Player
+    Player,
+    DespawnPoofVFX,
+    DespawnRiseVFX,
+    DespawnImplodeVFX
 }
 
 [System.Serializable]
