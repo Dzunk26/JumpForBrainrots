@@ -18,6 +18,7 @@ public class CanvasGamePlay : UICanvas {
     [SerializeField] private DropButtonUI dropButton;
     [SerializeField] private CaptureButtonUI captureButtonUI;
     [SerializeField] private EquipButton equipButton;
+    [SerializeField] private UpgradeHouseButtonUI upgradeHouseButtonUI;
     [SerializeField] private HotBarUI hotBarUI;
     [SerializeField] private TestJumpButton testJumpButton; // for testing
 
@@ -54,6 +55,7 @@ public class CanvasGamePlay : UICanvas {
         this.player = player;
         captureButtonUI.OnInit(player, playerCamera);
         equipButton.OnInit(player, playerCamera);
+        upgradeHouseButtonUI.OnInit(player, playerCamera);
         testJumpButton.OnInit(player);
         dropButton.OnInit(player, playerCamera);
         hotBarUI.OnInit();

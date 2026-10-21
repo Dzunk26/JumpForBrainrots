@@ -10,7 +10,6 @@ public class BaseHouseUpgradeUI : MonoBehaviour {
     [SerializeField] private int houseLevel;
 
     private void OnEnable() {
-        baseHouse.OnHouseLevelChanged += BaseHouse_OnHouseLevelChanged;
         upgradeButton.onClick.AddListener(OnClickUpgradeButton);
         freeUpgradeButton.onClick.AddListener(OnClickFreeUpgradeButton);
     }
@@ -20,13 +19,8 @@ public class BaseHouseUpgradeUI : MonoBehaviour {
     }
 
     private void OnDisable() {
-        baseHouse.OnHouseLevelChanged -= BaseHouse_OnHouseLevelChanged;
         upgradeButton.onClick.RemoveListener(OnClickUpgradeButton);
         freeUpgradeButton.onClick.RemoveListener(OnClickFreeUpgradeButton);
-    }
-
-    private void BaseHouse_OnHouseLevelChanged(object sender, System.EventArgs e) {
-        UpdateVisual();
     }
 
     private void OnClickUpgradeButton() {

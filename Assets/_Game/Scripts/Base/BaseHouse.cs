@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseHouse : MonoBehaviour {
-    public event EventHandler OnHouseLevelChanged;
     public bool IsDirty { get; private set; }
     public void MarkDirty() => IsDirty = true;
     public void ClearDirty() => IsDirty = false;
@@ -24,11 +23,17 @@ public class BaseHouse : MonoBehaviour {
     [SerializeField] private BaseBoard baseBoard;
     [SerializeField] private BaseHouseSO baseHouseSO;
     [SerializeField] private Transform spawnPoint;
-
+    [SerializeField] private float upgradeButtonRange = 4f;
 
     private Character owner;
     private int houseLevel;
     private Transform tf;
+
+    private void Awake() {
+        for (int i = 0; i < listBaseFloor.Count; i++) {
+            listBaseFloor[i].OnInit(this);
+        }
+    }
 
     public void OnInit(Character owner, int houseLevel) {
         this.owner = owner;
@@ -36,8 +41,6 @@ public class BaseHouse : MonoBehaviour {
         baseBoard.OnInit(owner);
 
         for (int i = 0; i < listBaseFloor.Count; i++) {
-            listBaseFloor[i].OnInit(this);
-
             if (i < this.houseLevel) {
                 listBaseFloor[i].UnLock();
             }
@@ -45,8 +48,6 @@ public class BaseHouse : MonoBehaviour {
                 listBaseFloor[i].Lock();
             }
         }
-
-        OnHouseLevelChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void OnDespawn() {
@@ -68,8 +69,6 @@ public class BaseHouse : MonoBehaviour {
                 listBaseFloor[i].Lock();
             }
         }
-
-        OnHouseLevelChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public List<BaseSlot> GetUnlockedSlots() {
@@ -88,7 +87,6 @@ public class BaseHouse : MonoBehaviour {
         houseLevel++;
         listBaseFloor[houseLevel - 1].UnLock();
         MarkDirty();
-        OnHouseLevelChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public bool IsOwnedBy(Character character) {
@@ -120,9 +118,44 @@ public class BaseHouse : MonoBehaviour {
     }
 
     public void OnClickUpgrade() {
-        if (!IsOwnedByPlayer()) return;
+        if (!CanUpgradeByPlayer()) return;
 
-        owner.UpgradeBaseHouse();
+        BigDouble cost = GetUpgradeCost();
+        if (!PlayerProgress.Instance.IsEnoughMoney(cost)) return;
+
+        PlayerProgress.Instance.SpendMoney(cost);
+        UpgradeByPlayer();
+    }
+
+    public void OnClickFreeUpgrade() {
+        if (!CanUpgradeByPlayer()) return;
+
+        UpgradeByPlayer();
+    }
+
+    public bool IsEnoughMoneyToUpgrade() {
+        return PlayerProgress.Instance.IsEnoughMoney(GetUpgradeCost());
+    }
+
+    public bool CanShowUpgradeButton(Vector3 position) {
+        if (!CanUpgradeByPlayer()) return false;
+
+        Vector3 dirToBoard = GetUpgradeButtonSpawnPoint() - position;
+        dirToBoard.y = 0f;
+        return dirToBoard.sqrMagnitude <= upgradeButtonRange * upgradeButtonRange;
+    }
+
+    public Vector3 GetUpgradeButtonSpawnPoint() {
+        return listBaseFloor[houseLevel].GetUpgradeButtonSpawnPoint();
+    }
+
+    private bool CanUpgradeByPlayer() {
+        return IsOwnedByPlayer() && !IsMaxLevel();
+    }
+
+    private void UpgradeByPlayer() {
+        Upgrade();
+        PlayerProgress.Instance.SetBaseHouseLevel(houseLevel);
     }
 
     public bool IsOwnedByPlayer() {

@@ -156,17 +156,6 @@ public class Player : Character, IDataPersistence {
         baseSlotInteractor.OnInit(baseHouse);
     }
 
-    public override void UpgradeBaseHouse() {
-        if (baseHouse.IsMaxLevel()) return;
-
-        //double cost = baseHouse.GetUpgradeCost();
-        //if (!PlayerProgress.Instance.IsEnoughMoney(cost)) return;
-
-        //PlayerProgress.Instance.SpendMoney(cost);
-        baseHouse.Upgrade();
-        PlayerProgress.Instance.SetBaseHouseLevel(baseHouse.GetHouseLevel());
-    }
-
     public Vector3 GetDropButtonSpawnPoint() {
         return characterVisual.GetDropButtonSpawnPoint();
     }

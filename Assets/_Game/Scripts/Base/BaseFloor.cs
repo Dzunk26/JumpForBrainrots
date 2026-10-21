@@ -8,6 +8,7 @@ public class BaseFloor : MonoBehaviour {
     [SerializeField] private List<BaseSlot> listBaseSlot;
     [SerializeField] private List<GameObject> listFloorObject;
     [SerializeField] private List<GameObject> listBlockObject;
+    [SerializeField] private Transform upgradeButtonSpawnPoint;
 
     private bool isUnlocked;
 
@@ -53,5 +54,9 @@ public class BaseFloor : MonoBehaviour {
         for (int i = 0; i < listBlockObject.Count; i++) {
             listBlockObject[i].SetActive(isActive);
         }
+    }
+
+    public Vector3 GetUpgradeButtonSpawnPoint() {
+        return upgradeButtonSpawnPoint.position;
     }
 }

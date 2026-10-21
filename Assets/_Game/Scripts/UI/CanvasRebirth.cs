@@ -1,21 +1,20 @@
 using BreakInfinity;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class CanvasRebirth : UICanvas {
     [SerializeField] private ListRebirthConfigSO listRebirthConfigSO;
-    [SerializeField] private Button closeButton;
-    [SerializeField] private Button blockerButton;
-    [SerializeField] private Button rebirthButton;
-    [SerializeField] private Button freeRebirthButton;
+    [SerializeField] private UnityEngine.UI.Button closeButton;
+    [SerializeField] private UnityEngine.UI.Button blockerButton;
+    [SerializeField] private UnityEngine.UI.Button rebirthButton;
+    [SerializeField] private UnityEngine.UI.Button freeRebirthButton;
 
     [Header("Header")]
-    [SerializeField] private TextMeshProUGUI oldLevelText;
-    [SerializeField] private TextMeshProUGUI newLevelText;
-    [SerializeField] private GameObject levelArrow;
+    [SerializeField] private TextMeshProUGUI nowBoxTittleText;
+    [SerializeField] private TextMeshProUGUI afterBoxTittleText;
 
     [Header("Now")]
     [SerializeField] private TextMeshProUGUI nowMoneyText;
@@ -32,12 +31,11 @@ public class CanvasRebirth : UICanvas {
     [SerializeField] private GameObject speedBonusChip;
     [SerializeField] private TextMeshProUGUI moneyBonusText;
     [SerializeField] private TextMeshProUGUI speedBonusText;
-    [SerializeField] private Image afterBurstImage;
-    [SerializeField] private Image[] sparkleImages;
+    [SerializeField] private UnityEngine.UI.Image afterBurstImage;
 
     [Header("Goal")]
     [SerializeField] private TextMeshProUGUI goalText;
-    [SerializeField] private Image progressFill;
+    [SerializeField] private ProgressBarVisual progressBarVisual;
     [SerializeField] private TextMeshProUGUI progressText;
 
     [Header("Footer")]
@@ -45,7 +43,6 @@ public class CanvasRebirth : UICanvas {
     [SerializeField] private GameObject rebirthIcon;
     [SerializeField] private GameObject costPill;
     [SerializeField] private TextMeshProUGUI costText;
-    [SerializeField] private GameObject rebirthGlow;
     [SerializeField] private Color enableButtonColor = new Color(0.36f, 0.86f, 0.05f, 1f);
     [SerializeField] private Color disableButtonColor = new Color(0.38f, 0.38f, 0.42f, 1f);
     [SerializeField] private Color maxButtonColor = new Color(0.77f, 0.25f, 0.86f, 1f);
@@ -74,7 +71,6 @@ public class CanvasRebirth : UICanvas {
     }
 
     private void Update() {
-        UpdateSparkles();
         if (isPlayingRebirth) return;
 
         UpdateVisual();
@@ -94,6 +90,7 @@ public class CanvasRebirth : UICanvas {
     public void OnInit(Player player) {
         this.player = player;
         UpdateVisual();
+        progressBarVisual.SnapFill();
     }
 
     public void UpdateVisual() {
@@ -114,16 +111,15 @@ public class CanvasRebirth : UICanvas {
         int requiredJumpLevel = player.GetRebirthRequiredJumpLevel();
         isReady = player.IsReachedRebirth();
 
-        oldLevelText.SetText(Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
-        newLevelText.SetText((rebirthLevel + 1).ToString());
-        levelArrow.SetActive(true);
-        newLevelText.gameObject.SetActive(true);
+        nowBoxTittleText.SetText(Constant.NOW_TITTLE_TEXT + " " + Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
+        afterBoxTittleText.SetText(Constant.AFFTER_REBIRTH_TITTLE_TEXT + " " + Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
+        afterBoxTittleText.gameObject.SetActive(true);
 
         afterTitleText.SetText(Constant.AFTER_REBIRTH_TITLE);
         afterJumpRow.SetActive(true);
         UpdateRewardVisual(rebirthLevel);
 
-        progressFill.fillAmount = Mathf.Clamp01((float)jumpLevel / requiredJumpLevel);
+        progressBarVisual.SetFill((float)jumpLevel / requiredJumpLevel);
         progressText.SetText(jumpLevel + " / " + requiredJumpLevel);
         goalText.SetText(isReady ? Constant.REBIRTH_GOAL_READY : Constant.REBIRTH_GOAL_PREFIX + requiredJumpLevel + Constant.REBIRTH_GOAL_SUFFIX);
 
@@ -162,11 +158,9 @@ public class CanvasRebirth : UICanvas {
     private void UpdateMaxRebirthVisual(int rebirthLevel) {
         isReady = false;
 
-        oldLevelText.SetText(Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
-        levelArrow.SetActive(false);
-        newLevelText.gameObject.SetActive(false);
+        nowBoxTittleText.SetText(Constant.NOW_TITTLE_TEXT + " " + Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
+        afterBoxTittleText.gameObject.SetActive(false);
 
-        // max thi o phai hien gia tri hien tai, an chip bonus va dong jump reset
         afterTitleText.SetText(Constant.MAX_REBIRTH_TITLE);
         afterMoneyText.SetText(nowMoneyText.text);
         afterSpeedText.SetText(nowSpeedText.text);
@@ -174,7 +168,7 @@ public class CanvasRebirth : UICanvas {
         moneyBonusChip.SetActive(false);
         speedBonusChip.SetActive(false);
 
-        progressFill.fillAmount = 1f;
+        progressBarVisual.SetFill(1f);
         progressText.SetText(Constant.MAX_REBIRTH_TEXT);
         goalText.SetText(Constant.MAX_REBIRTH_GOAL);
 
@@ -189,7 +183,6 @@ public class CanvasRebirth : UICanvas {
 
     private void SetRebirthButtonColor(Color color) {
         rebirthButton.targetGraphic.color = color;
-        rebirthGlow.SetActive(color == enableButtonColor);
     }
 
     private float GetNextMoveSpeed(int rebirthLevel) {
@@ -204,18 +197,6 @@ public class CanvasRebirth : UICanvas {
         return value.ToString("0.##");
     }
 
-    // tia lap lanh quanh o After Rebirth nhap nhay lech pha nhau
-    private void UpdateSparkles() {
-        for (int i = 0; i < sparkleImages.Length; i++) {
-            float value = (Mathf.Sin(Time.unscaledTime * sparkleSpeed + i * 2.1f) + 1f) * 0.5f;
-            Color color = sparkleImages[i].color;
-            color.a = Mathf.Lerp(0.2f, 1f, value);
-            sparkleImages[i].color = color;
-            sparkleImages[i].rectTransform.localScale = Vector3.one * Mathf.Lerp(0.7f, 1.1f, value);
-        }
-    }
-
-    // du dieu kien thi nut rebirth nay nhe
     private void UpdateReadyPulse() {
         float scale = isReady ? 1f + Mathf.Abs(Mathf.Sin(Time.unscaledTime * readyPulseSpeed)) * readyPulseScale : 1f;
         rebirthButton.transform.localScale = Vector3.one * scale;
@@ -227,7 +208,6 @@ public class CanvasRebirth : UICanvas {
         int oldRebirthLevel = PlayerProgress.Instance.GetRebirthLevel();
         int oldJumpLevel = PlayerProgress.Instance.GetLevel(UpgradeType.JumpPower);
         float oldSpeed = player.GetMoveSpeed();
-        float oldFill = progressFill.fillAmount;
 
         if (isFree) {
             player.Rebirth();
@@ -238,42 +218,47 @@ public class CanvasRebirth : UICanvas {
 
         if (PlayerProgress.Instance.GetRebirthLevel() == oldRebirthLevel) return; // khong du tien
 
-        StartCoroutine(IERebirth(oldRebirthLevel, oldJumpLevel, oldSpeed, oldFill));
+        StartCoroutine(IERebirth(oldRebirthLevel, oldJumpLevel, oldSpeed));
     }
 
-    private IEnumerator IERebirth(int oldRebirthLevel, int oldJumpLevel, float oldSpeed, float oldFill) {
+    private IEnumerator IERebirth(int oldRebirthLevel, int oldJumpLevel, float oldSpeed) {
         isPlayingRebirth = true;
         rebirthButton.interactable = false;
         freeRebirthButton.interactable = false;
         rebirthButton.transform.localScale = Vector3.one;
 
+        int newRebirthLevel = oldRebirthLevel + 1;
         float oldMoney = listRebirthConfigSO.GetMoneyMultiplier(oldRebirthLevel);
-        float newMoney = listRebirthConfigSO.GetMoneyMultiplier(oldRebirthLevel + 1);
+        float newMoney = listRebirthConfigSO.GetMoneyMultiplier(newRebirthLevel);
         float newSpeed = player.GetMoveSpeed();
 
-        // progress bar tut dan ve 0
-        yield return IETween(drainTimeMax, t => progressFill.fillAmount = Mathf.Lerp(oldFill, 0f, EaseOut(t)));
+        bool isMax = player.IsMaxRebirth();
+        float nextMoney = isMax ? newMoney : listRebirthConfigSO.GetMoneyMultiplier(newRebirthLevel + 1);
+        float nextSpeed = isMax ? newSpeed : GetNextMoveSpeed(newRebirthLevel);
 
-        // o After Rebirth phinh ra
+        progressBarVisual.SetFill(0f);
+        yield return new WaitUntil(() => !progressBarVisual.IsAnimating);
+        
         yield return IETween(inflateTimeMax, t => afterBox.localScale = Vector3.one * Mathf.Lerp(1f, inflateScale, t * t));
 
-        // no bup: o co lai + vong burst toa ra
         StartCoroutine(IEBurst(afterBurstImage));
         yield return IETween(popTimeMax, t => afterBox.localScale = Vector3.one * Mathf.Lerp(inflateScale, 1f, EaseOut(t)));
 
-        // so o Now chay dan sang gia tri moi
         yield return IETween(countTimeMax, t => {
             float value = EaseOut(t);
             nowMoneyText.SetText(FormatMultiplier(Mathf.Lerp(oldMoney, newMoney, value)));
             nowSpeedText.SetText(FormatValue(Mathf.Lerp(oldSpeed, newSpeed, value)));
             nowJumpText.SetText(Mathf.RoundToInt(Mathf.Lerp(oldJumpLevel, 0f, value)).ToString());
+
+            afterMoneyText.SetText(FormatMultiplier(Mathf.Lerp(newMoney, nextMoney, value)));
+            afterSpeedText.SetText(FormatValue(Mathf.Lerp(newSpeed, nextSpeed, value)));
         });
 
         isPlayingRebirth = false;
         UpdateVisual();
     }
 
-    private IEnumerator IEBurst(Image burstImage) {
+    private IEnumerator IEBurst(UnityEngine.UI.Image burstImage) {
         burstImage.gameObject.SetActive(true);
         Color color = burstImage.color;
 
@@ -310,7 +295,6 @@ public class CanvasRebirth : UICanvas {
         TryRebirth(false);
     }
 
-    // tam thoi rebirth luon, sau nay doi sang xem du so quang cao
     private void OnClickFreeRebirthButton() {
         TryRebirth(true);
     }

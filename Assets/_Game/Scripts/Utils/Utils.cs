@@ -10,6 +10,10 @@ public static class Utils {
         return camera.WorldToScreenPoint(worldPoint);
     }
 
+    public static int GetEnumCount<T>() where T : Enum {
+        return Enum.GetNames(typeof(T)).Length;
+    }
+
     public static string SciNotToUSName(BigDouble value) {
         if (value.Exponent < 3) return value.ToDouble().ToString("0.##", CultureInfo.InvariantCulture);
         if (value.Exponent >= Constant.MAX_NAMED_EXPONENT) return value.ToString("E2");

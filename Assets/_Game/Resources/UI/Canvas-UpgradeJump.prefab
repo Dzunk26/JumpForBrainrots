@@ -156,6 +156,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8889000974481613673}
+  - component: {fileID: 1697262085578973502}
   - component: {fileID: 1615239983508237131}
   - component: {fileID: 2295057636927344379}
   m_Layer: 5
@@ -187,6 +188,20 @@ RectTransform:
   m_AnchoredPosition: {x: 30, y: -180}
   m_SizeDelta: {x: 1040, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1697262085578973502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236490041519569306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8c23392cebbcb488de3183aa908af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillImage: {fileID: 5117334299417211}
+  fillSpeed: 1
 --- !u!222 &1615239983508237131
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1164,6 +1179,7 @@ GameObject:
   - component: {fileID: 1850817818627448433}
   - component: {fileID: 7573785979835171796}
   - component: {fileID: 8521528622325577357}
+  - component: {fileID: 1446463104501477123}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1273,6 +1289,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1446463104501477123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2352487997830324291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &2436324566675873571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1419,6 +1450,7 @@ GameObject:
   - component: {fileID: 2955568752621325219}
   - component: {fileID: 1727553937323947886}
   - component: {fileID: 3404045891549262405}
+  - component: {fileID: 35512655489523081}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -1529,6 +1561,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &35512655489523081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635209211801832295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &2693309457493093024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1722,7 +1769,7 @@ MonoBehaviour:
   upgradeStepUIs:
   - {fileID: 6054431673056335951}
   - {fileID: 6700450417490715542}
-  progressFill: {fileID: 5117334299417211}
+  progressBarVisual: {fileID: 1697262085578973502}
   progressText: {fileID: 7832870089901967664}
 --- !u!223 &1751774030674592173
 Canvas:
@@ -2409,7 +2456,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3291c212c4ca6f84d80aa1bb22c7e2d5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 148a91f144cf4715b809411bfcb2efc7, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2431,6 +2478,7 @@ GameObject:
   - component: {fileID: 134990916192869927}
   - component: {fileID: 984596004106612839}
   - component: {fileID: 7101607338020721230}
+  - component: {fileID: 476269434624428316}
   m_Layer: 5
   m_Name: FreeUpgradeButton
   m_TagString: Untagged
@@ -2541,6 +2589,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &476269434624428316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3938259225025094742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &4235047664772420946
 GameObject:
   m_ObjectHideFlags: 0
@@ -3234,6 +3297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5239953669836844723}
+  - component: {fileID: 7398704827828200639}
   - component: {fileID: 4351115022064750374}
   - component: {fileID: 5551827148450955955}
   - component: {fileID: 1209929683016845056}
@@ -3265,6 +3329,21 @@ RectTransform:
   m_AnchoredPosition: {x: -210, y: 46}
   m_SizeDelta: {x: 380, y: 82}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7398704827828200639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5810000527153640045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!222 &4351115022064750374
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3642,7 +3721,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.6
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -3697,6 +3776,7 @@ GameObject:
   - component: {fileID: 2900898785220639143}
   - component: {fileID: 7797596891484877405}
   - component: {fileID: 200928682438785543}
+  - component: {fileID: 823605906323695233}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -3807,6 +3887,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &823605906323695233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785199369757959468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &7798860306402982164
 GameObject:
   m_ObjectHideFlags: 0

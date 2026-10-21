@@ -35,8 +35,6 @@ public class Character : GameUnit {
 
     public virtual void InitBaseHouse() { }
 
-    public virtual void UpgradeBaseHouse() { }
-
     public virtual float GetMoneyMultiplier() {
         return 1f;
     }

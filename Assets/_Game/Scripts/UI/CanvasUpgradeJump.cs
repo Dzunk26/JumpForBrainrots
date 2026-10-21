@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class CanvasUpgradeJump : UICanvas {
-    [SerializeField] private Button closeButton;
-    [SerializeField] private Button blockerButton;
+    [SerializeField] private UnityEngine.UI.Button closeButton;
+    [SerializeField] private UnityEngine.UI.Button blockerButton;
     [SerializeField] private UpgradeStepUI[] upgradeStepUIs;
-    [SerializeField] private Image progressFill;
+    [SerializeField] private ProgressBarVisual progressBarVisual;
     [SerializeField] private TextMeshProUGUI progressText;
 
     private Player player;
@@ -35,6 +34,7 @@ public class CanvasUpgradeJump : UICanvas {
         }
 
         UpdateVisual();
+        progressBarVisual.SnapFill();
     }
 
     public void UpdateVisual() {
@@ -42,7 +42,7 @@ public class CanvasUpgradeJump : UICanvas {
 
         int jumpLevel = PlayerProgress.Instance.GetLevel(UpgradeType.JumpPower);
         progressText.SetText(jumpLevel.ToString());
-        progressFill.fillAmount = player.IsMaxRebirth() ? 1f : Mathf.Clamp01((float)jumpLevel / player.GetRebirthRequiredJumpLevel());
+        progressBarVisual.SetFill(player.IsMaxRebirth() ? 1f : (float)jumpLevel / player.GetRebirthRequiredJumpLevel());
 
         for (int i = 0; i < upgradeStepUIs.Length; i++) {
             upgradeStepUIs[i].UpdateVisual();

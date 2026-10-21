@@ -42,6 +42,10 @@ public static class Constant {
     public static string MONEY_SYMBOL = "$";
     public static string INCOME_SUFIXES = "/s";
 
+    public static string FLOOR_TITLE_SUFFIX = "nd Floor";
+
+    public static string NOW_TITTLE_TEXT = "Now";
+    public static string AFFTER_REBIRTH_TITTLE_TEXT = "After Rebirth";
     public static string REBIRTH_TEXT = "REBIRTH";
     public static string REBIRTH_READY_TEXT = "REBIRTH!";
     public static string MAX_REBIRTH_TEXT = "MAX";
