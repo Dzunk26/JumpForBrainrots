@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class CanvasInventory : UICanvas {
     [SerializeField] private RectTransform panel;
     [SerializeField] private Button closeButton;
-    [SerializeField] private Button blockerButton;
     [SerializeField] private InventorySlotUI slotPrefab;
     [SerializeField] private Transform slotParent;
     [SerializeField] private ScrollRect slotScrollRect;
@@ -15,12 +14,10 @@ public class CanvasInventory : UICanvas {
 
     private void OnEnable() {
         closeButton.onClick.AddListener(OnClickCloseButton);
-        blockerButton.onClick.AddListener(OnClickCloseButton);
     }
 
     private void OnDisable() {
         closeButton.onClick.RemoveListener(OnClickCloseButton);
-        blockerButton.onClick.RemoveListener(OnClickCloseButton);
     }
 
     public override void SetUp() {

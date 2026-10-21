@@ -138,12 +138,10 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
         return items;
     }
 
-    public void SellItems(List<InventoryItem> sellItems) {
-        BigDouble totalPrice = 0;
+    public void RemoveItems(List<InventoryItem> removeItems) {
         List<int> backpackIndexes = new List<int>();
 
-        foreach (InventoryItem item in sellItems) {
-            totalPrice += item.brainrotSO.GetSellPrice();
+        foreach (InventoryItem item in removeItems) {
             if (IsSelected(item.slotType, item.index)) Deselect();
 
             if (item.slotType == SlotType.Hotbar) {
@@ -163,7 +161,31 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
             backpackItems.RemoveAt(backpackIndexes[i]);
         }
 
-        PlayerProgress.Instance.AddMoney(totalPrice);
+        NotifyChanged();
+    }
+
+    public void MoveItem(SlotType fromType, int fromIndex, SlotType toType, int toIndex) {
+        if (!HasItem(fromType, fromIndex)) return;
+        if (fromType == toType && fromIndex == toIndex) return;
+        if (fromType == SlotType.Backpack && toType == SlotType.Backpack) return;
+
+        if (fromType == SlotType.Hotbar && toType == SlotType.Backpack) {
+            if (toIndex < 0 || toIndex >= backpackItems.Count) {
+                backpackItems.Add(hotbarItems[fromIndex]);
+                hotbarItems[fromIndex] = null;
+            }
+            else {
+                SwapBackpackAndHotbar(toIndex, fromIndex);
+            }
+        }
+        else if (fromType == SlotType.Backpack && toType == SlotType.Hotbar) {
+            SwapBackpackAndHotbar(fromIndex, toIndex);
+        }
+        else {
+            (hotbarItems[fromIndex], hotbarItems[toIndex]) = (hotbarItems[toIndex], hotbarItems[fromIndex]);
+        }
+
+        if (selectedIndex != -1) Deselect();
         NotifyChanged();
     }
 

@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlotUI : MonoBehaviour {
+public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
+    public SlotType SlotType => slotType;
+    public int Index => index;
+    public bool HasItem => brainrotSO != null;
+
+
     [SerializeField] private Button button;
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI incomeText;
@@ -13,6 +19,7 @@ public class InventorySlotUI : MonoBehaviour {
     private SlotType slotType;
     private int index;
     private BrainrotSO brainrotSO;
+    private bool isDragging;
 
     private void OnEnable() {
         button.onClick.AddListener(OnClickSlot);
@@ -20,6 +27,7 @@ public class InventorySlotUI : MonoBehaviour {
 
     private void OnDisable() {
         button.onClick.RemoveListener(OnClickSlot);
+        if (isDragging) EndDrag();
     }
 
     public void OnInit(SlotType slotType, int index, BrainrotSO brainrotSO, bool isSelected) {
@@ -44,6 +52,34 @@ public class InventorySlotUI : MonoBehaviour {
 
     public void SetSelected(bool isSelected) {
         selectedFrame.SetActive(isSelected);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData) {
+        if (!HasItem || !UIManager.Instance.IsUIOpen<CanvasInventory>()) {
+            eventData.pointerDrag = null;
+            return;
+        }
+        isDragging = true;
+        InventoryDragHelper.Instance.Show(brainrotSO.GetIndexIcon(), eventData.position);
+    }
+
+    public void OnDrag(PointerEventData eventData) {
+        InventoryDragHelper.Instance.Move(eventData.position);
+    }
+
+    public void OnEndDrag(PointerEventData eventData) {
+        EndDrag();
+    }
+
+    public void OnDrop(PointerEventData eventData) {
+        InventorySlotUI src = eventData.pointerDrag ? eventData.pointerDrag.GetComponent<InventorySlotUI>() : null;
+        if (src == null || src == this) return;
+        InventoryManager.Instance.MoveItem(src.SlotType, src.Index, slotType, index);
+    }
+
+    private void EndDrag() {
+        isDragging = false;
+        if (InventoryDragHelper.HasInstance) InventoryDragHelper.Instance.Hide();
     }
 
     private void OnClickSlot() {

@@ -160,7 +160,11 @@ public class CanvasSell : UICanvas {
         }
         if (sellItems.Count == 0) return;
 
-        InventoryManager.Instance.SellItems(sellItems);
+        BigDouble totalPrice = 0;
+        foreach (InventoryItem item in sellItems) totalPrice += item.brainrotSO.GetSellPrice();
+
+        InventoryManager.Instance.RemoveItems(sellItems);
+        PlayerProgress.Instance.AddMoney(totalPrice);
         ReloadItems();
     }
 

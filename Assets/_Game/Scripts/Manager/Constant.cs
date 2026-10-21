@@ -43,13 +43,17 @@ public static class Constant {
     public static string INCOME_SUFIXES = "/s";
 
     public static string REBIRTH_TEXT = "REBIRTH";
+    public static string REBIRTH_READY_TEXT = "REBIRTH!";
     public static string MAX_REBIRTH_TEXT = "MAX";
-    public static string REBIRTH_TITLE_PREFIX = "REBIRTH ";
-    public static string REBIRTH_TITLE_SUFFIX = " REWARDS";
-    public static string MAX_REBIRTH_TITLE = "MAX REBIRTH";
-    public static string JUMP_POWER_PREFIX = "JumpPower ";
-    public static string MONEY_REWARD_SUFFIX = "x Money";
-    public static string SPEED_REWARD_SUFFIX = " Speed";
+    public static string REBIRTH_LEVEL_PREFIX = "Lv ";
+    public static string AFTER_REBIRTH_TITLE = "After Rebirth";
+    public static string MAX_REBIRTH_TITLE = "Max Rebirth";
+    public static string REBIRTH_GOAL_PREFIX = "Reach <color=#7FE9FF>";
+    public static string REBIRTH_GOAL_SUFFIX = " Jump Power</color> to rebirth for free";
+    public static string REBIRTH_GOAL_READY = "Ready! Rebirth for <color=#8DFF5A>free</color>";
+    public static string MAX_REBIRTH_GOAL = "You reached max rebirth!";
+    public static string MULTIPLIER_PREFIX = "x";
+    public static string BONUS_PREFIX = "+";
     public static float INCOME_INTERVAL = 1f;
 
     public static string PLAYER_TAG = "Player";
