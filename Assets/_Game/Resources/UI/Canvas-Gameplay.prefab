@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 2072094813295950008}
   - component: {fileID: 5042772460815433190}
   - component: {fileID: 5345098070485483877}
+  - component: {fileID: 7249095352243150492}
   m_Layer: 5
   m_Name: SellButton
   m_TagString: Untagged
@@ -390,6 +391,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7249095352243150492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422347618545992160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &579954744477229172
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +990,7 @@ GameObject:
   - component: {fileID: 7485224585755823369}
   - component: {fileID: 4538100473241653307}
   - component: {fileID: 5186133558743663181}
+  - component: {fileID: 2254036063083705434}
   m_Layer: 5
   m_Name: BackpackButton
   m_TagString: Untagged
@@ -1102,6 +1119,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2254036063083705434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2486034919921878731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &2561669922790031625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,6 +1147,7 @@ GameObject:
   - component: {fileID: 7641212999465266782}
   - component: {fileID: 2562743536681233773}
   - component: {fileID: 1746442765283773110}
+  - component: {fileID: 7710776323603497862}
   m_Layer: 5
   m_Name: ButtonJump
   m_TagString: Untagged
@@ -1237,6 +1270,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7710776323603497862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2561669922790031625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &2939646159252969873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,6 +1706,7 @@ GameObject:
   - component: {fileID: 7835125987516965704}
   - component: {fileID: 2930246165691962804}
   - component: {fileID: 6999012819196258652}
+  - component: {fileID: 1638402927364810551}
   m_Layer: 5
   m_Name: Canvas-Gameplay
   m_TagString: Untagged
@@ -1713,6 +1762,7 @@ MonoBehaviour:
   upgradeHouseButtonUI: {fileID: 777664636965354459}
   hotBarUI: {fileID: 5448475065254539419}
   testJumpButton: {fileID: 599255435072817912}
+  moneyCollectVFX: {fileID: 1638402927364810551}
 --- !u!223 &7835125987516965704
 Canvas:
   m_ObjectHideFlags: 0
@@ -2167,6 +2217,7 @@ GameObject:
   - component: {fileID: 3123798793916120381}
   - component: {fileID: 2228962630339211758}
   - component: {fileID: 1798545538688963576}
+  - component: {fileID: 7243815985006596174}
   m_Layer: 5
   m_Name: RebirthButton
   m_TagString: Untagged
@@ -2276,6 +2327,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7243815985006596174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511823210090535785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &4667438660726754435
 GameObject:
   m_ObjectHideFlags: 0
@@ -3257,6 +3323,7 @@ GameObject:
   - component: {fileID: 4807879485012669174}
   - component: {fileID: 6161954227627166696}
   - component: {fileID: 8213393790747909161}
+  - component: {fileID: 7384972922358239580}
   m_Layer: 5
   m_Name: JumpUpgradeButton
   m_TagString: Untagged
@@ -3366,6 +3433,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7384972922358239580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6379540518523611077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &6400669365276063995
 GameObject:
   m_ObjectHideFlags: 0
@@ -3983,6 +4065,7 @@ GameObject:
   - component: {fileID: 410762068549145548}
   - component: {fileID: 6196028357833254564}
   - component: {fileID: 4127267194454705842}
+  - component: {fileID: 818313201658396819}
   m_Layer: 5
   m_Name: SettingButton
   m_TagString: Untagged
@@ -4092,6 +4175,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &818313201658396819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7253628448821434430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &7724124349278416559
 GameObject:
   m_ObjectHideFlags: 0
@@ -4316,6 +4414,7 @@ GameObject:
   - component: {fileID: 5728836282015129053}
   - component: {fileID: 1695959728694930119}
   - component: {fileID: 8548788825022599768}
+  - component: {fileID: 2764182328601665198}
   m_Layer: 5
   m_Name: IndexButton
   m_TagString: Untagged
@@ -4425,6 +4524,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2764182328601665198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7852610597721918894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &8871270711008085167
 GameObject:
   m_ObjectHideFlags: 0
@@ -4712,3 +4826,38 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5609536187704630237}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1638402927364810551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240041225279595602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fbc385fb834a12a1d46aa601a225ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  container: {fileID: 3513388192320693672}
+  moneyText: {fileID: 7496385188026257154}
+  moneySprite: {fileID: 21300000, guid: ffec644bdbb16a3408b15c61e1d5b664, type: 3}
+  cashCount: 8
+  cashSize: {x: 120, y: 98}
+  cashScaleRange: {x: 0.7, y: 1.5}
+  spawnCenterOffset: {x: 0, y: 0}
+  spawnRadius: {x: 380, y: 220}
+  spawnMinRadiusRatio: 0.5
+  maxRotation: 25
+  spawnInterval: 0.035
+  popDuration: 0.35
+  idleDuration: 0.25
+  flyInterval: 0.07
+  flyDuration: 0.45
+  flyEndScaleRatio: 0.4
+  punchScale: 0.15
+  showFloatingText: 1
+  floatingTextOffset: {x: 0, y: 200}
+  floatingTextFontSize: 90
+  floatingTextColor: {r: 0.55, g: 1, b: 0.3, a: 1}
+  floatingTextMoveY: 90
+  floatingTextDuration: 1.3

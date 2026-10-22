@@ -1,4 +1,5 @@
 using BreakInfinity;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,12 +22,29 @@ public class CanvasGamePlay : UICanvas {
     [SerializeField] private UpgradeHouseButtonUI upgradeHouseButtonUI;
     [SerializeField] private HotBarUI hotBarUI;
     [SerializeField] private TestJumpButton testJumpButton; // for testing
+    [SerializeField] private MoneyCollectVFX moneyCollectVFX;
+
+    [Header("Spend Money Effect")]
+    [SerializeField] private Color spendColor = new Color(1f, 0.29f, 0.29f);
+    [SerializeField] private float spendDuration = 0.4f;
+    [SerializeField] private float colorBackDuration = 0.2f;
 
     private Player player;
+    private BigDouble flyingMoney; // tien dang bay ve HUD, chua hien thi
+    private BigDouble spendingMoney; // tien da tru nhung HUD chua dem lui xong
+    private Tween spendTween;
+    private Color originalMoneyColor;
+    private bool isMoneyColorCached;
 
     private void OnEnable() {
+        if (!isMoneyColorCached) {
+            originalMoneyColor = moneyText.color;
+            isMoneyColorCached = true;
+        }
+
         if (!PlayerProgress.HasInstance) return;
         PlayerProgress.Instance.OnDataChanged += PlayerProgress_OnDataChanged;
+        PlayerProgress.Instance.OnMoneySpent += PlayerProgress_OnMoneySpent;
         PlayerProgress_OnDataChanged();
     }
 
@@ -39,8 +57,15 @@ public class CanvasGamePlay : UICanvas {
     }
 
     private void OnDisable() {
+        flyingMoney = 0f;
+        spendingMoney = 0f;
+        spendTween?.Kill();
+        moneyText.DOKill();
+        moneyText.color = originalMoneyColor;
+
         if (!PlayerProgress.HasInstance) return;
         PlayerProgress.Instance.OnDataChanged -= PlayerProgress_OnDataChanged;
+        PlayerProgress.Instance.OnMoneySpent -= PlayerProgress_OnMoneySpent;
     }
 
     private void OnDestroy() {
@@ -65,9 +90,52 @@ public class CanvasGamePlay : UICanvas {
         hotBarUI.UpdateVisual();
     }
 
+    public void PlayCollectMoneyVFX(BigDouble amount) {
+        if (!gameObject.activeInHierarchy || moneyCollectVFX == null) return;
+
+        flyingMoney += amount;
+        UpdateMoneyText();
+        moneyCollectVFX.Play(amount, MoneyCollectVFX_OnCashArrived);
+    }
+
+    private void MoneyCollectVFX_OnCashArrived(BigDouble amount) {
+        flyingMoney -= amount;
+        if (flyingMoney < 0f) {
+            flyingMoney = 0f;
+        }
+        UpdateMoneyText();
+    }
+
     private void PlayerProgress_OnDataChanged() {
-        moneyText.SetText(Constant.MONEY_SYMBOL + Utils.SciNotToUSName(PlayerProgress.Instance.GetMoney()));
+        UpdateMoneyText();
         jumpPowerText.SetText(PlayerProgress.Instance.GetLevel(UpgradeType.JumpPower).ToString());
+    }
+
+    private void PlayerProgress_OnMoneySpent(BigDouble amount) {
+        spendingMoney += amount;
+        BigDouble startSpendingMoney = spendingMoney;
+
+        spendTween?.Kill();
+        spendTween = DOVirtual.Float(1f, 0f, spendDuration, t => {
+            spendingMoney = startSpendingMoney * t;
+            UpdateMoneyText();
+        }).SetEase(Ease.OutQuad).SetLink(gameObject).OnComplete(() => {
+            spendingMoney = 0f;
+            UpdateMoneyText();
+            moneyText.DOColor(originalMoneyColor, colorBackDuration).SetLink(gameObject);
+        });
+
+        moneyText.DOKill();
+        moneyText.color = spendColor;
+        UpdateMoneyText();
+    }
+
+    private void UpdateMoneyText() {
+        BigDouble displayMoney = PlayerProgress.Instance.GetMoney() - flyingMoney + spendingMoney;
+        if (displayMoney < 0f) {
+            displayMoney = 0f;
+        }
+        moneyText.SetText(Constant.MONEY_SYMBOL + Utils.SciNotToUSName(displayMoney));
     }
 
     private void OnClickIndexButton() {

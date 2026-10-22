@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public static class TmpIndexBuilder {
-    private const string OUT_DIR = "C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-JumpForBrainrots/1f758751-90fe-4928-bf95-8045333f3507/scratchpad";
+    private const string OUT_DIR = "Temp/UIPreview";
     private const string REBIRTH_PATH = "Assets/_Game/Resources/UI/Canvas-Rebirth.prefab";
     private const string INDEX_PATH = "Assets/_Game/Resources/UI/Canvas-Index.prefab";
     private const string INDEX_SLOT_PATH = "Assets/_Game/Prefabs/UI/IndexSlot.prefab";
@@ -533,6 +533,7 @@ public static class TmpIndexBuilder {
     }
 
     private static void Render(string prefabPath, string file, System.Action<GameObject> setup) {
+        Directory.CreateDirectory(Path.GetDirectoryName(file));
         UnityEngine.SceneManagement.Scene scene = EditorSceneManager.NewPreviewScene();
         GameObject camGo = new GameObject("Cam");
         UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(camGo, scene);

@@ -14,8 +14,6 @@ public class CanvasIndex : UICanvas {
     [SerializeField] private Transform slotParent;
     [SerializeField] private ScrollRect slotScrollRect;
     [SerializeField] private TextMeshProUGUI totalProgressText;
-    [SerializeField] private float popUpTimerMax = 0.2f;
-    [SerializeField] private float popUpStartScale = 0.8f;
 
     private List<IndexSlotUI> slots = new List<IndexSlotUI>();
     private float popUpTimer;
@@ -38,7 +36,6 @@ public class CanvasIndex : UICanvas {
 
     public override void Open() {
         base.Open();
-        StartCoroutine(IEPopUp());
     }
 
     public void UpdateVisual() {
@@ -78,18 +75,5 @@ public class CanvasIndex : UICanvas {
 
     private void OnClickCloseButton() {
         Close(0f);
-    }
-
-    private IEnumerator IEPopUp() {
-        popUpTimer = 0f;
-
-        while (popUpTimer < popUpTimerMax) {
-            popUpTimer += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(popUpTimer / popUpTimerMax);
-            panel.localScale = Vector3.one * Mathf.Lerp(popUpStartScale, 1f, 1f - (1f - t) * (1f - t));
-            yield return null;
-        }
-
-        panel.localScale = Vector3.one;
     }
 }
