@@ -1547,6 +1547,7 @@ GameObject:
   - component: {fileID: 5876050239507514768}
   - component: {fileID: 8908724504589609694}
   - component: {fileID: 504615335588759756}
+  - component: {fileID: 3508089641217795395}
   m_Layer: 5
   m_Name: FreeRebirthButton
   m_TagString: Untagged
@@ -1658,6 +1659,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3508089641217795395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3183467916402610318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &3237473726863753037
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,6 +3587,7 @@ GameObject:
   - component: {fileID: 4849192766994080062}
   - component: {fileID: 681004500735470411}
   - component: {fileID: 2398304451500565175}
+  - component: {fileID: 1854525059679962259}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -3680,6 +3697,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1854525059679962259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5431383783546082683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &5468209832639108497
 GameObject:
   m_ObjectHideFlags: 0
@@ -4496,6 +4528,7 @@ GameObject:
   - component: {fileID: 8300741002213184160}
   - component: {fileID: 7348872361136010905}
   - component: {fileID: 1971789243596409031}
+  - component: {fileID: 6837876477171224054}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -4567,6 +4600,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6837876477171224054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6673233429310517335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f23e6578b0c9e214abea1e98f46554b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.3
+  startScale: 0.5
 --- !u!1 &6757069554629467051
 GameObject:
   m_ObjectHideFlags: 0
@@ -5902,6 +5949,7 @@ GameObject:
   - component: {fileID: 6222522265324748357}
   - component: {fileID: 6658966352891054400}
   - component: {fileID: 269086453652945744}
+  - component: {fileID: 994178775311569415}
   m_Layer: 5
   m_Name: RebirthButton
   m_TagString: Untagged
@@ -6012,6 +6060,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &994178775311569415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762251547833899957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &7840555314305323865
 GameObject:
   m_ObjectHideFlags: 0

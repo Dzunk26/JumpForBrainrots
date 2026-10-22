@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3407894960802906110}
   - component: {fileID: 6890885163139250994}
   - component: {fileID: 1540742655479473109}
+  - component: {fileID: 7451090323716080549}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -78,6 +79,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7451090323716080549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548413372355892568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f23e6578b0c9e214abea1e98f46554b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.3
+  startScale: 0.5
 --- !u!1 &608869758143735959
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,8 +388,6 @@ MonoBehaviour:
   slotParent: {fileID: 3797850841764466229}
   slotScrollRect: {fileID: 2889673510383218480}
   totalProgressText: {fileID: 8408085549537571146}
-  popUpTimerMax: 0.2
-  popUpStartScale: 0.8
 --- !u!223 &8237073713318707134
 Canvas:
   m_ObjectHideFlags: 0
@@ -1657,6 +1670,7 @@ GameObject:
   - component: {fileID: 4559482302879513943}
   - component: {fileID: 6882492464160578025}
   - component: {fileID: 6058013940836189893}
+  - component: {fileID: 1010311652651194714}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1766,6 +1780,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1010311652651194714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7078501960978787717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &8893893026701469153
 GameObject:
   m_ObjectHideFlags: 0

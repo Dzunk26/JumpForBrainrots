@@ -8,6 +8,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
     public bool IsDirty => isDirty;
     public event EventHandler OnLoadPlayerData;
     public event Action OnDataChanged;
+    public event Action<BigDouble> OnMoneySpent;
 
     private bool isDirty;
     private int jumpLevel;
@@ -62,6 +63,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
     public void SpendMoney(BigDouble amount) {
         totalMoney -= amount;
         MarkDirty();
+        OnMoneySpent?.Invoke(amount);
     }
 
     public bool IsEnoughMoney(BigDouble spendAmount) {

@@ -1597,6 +1597,7 @@ GameObject:
   - component: {fileID: 8068495084831889080}
   - component: {fileID: 8494978530277822718}
   - component: {fileID: 2579113141111427119}
+  - component: {fileID: 5916465354155328970}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1706,6 +1707,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5916465354155328970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4773117916732725582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59cde8b0b9a587648b635db4e54b142f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScale: 0.9
+  pressDuration: 0.08
+  releaseDuration: 0.3
 --- !u!1 &5274020893719483877
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,6 +2324,7 @@ GameObject:
   - component: {fileID: 8507572839999990492}
   - component: {fileID: 1209463444756529221}
   - component: {fileID: 4435670959672529056}
+  - component: {fileID: 9130045877995111521}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -2374,6 +2391,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9130045877995111521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975894804050051732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f23e6578b0c9e214abea1e98f46554b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.3
+  startScale: 0.5
 --- !u!1 &7167963298020341798
 GameObject:
   m_ObjectHideFlags: 0

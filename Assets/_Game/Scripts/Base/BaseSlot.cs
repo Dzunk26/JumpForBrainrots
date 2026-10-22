@@ -154,6 +154,9 @@ public class BaseSlot : MonoBehaviour {
         if (totalIncome <= 0f) return;
 
         PlayerProgress.Instance.AddMoney(totalIncome);
+        if (UIManager.Instance.IsUIOpen<CanvasGamePlay>()) {
+            UIManager.Instance.GetUI<CanvasGamePlay>().PlayCollectMoneyVFX(totalIncome);
+        }
         totalIncome = 0f;
         OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
     }
