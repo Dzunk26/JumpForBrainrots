@@ -23,6 +23,8 @@ public class GameData {
     public List<int> backpackIds;
     public List<BaseSlotData> baseSlots;
     public List<int> collectedIds;
+    public List<int> ownedSkinIds;
+    public int equippedSkinId;
     public long lastSaveUnixTime;
 
     public GameData() {
@@ -35,5 +37,7 @@ public class GameData {
         backpackIds = new List<int>();
         baseSlots = new List<BaseSlotData>();
         collectedIds = new List<int>();
+        collectedIds = new List<int>();
+        ownedSkinIds = new List<int>();
     }
 }

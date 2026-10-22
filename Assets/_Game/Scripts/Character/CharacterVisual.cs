@@ -27,6 +27,11 @@ public class CharacterVisual : MonoBehaviour {
     [SerializeField] private Animator animator;
     [SerializeField] private Transform brainrotHoldPoint;
     [SerializeField] private Transform dropButtonSpawnPoint;
+    [SerializeField] private Transform skinRoot;
+
+    private Dictionary<SkinSO, SkinModel> dictSkinModel = new Dictionary<SkinSO, SkinModel>();
+    private SkinModel currentSkin;
+    private float climbSpeed;
 
     private Dictionary<BrainrotSO, BrainrotModel> dictBrainrotModel = new Dictionary<BrainrotSO, BrainrotModel>();
     private BrainrotModel currentModel;
@@ -40,6 +45,20 @@ public class CharacterVisual : MonoBehaviour {
 
     public void OnInit() {
         OnDropBrainrot();
+    }
+
+    public void OnChangeSkin(SkinSO skinSO) {
+        if (currentSkin != null) {
+            currentSkin.DeActive();
+        }
+
+        currentSkin = GetSkinModel(skinSO);
+        currentSkin.Active();
+        animator = currentSkin.Animator;
+
+        // Animator vừa bật lại sẽ về state mặc định, nên phải set lại state và param hiện tại
+        animator.SetFloat(Constant.ANIM_CLIMB_SPEED, climbSpeed);
+        animator.SetTrigger(Cache.GetAnimName(currentAnimState));
     }
 
     public void OnIdle() {
@@ -129,5 +148,13 @@ public class CharacterVisual : MonoBehaviour {
         }
 
         return dictBrainrotModel[brainrotSO];
+    }
+
+    private SkinModel GetSkinModel(SkinSO skinSO) {
+        if (!dictSkinModel.ContainsKey(skinSO)) {
+            dictSkinModel[skinSO] = Instantiate(skinSO.GetSkinModel(), skinRoot);
+        }
+
+        return dictSkinModel[skinSO];
     }
 }

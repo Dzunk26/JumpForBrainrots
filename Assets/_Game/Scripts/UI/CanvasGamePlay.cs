@@ -13,6 +13,7 @@ public class CanvasGamePlay : UICanvas {
     [SerializeField] private TextMeshProUGUI jumpPowerText;
     [SerializeField] private Button indexButton;
     [SerializeField] private Button sellButton;
+    [SerializeField] private Button skinButton;
     [SerializeField] private Button rebirthButton;
     [SerializeField] private Button jumpUpgradeButton;
     [SerializeField] private Button settingButton;
@@ -52,6 +53,7 @@ public class CanvasGamePlay : UICanvas {
         indexButton.onClick.AddListener(OnClickIndexButton);
         rebirthButton.onClick.AddListener(OnClickRebirthButton);
         sellButton.onClick.AddListener(OnClickSellButton);
+        skinButton.onClick.AddListener(OnClickSkinButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
         jumpUpgradeButton.onClick.AddListener(OnCLickJumpUpgradeButton);
     }
@@ -72,6 +74,7 @@ public class CanvasGamePlay : UICanvas {
         indexButton.onClick.RemoveListener(OnClickIndexButton);
         rebirthButton.onClick.RemoveListener(OnClickRebirthButton);
         sellButton.onClick.RemoveListener(OnClickSellButton);
+        skinButton.onClick.RemoveListener(OnClickSkinButton);
         settingButton.onClick.RemoveListener(OnClickSettingButton);
         jumpUpgradeButton.onClick.RemoveListener(OnCLickJumpUpgradeButton);
     }
@@ -158,5 +161,10 @@ public class CanvasGamePlay : UICanvas {
     private void OnCLickJumpUpgradeButton() {
         CanvasUpgradeJump canvasUpgradeJump = UIManager.Instance.OpenUI<CanvasUpgradeJump>();
         canvasUpgradeJump.OnInit(player);
+    }
+
+    private void OnClickSkinButton() {
+        CanvasSkin canvasSkin = UIManager.Instance.OpenUI<CanvasSkin>();
+        canvasSkin.OnInit(player);
     }
 }

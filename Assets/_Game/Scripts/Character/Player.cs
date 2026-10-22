@@ -124,6 +124,7 @@ public class Player : Character, IDataPersistence {
         base.OnInit();
         stateTimer = 0f;
         characterVisual.OnInit();
+        ChangeSkin(SkinManager.Instance.GetEquippedSkinSO());
         ChangeState(PlayerState.Idle);
         CalculateStats();
         TeleportTo(spawnPoint);
@@ -138,6 +139,10 @@ public class Player : Character, IDataPersistence {
         characterVisual.OnInit();
         ChangeState(PlayerState.Idle);
         base.OnDespawn();
+    }
+
+    public void ChangeSkin(SkinSO skinSO) {
+        characterVisual.OnChangeSkin(skinSO);
     }
 
     public override void StoreCapturedBrainrot() {
