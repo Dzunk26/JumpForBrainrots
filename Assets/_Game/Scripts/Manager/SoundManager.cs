@@ -16,6 +16,7 @@ public enum FxID {
     ObstacleRollingLog = 6, 
     ObstacleTsunami = 7,
     Button = 8,
+    UpgradeBaseHouse = 9
 }
 
 public class SoundManager : Singleton<SoundManager> {
