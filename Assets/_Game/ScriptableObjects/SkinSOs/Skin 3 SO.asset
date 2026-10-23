@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Skin 3 SO
   m_EditorClassIdentifier: 
   id: 3
-  skinModel: {fileID: 0}
-  icon: {fileID: 0}
+  skinModel: {fileID: 6613063454349614077, guid: fa9aa2159e1cd7549a459110a0d98c51,
+    type: 3}
+  icon: {fileID: 21300000, guid: 18418a27d7bdb914d84b10b00e3d3d8f, type: 3}

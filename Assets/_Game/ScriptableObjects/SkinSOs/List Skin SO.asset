@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: List Skin SO
   m_EditorClassIdentifier: 
   listSkinSO:
+  - {fileID: 11400000, guid: 3a4f088cbd3e1ef4cb40989193daa479, type: 2}
   - {fileID: 11400000, guid: 2c6ab25e8a60f9f4a83ff4a7d65f787c, type: 2}
   - {fileID: 11400000, guid: 2fb4b40da49d053439b6e2db2b789fd4, type: 2}
   - {fileID: 11400000, guid: 2c2a9a1e74b149242a241422b427f627, type: 2}
   - {fileID: 11400000, guid: a4ee92b30d74a7f4d9c69157c7025731, type: 2}
   - {fileID: 11400000, guid: cb9dfc13b44b98d4a970bdedd7f7b2a1, type: 2}
-  - {fileID: 11400000, guid: 3a4f088cbd3e1ef4cb40989193daa479, type: 2}

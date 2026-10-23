@@ -37,7 +37,6 @@ public class GameData {
         backpackIds = new List<int>();
         baseSlots = new List<BaseSlotData>();
         collectedIds = new List<int>();
-        collectedIds = new List<int>();
         ownedSkinIds = new List<int>();
     }
 }

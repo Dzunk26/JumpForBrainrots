@@ -11,7 +11,6 @@ public class SkinSlotUI : MonoBehaviour {
     [SerializeField] private GameObject lockOverlay;
     [SerializeField] private GameObject lockIcon;
     [SerializeField] private GameObject equippedMark;
-    [SerializeField] private GameObject equippedLabel;
     [SerializeField] private Color ownedFrameColor = new Color(0.35f, 0.92f, 1f, 1f);
     [SerializeField] private Color equippedFrameColor = new Color(1f, 0.82f, 0.1f, 1f);
     [SerializeField] private Color lockedIconColor = new Color(0.45f, 0.45f, 0.45f, 1f);
@@ -44,7 +43,6 @@ public class SkinSlotUI : MonoBehaviour {
         lockOverlay.SetActive(!isOwned);
         lockIcon.SetActive(!isOwned);
         equippedMark.SetActive(isEquipped);
-        equippedLabel.SetActive(isEquipped);
 
         frameImage.gameObject.SetActive(isOwned);
         frameImage.color = isEquipped ? equippedFrameColor : ownedFrameColor;
