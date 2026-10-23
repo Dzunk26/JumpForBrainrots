@@ -43,7 +43,7 @@ public class PlayerProgress : Singleton<PlayerProgress>, IDataPersistence {
                 jumpLevel += amount;
                 break;
         }
-        Debug.Log(jumpLevel);
+
         MarkDirty();
     }
 

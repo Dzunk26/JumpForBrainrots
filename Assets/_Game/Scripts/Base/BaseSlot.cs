@@ -154,6 +154,7 @@ public class BaseSlot : MonoBehaviour {
         if (totalIncome <= 0f) return;
 
         PlayerProgress.Instance.AddMoney(totalIncome);
+        SoundManager.Instance.PlayFx(FxID.MoneyChange);
         if (UIManager.Instance.IsUIOpen<CanvasGamePlay>()) {
             UIManager.Instance.GetUI<CanvasGamePlay>().PlayCollectMoneyVFX(totalIncome);
         }

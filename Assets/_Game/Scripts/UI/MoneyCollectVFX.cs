@@ -152,10 +152,6 @@ public class MoneyCollectVFX : MonoBehaviour {
         RectTransform rect = moneyText.rectTransform;
         rect.DOKill(true);
         rect.DOPunchScale(Vector3.one * punchScale, 0.15f, 1, 0f);
-
-        if (SoundManager.HasInstance) {
-            SoundManager.Instance.PlayFx(FxID.MoneyChange);
-        }
     }
 
     private Vector2 GetTargetAnchoredPosition() {

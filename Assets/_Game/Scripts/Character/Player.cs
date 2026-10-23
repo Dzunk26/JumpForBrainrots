@@ -150,6 +150,7 @@ public class Player : Character, IDataPersistence {
 
         heldBrainrotSource = HeldBrainrotSource.Inventory;
         InventoryManager.Instance.AddAndSelectBrainrot(currentHoldBrainrotSO);
+        SoundManager.Instance.PlayFx(FxID.StoreBrainrot);
         IndexManager.Instance.Collect(currentHoldBrainrotSO);
     }
 
@@ -288,10 +289,11 @@ public class Player : Character, IDataPersistence {
             InventoryManager.Instance.ClearSelection();
         }
         DropBrainrot();
+        SoundManager.Instance.PlayFx(FxID.Dead);
         characterVisual.OnDead();
         ChangeState(PlayerState.Dead);
     }
-
+    
 
     public override void OnCaptureBrainrot() {
         if (!CanEquipBrainrot()) return;
@@ -635,6 +637,8 @@ public class Player : Character, IDataPersistence {
         characterVisual.OnFalling();
 
         if (IsGrounded()) {
+            SoundManager.Instance.PlayFx(FxID.Landing);
+
             if (Time.time - lastJumpPressedTime <= jumpBufferTime) {
                 StartJump();
                 return;

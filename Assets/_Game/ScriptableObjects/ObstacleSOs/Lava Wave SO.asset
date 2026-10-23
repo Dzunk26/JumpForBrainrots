@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleModel: {fileID: 455015948753783329, guid: 742add1ff1026bc4f8ff17f619a5b900,
     type: 3}
+  loopClip: {fileID: 8300000, guid: c140b133517a3ca4a8ba5e005b45f452, type: 3}
   speed: 27.5

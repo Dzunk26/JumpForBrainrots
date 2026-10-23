@@ -7,6 +7,7 @@ public class Obstacle : GameUnit {
     public bool IsAlive => isAlive;
 
     [SerializeField] private ObstacleVisual obstacleVisual;
+    [SerializeField] private AudioSource loopSource;
 
     private ObstacleSO obstacleSO;
     private Vector3 endPoint;
@@ -34,11 +35,13 @@ public class Obstacle : GameUnit {
         moveSpeed = obstacleSO.GetSpeed();
         isAlive = true;
         obstacleVisual.OnInit(obstacleSO);
+        PlayLoopSound();
     }
 
     public void OnDespawn() {
         obstacleSO = null;
         isAlive = false;
+        loopSource.Stop();
     }
 
     private void HandleMove() {
@@ -49,5 +52,15 @@ public class Obstacle : GameUnit {
         if ((endPoint - TF.position).sqrMagnitude < 0.001f) {
             OnDespawn();
         }
+    }
+
+    private void PlayLoopSound() {
+        AudioClip clip = obstacleSO.GetAudioClip();
+        if (clip == null) return;
+
+        loopSource.clip = clip;
+        loopSource.time = Random.Range(0f, clip.length);
+        loopSource.pitch = Random.Range(0.95f, 1.05f);
+        loopSource.Play();
     }
 }

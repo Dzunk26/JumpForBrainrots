@@ -19,6 +19,9 @@ public static class Constant {
     public static string UPGRADE_STEP_PREFIX = "+";
     public static string MAX_UPGRADE_TEXT = "MAX";
 
+    public static string MUSIC_VOLUME_PARAM = "MusicVolume";
+    public static string FX_VOLUME_PARAM = "SFXVolume";
+
     public static string UNKNOW_BRAINROT_NAME = "???";
 
     public static float SAVE_DELAY = 1f;

@@ -26,6 +26,8 @@ public class GameData {
     public List<int> ownedSkinIds;
     public int equippedSkinId;
     public long lastSaveUnixTime;
+    public float musicVolume;
+    public float fxVolume;
 
     public GameData() {
         jumpLevel = 0;
@@ -38,5 +40,7 @@ public class GameData {
         baseSlots = new List<BaseSlotData>();
         collectedIds = new List<int>();
         ownedSkinIds = new List<int>();
+        musicVolume = 0.5f;
+        fxVolume = 0.5f;
     }
 }

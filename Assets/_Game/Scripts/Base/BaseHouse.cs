@@ -125,12 +125,14 @@ public class BaseHouse : MonoBehaviour {
 
         PlayerProgress.Instance.SpendMoney(cost);
         UpgradeByPlayer();
+        SoundManager.Instance.PlayFx(FxID.UpgradeBaseHouse);
     }
 
     public void OnClickFreeUpgrade() {
         if (!CanUpgradeByPlayer()) return;
 
         UpgradeByPlayer();
+        SoundManager.Instance.PlayFx(FxID.UpgradeBaseHouse);
     }
 
     public bool IsEnoughMoneyToUpgrade() {

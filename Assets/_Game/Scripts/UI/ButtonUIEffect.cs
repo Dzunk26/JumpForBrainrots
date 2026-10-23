@@ -22,6 +22,7 @@ public class ButtonUIEffect : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     }
 
     public void OnPointerDown(PointerEventData eventData) {
+        SoundManager.Instance.PlayFx(FxID.Button);
         scaleTween?.Kill();
         scaleTween = rectTransform.DOScale(pressScale, pressDuration)
             .SetEase(Ease.OutQuad)

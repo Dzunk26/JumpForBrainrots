@@ -12,10 +12,8 @@ public class CanvasGamePlay : UICanvas {
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI jumpPowerText;
     [SerializeField] private Button indexButton;
-    [SerializeField] private Button sellButton;
     [SerializeField] private Button skinButton;
     [SerializeField] private Button rebirthButton;
-    [SerializeField] private Button jumpUpgradeButton;
     [SerializeField] private Button settingButton;
     [SerializeField] private DropButtonUI dropButton;
     [SerializeField] private CaptureButtonUI captureButtonUI;
@@ -52,10 +50,8 @@ public class CanvasGamePlay : UICanvas {
     private void Start() {
         indexButton.onClick.AddListener(OnClickIndexButton);
         rebirthButton.onClick.AddListener(OnClickRebirthButton);
-        sellButton.onClick.AddListener(OnClickSellButton);
         skinButton.onClick.AddListener(OnClickSkinButton);
         settingButton.onClick.AddListener(OnClickSettingButton);
-        jumpUpgradeButton.onClick.AddListener(OnCLickJumpUpgradeButton);
     }
 
     private void OnDisable() {
@@ -73,10 +69,8 @@ public class CanvasGamePlay : UICanvas {
     private void OnDestroy() {
         indexButton.onClick.RemoveListener(OnClickIndexButton);
         rebirthButton.onClick.RemoveListener(OnClickRebirthButton);
-        sellButton.onClick.RemoveListener(OnClickSellButton);
         skinButton.onClick.RemoveListener(OnClickSkinButton);
         settingButton.onClick.RemoveListener(OnClickSettingButton);
-        jumpUpgradeButton.onClick.RemoveListener(OnCLickJumpUpgradeButton);
     }
 
     public void OnInit(Player player, Camera playerCamera) {
@@ -145,10 +139,6 @@ public class CanvasGamePlay : UICanvas {
         UIManager.Instance.OpenUI<CanvasIndex>();
     }
 
-    private void OnClickSellButton() {
-        UIManager.Instance.OpenUI<CanvasSell>();
-    }
-
     private void OnClickRebirthButton() {
         CanvasRebirth canvasRebirth = UIManager.Instance.OpenUI<CanvasRebirth>();
         canvasRebirth.OnInit(player);
@@ -156,11 +146,6 @@ public class CanvasGamePlay : UICanvas {
 
     private void OnClickSettingButton() {
         UIManager.Instance.OpenUI<CanvasSetting>();
-    }
-
-    private void OnCLickJumpUpgradeButton() {
-        CanvasUpgradeJump canvasUpgradeJump = UIManager.Instance.OpenUI<CanvasUpgradeJump>();
-        canvasUpgradeJump.OnInit(player);
     }
 
     private void OnClickSkinButton() {
