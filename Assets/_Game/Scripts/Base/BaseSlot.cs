@@ -7,6 +7,7 @@ using UnityEngine;
 public class BaseSlot : MonoBehaviour {
     public event EventHandler OnTotalIncomeChanged;
     public event EventHandler OnBrainrotChanged;
+    public static event Action<BaseSlot> OnAnyIncomeCollected;
 
     public bool IsUnlocked => isUnlocked;
     public bool IsActive => currentBrainrotSO != null;
@@ -22,6 +23,7 @@ public class BaseSlot : MonoBehaviour {
 
     [SerializeField] private BaseSlotVisual baseSlotVisual;
     [SerializeField] private Transform equipButtonSpawnPoint;
+    [SerializeField] private Transform baseSlotTrigger;
 
     private BaseHouse baseHouse;
     private bool isUnlocked = false;
@@ -119,6 +121,10 @@ public class BaseSlot : MonoBehaviour {
         OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public Vector3 GetBaseSlotTriggerPosition() {
+        return baseSlotTrigger.position;
+    }
+
     private void HandleIncome() {
         if (!IsActive) return;
 
@@ -160,5 +166,6 @@ public class BaseSlot : MonoBehaviour {
         }
         totalIncome = 0f;
         OnTotalIncomeChanged?.Invoke(this, EventArgs.Empty);
+        OnAnyIncomeCollected?.Invoke(this);
     }
 }

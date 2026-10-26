@@ -19,6 +19,7 @@ public class CanvasSetting : UICanvas {
         blockerButton.onClick.AddListener(OnClickCloseButton);
         musicSlider.onValueChanged.AddListener(MusicManager.Instance.SetMusicVolume);
         fxSlider.onValueChanged.AddListener(SoundManager.Instance.SetFxVolume);
+        UIManager.Instance.GetUI<CanvasGamePlay>().ShowOnly();
     }
 
     private void OnDisable() {
@@ -30,6 +31,8 @@ public class CanvasSetting : UICanvas {
         if (SoundManager.HasInstance) {
             fxSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetFxVolume);
         }
+        if (UIManager.Instance.IsUIOpen<CanvasGamePlay>())
+            UIManager.Instance.GetUI<CanvasGamePlay>().ShowAll();
     }
 
     private void OnClickCloseButton() {

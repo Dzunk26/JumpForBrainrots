@@ -17,5 +17,5 @@ MonoBehaviour:
   stepModifier:
     jumpHeight: 1
     moveSpeed: 0
-  baseCost: 10
-  costGrowth: 1.15
+  baseCost: 8
+  costGrowth: 1.0954452

@@ -8,6 +8,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum HudIcon {
+    Money,
+    JumpPower,
+    MenuButtons,
+    ActionButtons,
+    HotBar,
+}
+
 public class CanvasGamePlay : UICanvas {
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI jumpPowerText;
@@ -22,6 +30,13 @@ public class CanvasGamePlay : UICanvas {
     [SerializeField] private HotBarUI hotBarUI;
     [SerializeField] private TestJumpButton testJumpButton; // for testing
     [SerializeField] private MoneyCollectVFX moneyCollectVFX;
+
+    [Header("Hud Groups")]
+    [SerializeField] private CanvasGroup moneyGroup;
+    [SerializeField] private CanvasGroup jumpPowerGroup;
+    [SerializeField] private CanvasGroup menuButtonsGroup;
+    [SerializeField] private CanvasGroup actionButtonsGroup;
+    [SerializeField] private CanvasGroup hotBarGroup;
 
     [Header("Spend Money Effect")]
     [SerializeField] private Color spendColor = new Color(1f, 0.29f, 0.29f);
@@ -81,6 +96,23 @@ public class CanvasGamePlay : UICanvas {
         testJumpButton.OnInit(player);
         dropButton.OnInit(player, playerCamera);
         hotBarUI.OnInit();
+    }
+
+    public void ShowOnly(params HudIcon[] icons) {
+        SetVisible(moneyGroup, Has(icons, HudIcon.Money));
+        SetVisible(jumpPowerGroup, Has(icons, HudIcon.JumpPower));
+        SetVisible(menuButtonsGroup, Has(icons, HudIcon.MenuButtons));
+        SetVisible(actionButtonsGroup, Has(icons, HudIcon.ActionButtons));
+        SetVisible(hotBarGroup, Has(icons, HudIcon.HotBar));
+    }
+
+    // hien lai tat ca
+    public void ShowAll() {
+        SetVisible(moneyGroup, true);
+        SetVisible(jumpPowerGroup, true);
+        SetVisible(menuButtonsGroup, true);
+        SetVisible(actionButtonsGroup, true);
+        SetVisible(hotBarGroup, true);
     }
 
     public void UpdateHotbar() {
@@ -151,5 +183,14 @@ public class CanvasGamePlay : UICanvas {
     private void OnClickSkinButton() {
         CanvasSkin canvasSkin = UIManager.Instance.OpenUI<CanvasSkin>();
         canvasSkin.OnInit(player);
+    }
+
+    private bool Has(HudIcon[] icons, HudIcon icon) {
+        return System.Array.IndexOf(icons, icon) >= 0;
+    }
+
+    private void SetVisible(CanvasGroup group, bool show) {
+        group.alpha = show ? 1f : 0f;
+        group.blocksRaycasts = show;
     }
 }

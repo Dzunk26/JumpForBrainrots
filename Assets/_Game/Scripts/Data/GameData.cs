@@ -28,6 +28,7 @@ public class GameData {
     public long lastSaveUnixTime;
     public float musicVolume;
     public float fxVolume;
+    public int tutorialStep;
 
     public GameData() {
         jumpLevel = 0;
@@ -42,5 +43,6 @@ public class GameData {
         ownedSkinIds = new List<int>();
         musicVolume = 0.5f;
         fxVolume = 0.5f;
+        tutorialStep = 0;
     }
 }

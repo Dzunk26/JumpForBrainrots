@@ -49,6 +49,23 @@ public class BrainrotSpawner : MonoBehaviour {
         return spawnedBrainrots[Random.Range(0, spawnedBrainrots.Count)];
     }
 
+    public Brainrot GetClosestBrainrot(Vector3 position) {
+        Brainrot closestBrainrot = null;
+        float closestSqrDistance = float.MaxValue;
+
+        for (int i = 0; i < spawnedBrainrots.Count; i++) {
+            if (!spawnedBrainrots[i].IsAlive) continue;
+
+            float sqrDistance = (spawnedBrainrots[i].TF.position - position).sqrMagnitude;
+            if (sqrDistance < closestSqrDistance) {
+                closestSqrDistance = sqrDistance;
+                closestBrainrot = spawnedBrainrots[i];
+            }
+        }
+
+        return closestBrainrot;
+    }
+
     private void InitialSpawn() {
         while (spawnedBrainrots.Count < spawnCapMax) {
             Spawn(GetRandomSpawnPoint(), Random.Range(0f, initialMaxLifeRatio));

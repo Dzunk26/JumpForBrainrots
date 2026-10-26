@@ -15,8 +15,8 @@ public class UpgradeConfigSO : ScriptableObject {
 
     [SerializeField] private StatModifier stepModifier;
 
-    [SerializeField] private double baseCost = 10;
-    [SerializeField] private float costGrowth = 1.15f; // cost = baseCost * costGrowth ^ level
+    [SerializeField] private double baseCost = 8.05;
+    [SerializeField] private float costGrowth = 1.0954451f; // cost = baseCost * costGrowth ^ level
 
     public bool MatchUpgradeType(UpgradeType upgradeType) {
         return this.upgradeType == upgradeType;

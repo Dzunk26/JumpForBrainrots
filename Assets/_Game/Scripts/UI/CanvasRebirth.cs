@@ -68,6 +68,7 @@ public class CanvasRebirth : UICanvas {
         blockerButton.onClick.AddListener(OnClickCloseButton);
         rebirthButton.onClick.AddListener(OnClickRebirthButton);
         freeRebirthButton.onClick.AddListener(OnClickFreeRebirthButton);
+        UIManager.Instance.GetUI<CanvasGamePlay>().ShowOnly(HudIcon.Money, HudIcon.JumpPower);
     }
 
     private void Update() {
@@ -82,6 +83,8 @@ public class CanvasRebirth : UICanvas {
         blockerButton.onClick.RemoveListener(OnClickCloseButton);
         rebirthButton.onClick.RemoveListener(OnClickRebirthButton);
         freeRebirthButton.onClick.RemoveListener(OnClickFreeRebirthButton);
+        if (UIManager.Instance.IsUIOpen<CanvasGamePlay>())
+            UIManager.Instance.GetUI<CanvasGamePlay>().ShowAll();
 
         StopAllCoroutines();
         ResetFeedbackVisual();

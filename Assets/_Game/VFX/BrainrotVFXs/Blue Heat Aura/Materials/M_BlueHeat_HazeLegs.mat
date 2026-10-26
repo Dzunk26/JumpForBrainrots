@@ -37,8 +37,9 @@ Material:
     - _ScrollSpeed: 0
     - _IsBeam: 0
     - _AlphaGamma: 1.2
+    - _LightEmission: 1
     - _Width0: 1
     - _Width1: 1
     m_Colors:
-    - _Color: {r: 1.18578, g: 1.18578, b: 1.18578, a: 1}
+    - _Color: {r: 1.244381, g: 1.244381, b: 1.244381, a: 1}
   m_BuildTextureStacks: []

@@ -15,6 +15,7 @@ public class CanvasUpgradeJump : UICanvas {
     private void OnEnable() {
         closeButton.onClick.AddListener(OnClickCloseButton);
         blockerButton.onClick.AddListener(OnClickCloseButton);
+        UIManager.Instance.GetUI<CanvasGamePlay>().ShowOnly(HudIcon.Money, HudIcon.JumpPower);
     }
 
     private void Update() {
@@ -24,6 +25,8 @@ public class CanvasUpgradeJump : UICanvas {
     private void OnDisable() {
         closeButton.onClick.RemoveListener(OnClickCloseButton);
         blockerButton.onClick.RemoveListener(OnClickCloseButton);
+        if (UIManager.Instance.IsUIOpen<CanvasGamePlay>())
+            UIManager.Instance.GetUI<CanvasGamePlay>().ShowAll();
     }
 
     public void OnInit(Player player) {

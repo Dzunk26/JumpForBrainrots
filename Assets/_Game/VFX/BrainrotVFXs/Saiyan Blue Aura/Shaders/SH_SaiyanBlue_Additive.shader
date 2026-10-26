@@ -1,4 +1,5 @@
-// shader additive cho VFX chuyen tu Roblox (LightEmission = 1): texture x vertex color x mau HDR
+// shader cho VFX chuyen tu Roblox: texture x vertex color x mau HDR, tron premultiplied
+// _LightEmission giong Roblox: 1 = cong sang (additive), 0 = alpha thuong, o giua = pha tron
 // _AlphaGamma: Roblox tron mau trong gamma space, project chay Linear -> nang alpha len luy thua de do dam giong Roblox
 // Beam: 1 hat Vertical Billboard, truc doc cua texture chay doc beam (Attachment0 -> 1), truc ngang theo be rong
 //   _Repeat / _ScrollSpeed = TextureLength / TextureSpeed, _Width0 / _Width1 = be rong 2 dau (ti le so voi be rong hat)
@@ -8,6 +9,7 @@ Shader "_Game/VFX/Saiyan Blue Aura Additive" {
         _MainTex ("Texture", 2D) = "white" {}
         [HDR] _Color ("Color", Color) = (1, 1, 1, 1)
         _AlphaGamma ("Alpha Gamma", Range(0.5, 3)) = 1
+        _LightEmission ("Light Emission", Range(0, 1)) = 1
 
         [Header(Beam)]
         [ToggleUI] _IsBeam ("Is Beam", Float) = 0
@@ -25,7 +27,7 @@ Shader "_Game/VFX/Saiyan Blue Aura Additive" {
             Name "RobloxAdditive"
             Tags { "LightMode" = "UniversalForward" }
 
-            Blend One One
+            Blend One OneMinusSrcAlpha
             ZWrite Off
             Cull Off
 
@@ -44,6 +46,7 @@ Shader "_Game/VFX/Saiyan Blue Aura Additive" {
                 float4 _MainTex_ST;
                 half4 _Color;
                 half _AlphaGamma;
+                half _LightEmission;
                 float _IsBeam;
                 float _Repeat;
                 float _ScrollSpeed;
@@ -90,7 +93,7 @@ Shader "_Game/VFX/Saiyan Blue Aura Additive" {
                 half alpha = pow(saturate(tex.a * input.color.a * ramp.a * beamMask), _AlphaGamma) * _Color.a;
                 half3 color = tex.rgb * input.color.rgb * ramp.rgb * _Color.rgb;
 
-                return half4(color * alpha, alpha);
+                return half4(color * alpha, alpha * (1 - _LightEmission));
             }
             ENDHLSL
         }

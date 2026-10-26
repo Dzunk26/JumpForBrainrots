@@ -14,6 +14,10 @@ public class ListSkinSO : ScriptableObject {
         return listSkinSO[index];
     }
 
+    public SkinSO GetRandomSkinSO() {
+        return listSkinSO[Random.Range(0, listSkinSO.Count)];
+    }
+
     // skin dau tien trong list la skin mac dinh
     public SkinSO GetDefaultSkinSO() {
         return listSkinSO[0];

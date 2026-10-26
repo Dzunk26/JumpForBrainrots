@@ -49,6 +49,9 @@ public class Bot : Character {
     [SerializeField] private float highRarityRate = 0.35f;
     [SerializeField] private float emptySlotRate = 0.1f;
 
+    [Header("Skin")]
+    [SerializeField] private ListSkinSO listSkinSO;
+
     [SerializeField] private float rotateSpeed = 15f;
 
     private bool isTraversingLink;
@@ -100,6 +103,7 @@ public class Bot : Character {
         agent.speed = characterStat.GetMoveSpeed();
         InitNavMeshArea();
         base.OnInit();
+        characterVisual.OnChangeSkin(listSkinSO.GetRandomSkinSO());
         ResetToSpawnPoint();
         ChangeState(BotStates.Idle);
     }

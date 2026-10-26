@@ -31,6 +31,7 @@ public class CanvasSell : UICanvas {
         sortValueButton.onClick.AddListener(OnClickSortValueButton);
         selectAllButton.onClick.AddListener(OnClickSelectAllButton);
         sellButton.onClick.AddListener(OnClickSellButton);
+        UIManager.Instance.GetUI<CanvasGamePlay>().ShowOnly(HudIcon.Money);
     }
 
     private void OnDisable() {
@@ -39,6 +40,8 @@ public class CanvasSell : UICanvas {
         sortValueButton.onClick.RemoveListener(OnClickSortValueButton);
         selectAllButton.onClick.RemoveListener(OnClickSelectAllButton);
         sellButton.onClick.RemoveListener(OnClickSellButton);
+        if (UIManager.Instance.IsUIOpen<CanvasGamePlay>())
+            UIManager.Instance.GetUI<CanvasGamePlay>().ShowAll();
     }
 
     public override void SetUp() {

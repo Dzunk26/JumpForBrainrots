@@ -14,10 +14,13 @@ public class CanvasInventory : UICanvas {
 
     private void OnEnable() {
         closeButton.onClick.AddListener(OnClickCloseButton);
+        UIManager.Instance.GetUI<CanvasGamePlay>().ShowOnly(HudIcon.HotBar);
     }
 
     private void OnDisable() {
         closeButton.onClick.RemoveListener(OnClickCloseButton);
+        if (UIManager.Instance.IsUIOpen<CanvasGamePlay>())
+            UIManager.Instance.GetUI<CanvasGamePlay>().ShowAll();
     }
 
     public override void SetUp() {

@@ -253,12 +253,12 @@ PrefabInstance:
     - target: {fileID: 211889950995320227, guid: 3b7098e33178cee40a0e902e0ad66df9,
         type: 3}
       propertyPath: hideDistance
-      value: 45
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 211889950995320227, guid: 3b7098e33178cee40a0e902e0ad66df9,
         type: 3}
       propertyPath: showDistance
-      value: 40
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2708939087765984289, guid: 3b7098e33178cee40a0e902e0ad66df9,
         type: 3}
