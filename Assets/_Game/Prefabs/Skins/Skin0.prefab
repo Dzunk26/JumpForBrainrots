@@ -46,6 +46,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6650504004194451279}
+  skinAnimEvent: {fileID: 1562813349275574654}
+  batHoldPoint: {fileID: 5279936617958475494}
+--- !u!1 &8562532075149850683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5279936617958475494}
+  m_Layer: 0
+  m_Name: BatHoldPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5279936617958475494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562532075149850683}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.6973467, y: 0.2990148, z: 0.10573264, w: 0.6427428}
+  m_LocalPosition: {x: -0.089542575, y: 0.17264658, z: 0.00791177}
+  m_LocalScale: {x: 0.9999993, y: 0.9999993, z: 0.9999993}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1482932516669750550}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &946252411655291614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,12 +154,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1852576806548013000, guid: f0c8b7fdda43bbf4cb43aca31b9653f6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5279936617958475494}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0c8b7fdda43bbf4cb43aca31b9653f6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1562813349275574654}
   m_SourcePrefab: {fileID: 100100000, guid: f0c8b7fdda43bbf4cb43aca31b9653f6, type: 3}
+--- !u!1 &135295317923807119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f0c8b7fdda43bbf4cb43aca31b9653f6,
+    type: 3}
+  m_PrefabInstance: {fileID: 946252411655291614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1562813349275574654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135295317923807119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0604a63f7c859544b5672dbc91dc19c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &768843347341042997 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0c8b7fdda43bbf4cb43aca31b9653f6,
+    type: 3}
+  m_PrefabInstance: {fileID: 946252411655291614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1482932516669750550 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: f0c8b7fdda43bbf4cb43aca31b9653f6,
     type: 3}
   m_PrefabInstance: {fileID: 946252411655291614}
   m_PrefabAsset: {fileID: 0}

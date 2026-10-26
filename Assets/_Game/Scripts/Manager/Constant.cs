@@ -47,14 +47,9 @@ public static class Constant {
 
     public static string FLOOR_TITLE_SUFFIX = "nd Floor";
 
-    public static string NOW_TITTLE_TEXT = "Now";
-    public static string AFFTER_REBIRTH_TITTLE_TEXT = "After Rebirth";
     public static string REBIRTH_TEXT = "REBIRTH";
     public static string REBIRTH_READY_TEXT = "REBIRTH!";
     public static string MAX_REBIRTH_TEXT = "MAX";
-    public static string REBIRTH_LEVEL_PREFIX = "Lv ";
-    public static string AFTER_REBIRTH_TITLE = "After Rebirth";
-    public static string MAX_REBIRTH_TITLE = "Max Rebirth";
     public static string REBIRTH_GOAL_PREFIX = "Reach <color=#7FE9FF>";
     public static string REBIRTH_GOAL_SUFFIX = " Jump Power</color> to rebirth for free";
     public static string REBIRTH_GOAL_READY = "Ready! Rebirth for <color=#8DFF5A>free</color>";

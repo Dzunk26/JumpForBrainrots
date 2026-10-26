@@ -18,8 +18,8 @@ MonoBehaviour:
   brainrotModel: {fileID: 9069791291761472645, guid: 22563a7bf5fee974893b1ed1f042742e,
     type: 3}
   lifeTimerMax: 60
-  incomeAmount: 19
-  afkIncomeAmount: 10
+  incomeAmount: 55
+  afkIncomeAmount: 41
   sellPrice:
     mantissa: 1.9
     exponent: 3

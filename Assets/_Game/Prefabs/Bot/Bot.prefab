@@ -140,6 +140,15 @@ MonoBehaviour:
   characterStat: {fileID: 565410719091811577}
   characterVisual: {fileID: 1708469488440586426}
   baseHouse: {fileID: 0}
+  attackRange: 2.5
+  attackRadius: 2.25
+  attackHeight: 2.875
+  attackTimerMax: 0.90000004
+  knockbackForce: 60
+  knockbackUpForce: 45
+  characterLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   agent: {fileID: 5806406833791645976}
   stateTimerMax: 5
   catchRange: 2
@@ -160,6 +169,15 @@ MonoBehaviour:
   holdRandomBrainrotRate: 0.3
   dropRandomBrainrotRate: 0.5
   deadTimerMax: 3
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 1608
+  knockbackRiseGravity: -150
+  knockbackFallGravity: -125
+  knockbackDrag: 60
+  knockbackTimerMax: 0.3
+  knockbackFallTimerMax: 5
+  knockbackSampleDistance: 5
   listBrainrotSO: {fileID: 11400000, guid: b1d9c61ce0b0fee4a9b94798d0cdcdac, type: 2}
   listRarityByLevel:
   - minRarity: 0
@@ -362,6 +380,11 @@ MonoBehaviour:
   brainrotHoldPoint: {fileID: 1352124230941080516}
   dropButtonSpawnPoint: {fileID: 0}
   skinRoot: {fileID: 3184162690286323535}
+  owner: {fileID: 5171840967369453389}
+  batPrefab: {fileID: 7334822627281767432, guid: b703e2f5005943e46bb18c0070ec3b40,
+    type: 3}
+  attackLayerIndex: 1
+  attackBodyLayerIndex: 2
 --- !u!4 &7563747835102885568 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0c8b7fdda43bbf4cb43aca31b9653f6,

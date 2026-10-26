@@ -9,7 +9,8 @@ public enum AnimState {
     StartJump,
     Falling,
     Interact,
-    Death
+    Death,
+    Attack
 }
 
 public class CharacterVisual : MonoBehaviour {
@@ -28,6 +29,14 @@ public class CharacterVisual : MonoBehaviour {
     [SerializeField] private Transform brainrotHoldPoint;
     [SerializeField] private Transform dropButtonSpawnPoint;
     [SerializeField] private Transform skinRoot;
+    [SerializeField] private Character owner;
+
+    [Header("Bat")]
+    [SerializeField] private Transform batPrefab;
+    [SerializeField] private int attackLayerIndex = 1;
+    [SerializeField] private int attackBodyLayerIndex = 2;
+
+    private Transform bat;
 
     private Dictionary<SkinSO, SkinModel> dictSkinModel = new Dictionary<SkinSO, SkinModel>();
     private SkinModel currentSkin;
@@ -55,10 +64,12 @@ public class CharacterVisual : MonoBehaviour {
         currentSkin = GetSkinModel(skinSO);
         currentSkin.Active();
         animator = currentSkin.Animator;
+        AttachBat();
 
         // Animator vừa bật lại sẽ về state mặc định, nên phải set lại state và param hiện tại
         animator.SetFloat(Constant.ANIM_CLIMB_SPEED, climbSpeed);
         animator.SetTrigger(Cache.GetAnimName(currentAnimState));
+        UpdateAttackLayerWeight();
     }
 
     public void OnIdle() {
@@ -87,6 +98,11 @@ public class CharacterVisual : MonoBehaviour {
 
     public void OnInteract() {
         ChangeAnimState(AnimState.Interact);
+    }
+
+    public void OnAttack() {
+        animator.Play(Cache.GetAnimHash(AnimState.Attack), attackLayerIndex, 0f);
+        animator.Play(Cache.GetAnimHash(AnimState.Attack), attackBodyLayerIndex, 0f);
     }
 
     public void OnWin() {
@@ -134,6 +150,29 @@ public class CharacterVisual : MonoBehaviour {
         animator.ResetTrigger(Cache.GetAnimName(currentAnimState));
         currentAnimState = animState;
         animator.SetTrigger(Cache.GetAnimName(currentAnimState));
+        UpdateAttackLayerWeight();
+    }
+
+    // leo thang va chet thi tat layer cam gay / vung gay de khong de len anim goc
+    private void UpdateAttackLayerWeight() {
+        if (animator.layerCount <= attackBodyLayerIndex) return;
+
+        bool isUseAttackLayer = currentAnimState != AnimState.Climbing && currentAnimState != AnimState.Death;
+        animator.SetLayerWeight(attackLayerIndex, isUseAttackLayer ? 1f : 0f);
+        animator.SetLayerWeight(attackBodyLayerIndex, isUseAttackLayer ? 1f : 0f);
+        if (bat != null) {
+            bat.gameObject.SetActive(isUseAttackLayer);
+        }
+    }
+
+    private void AttachBat() {
+        if (batPrefab == null) return;
+
+        if (bat == null) {
+            bat = Instantiate(batPrefab);
+        }
+
+        bat.SetParent(currentSkin.GetBatHoldPoint(), false);
     }
 
     private void PlayAnim(AnimState animState) {
@@ -153,6 +192,7 @@ public class CharacterVisual : MonoBehaviour {
     private SkinModel GetSkinModel(SkinSO skinSO) {
         if (!dictSkinModel.ContainsKey(skinSO)) {
             dictSkinModel[skinSO] = Instantiate(skinSO.GetSkinModel(), skinRoot);
+            dictSkinModel[skinSO].OnInit(owner);
         }
 
         return dictSkinModel[skinSO];

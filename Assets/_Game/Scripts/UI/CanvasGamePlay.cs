@@ -29,6 +29,7 @@ public class CanvasGamePlay : UICanvas {
     [SerializeField] private UpgradeHouseButtonUI upgradeHouseButtonUI;
     [SerializeField] private HotBarUI hotBarUI;
     [SerializeField] private TestJumpButton testJumpButton; // for testing
+    [SerializeField] private AttackButtonUI attackButtonUI;
     [SerializeField] private MoneyCollectVFX moneyCollectVFX;
 
     [Header("Hud Groups")]
@@ -94,6 +95,7 @@ public class CanvasGamePlay : UICanvas {
         equipButton.OnInit(player, playerCamera);
         upgradeHouseButtonUI.OnInit(player, playerCamera);
         testJumpButton.OnInit(player);
+        attackButtonUI.OnInit(player);
         dropButton.OnInit(player, playerCamera);
         hotBarUI.OnInit();
     }

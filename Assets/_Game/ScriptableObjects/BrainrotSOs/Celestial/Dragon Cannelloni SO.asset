@@ -19,7 +19,7 @@ MonoBehaviour:
     type: 3}
   lifeTimerMax: 60
   incomeAmount: 1600000
-  afkIncomeAmount: 800000
+  afkIncomeAmount: 1200000
   sellPrice:
     mantissa: 1.6
     exponent: 8

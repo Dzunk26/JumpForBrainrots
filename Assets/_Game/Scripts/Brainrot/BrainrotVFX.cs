@@ -36,6 +36,9 @@ public class BrainrotVFX : MonoBehaviour {
     [SerializeField] private Color primaryColor = Color.white;
     [SerializeField] private Color secondaryColor = Color.white;
     [SerializeField] private bool isFollowModelAnim = false;
+    [SerializeField] private float showDistance = 60f;
+    [SerializeField] private float hideDistance = 65f;
+    [SerializeField] private float checkTimerMax = 0.2f;
 
     private Transform tf;
     private Transform anchor;
@@ -47,6 +50,9 @@ public class BrainrotVFX : MonoBehaviour {
     private Vector3 anchorBaseLocalScale;
     private ParticleSystem[] particleSystems;
     private TrailRenderer[] trails;
+    private Transform cameraTF;
+    private float checkTimer;
+    private bool isShowing;
 
     private void Awake() {
         baseLocalPosition = TF.localPosition;

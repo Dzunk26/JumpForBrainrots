@@ -13,6 +13,8 @@ public static class BotStates {
     public static readonly BotState Return = new BotState(ReturnState.OnEnter, ReturnState.OnExecute, ReturnState.OnExit);
 
     public static readonly BotState Dead = new BotState(DeadState.OnEnter, DeadState.OnExecute, DeadState.OnExit);
+
+    public static readonly BotState Knockback = new BotState(KnockbackState.OnEnter, KnockbackState.OnExecute, KnockbackState.OnExit);
 }
 
 public class BotState {

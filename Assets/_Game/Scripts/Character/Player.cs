@@ -14,6 +14,7 @@ public enum PlayerState {
     Fall,
     LadderJump,
     Dead,
+    Knockback,
 }
 
 public enum SlotInteractType {
@@ -70,6 +71,10 @@ public class Player : Character, IDataPersistence {
 
     [SerializeField] private float climbInputDeadZone = 0.3f;
 
+    [Header("Knockback")]
+    [SerializeField] private float knockbackTimerMax = 0.3f;
+    [SerializeField] private float knockbackDrag = 60f;
+
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
     private float fallMoveSpeed;
@@ -85,6 +90,8 @@ public class Player : Character, IDataPersistence {
     private float ladderJumpTimer;
     private float climbInput;
     private List<BaseSlotData> savedSlots;
+    private Vector3 knockbackVelocity;
+    private float knockbackTimer;
 
     private void OnEnable() {
         PlayerProgress.Instance.OnLoadPlayerData += PlayerProgress_OnLoadPlayerData;
@@ -293,6 +300,17 @@ public class Player : Character, IDataPersistence {
         characterVisual.OnDead();
         ChangeState(PlayerState.Dead);
     }
+
+    public override void OnHit(Vector3 knockbackVelocity) {
+        if (currentState == PlayerState.Dead) return;
+
+        isAttacking = false;
+        DropCapturedBrainrot();
+        this.knockbackVelocity = new Vector3(knockbackVelocity.x, 0f, knockbackVelocity.z);
+        verticalVelocity = knockbackVelocity.y;
+        knockbackTimer = 0f;
+        ChangeState(PlayerState.Knockback);
+    }
     
 
     public override void OnCaptureBrainrot() {
@@ -392,6 +410,12 @@ public class Player : Character, IDataPersistence {
         HoldBrainrot(brainrot, slotPosition, HeldBrainrotSource.Inventory);
     }
 
+    protected override bool CanAttack() {
+        if (currentState == PlayerState.Dead || currentState == PlayerState.Climb || currentState == PlayerState.Knockback) return false;
+
+        return base.CanAttack();
+    }
+
     private void CalculateStats() {
         characterStat.OnInit();
 
@@ -452,6 +476,9 @@ public class Player : Character, IDataPersistence {
                 break;
             case PlayerState.Dead:
                 HandleDead();
+                break;
+            case PlayerState.Knockback:
+                HandleKnockback();
                 break;
         }
     }
@@ -650,6 +677,18 @@ public class Player : Character, IDataPersistence {
         }
     }
 
+    private void HandleKnockback() {
+        characterVisual.OnFalling();
+        characterController.Move(knockbackVelocity * Time.deltaTime);
+        knockbackVelocity = Vector3.MoveTowards(knockbackVelocity, Vector3.zero, knockbackDrag * Time.deltaTime);
+
+        knockbackTimer += Time.deltaTime;
+        if (knockbackTimer < knockbackTimerMax || !IsGrounded()) return;
+
+        SoundManager.Instance.PlayFx(FxID.Landing);
+        ChangeState(IsMoving() ? PlayerState.Run : PlayerState.Idle);
+    }
+
     private void HandleDead() {
         stateTimer += Time.deltaTime;
         if (stateTimer < statTimerMax) return;
@@ -735,6 +774,6 @@ public class Player : Character, IDataPersistence {
     }
 
     private bool IsAirborneState(PlayerState state) {
-        return state == PlayerState.Jump || state == PlayerState.Fall || state == PlayerState.LadderJump;
+        return state == PlayerState.Jump || state == PlayerState.Fall || state == PlayerState.LadderJump || state == PlayerState.Knockback;
     }
 }

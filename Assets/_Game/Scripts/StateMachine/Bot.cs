@@ -43,6 +43,15 @@ public class Bot : Character {
     [Header("Dead State")]
     [SerializeField] private float deadTimerMax = 3f;
 
+    [Header("Knockback State")]
+    [SerializeField] private LayerMask groundLayerMask = 1608;
+    [SerializeField] private float knockbackRiseGravity = -150f;
+    [SerializeField] private float knockbackFallGravity = -125f;
+    [SerializeField] private float knockbackDrag = 60f;
+    [SerializeField] private float knockbackTimerMax = 0.3f;
+    [SerializeField] private float knockbackFallTimerMax = 5f;
+    [SerializeField] private float knockbackSampleDistance = 5f;
+
     [Header("Base Slot")]
     [SerializeField] private ListBrainrotSO listBrainrotSO;
     [SerializeField] private List<BotRarityByLevel> listRarityByLevel;
@@ -72,9 +81,10 @@ public class Bot : Character {
     private List<BrainrotSO> capturedBrainrotSOs = new List<BrainrotSO>();
     private BoxCollider patrolArea;
     private float stayTimer;
+    private Vector3 knockbackVelocity;
 
     private void Update() {
-        if (currentState == BotStates.Dead) {
+        if (currentState == BotStates.Dead || currentState == BotStates.Knockback) {
             currentState.OnExecute(this);
             return;
         }
@@ -145,6 +155,18 @@ public class Bot : Character {
         if (currentState == BotStates.Dead) return;
 
         ChangeState(BotStates.Dead);
+    }
+
+    public override void OnHit(Vector3 knockbackVelocity) {
+        if (currentState == BotStates.Dead) return;
+
+        this.knockbackVelocity = knockbackVelocity;
+        if (currentState == BotStates.Knockback) {
+            stateTimer = 0f;
+            return;
+        }
+
+        ChangeState(BotStates.Knockback);
     }
 
     public void OnRespawn() {
@@ -241,6 +263,47 @@ public class Bot : Character {
         if (stateTimer > 0) return;
 
         OnRespawn();
+    }
+
+    public void OnEnterKnockback() {
+        stateTimer = 0f;
+        isAttacking = false;
+        isTraversingLink = false;
+        StopMoving();
+        DropCapturedBrainrot();
+    }
+
+    public void OnExecuteKnockback() {
+        float deltaTime = Time.deltaTime;
+        stateTimer += deltaTime;
+        characterVisual.OnFalling();
+
+        // roi qua lau thi coi nhu rot khoi map
+        if (stateTimer >= knockbackFallTimerMax) {
+            ChangeState(BotStates.Dead);
+            return;
+        }
+
+        float gravity = knockbackVelocity.y < 0f ? knockbackFallGravity : knockbackRiseGravity;
+        Vector3 horizontal = new Vector3(knockbackVelocity.x, 0f, knockbackVelocity.z);
+        horizontal = Vector3.MoveTowards(horizontal, Vector3.zero, knockbackDrag * deltaTime);
+        knockbackVelocity = new Vector3(horizontal.x, knockbackVelocity.y + gravity * deltaTime, horizontal.z);
+
+        // dam vao tuong thi mat luc ngang
+        Vector3 origin = TF.position + Vector3.up * agent.height * 0.5f;
+        float wallDistance = horizontal.magnitude * deltaTime + agent.radius;
+        if (horizontal.sqrMagnitude > 0.001f && Physics.Raycast(origin, horizontal.normalized, wallDistance, jumpWallLayerMask, QueryTriggerInteraction.Ignore)) {
+            knockbackVelocity.x = 0f;
+            knockbackVelocity.z = 0f;
+        }
+
+        Vector3 deltaPosition = knockbackVelocity * deltaTime;
+        if (stateTimer >= knockbackTimerMax && knockbackVelocity.y <= 0f && IsKnockbackLanded(deltaPosition, out Vector3 landPoint)) {
+            LandFromKnockback(landPoint);
+            return;
+        }
+
+        TF.position += deltaPosition;
     }
 
     public void StopMoving() {
@@ -454,6 +517,32 @@ public class Bot : Character {
         }
 
         if (heldBrainrotSource != HeldBrainrotSource.Inventory || Random.value >= dropRandomBrainrotRate) return;
+
+        DropBrainrot();
+    }
+
+    private bool IsKnockbackLanded(Vector3 deltaPosition, out Vector3 landPoint) {
+        Vector3 origin = TF.position + new Vector3(deltaPosition.x, 0f, deltaPosition.z) + Vector3.up * 0.5f;
+        float distance = 0.5f + Mathf.Abs(deltaPosition.y);
+        bool isLanded = Physics.Raycast(origin, Vector3.down, out RaycastHit hit, distance, groundLayerMask, QueryTriggerInteraction.Ignore);
+
+        landPoint = hit.point;
+        return isLanded;
+    }
+
+    private void LandFromKnockback(Vector3 landPoint) {
+        if (!NavMesh.SamplePosition(landPoint, out NavMeshHit hit, knockbackSampleDistance, NavMesh.AllAreas)) {
+            ChangeState(BotStates.Dead);
+            return;
+        }
+
+        agent.Warp(hit.position);
+        TF.position = hit.position;
+        ChangeState(BotStates.Idle);
+    }
+
+    private void DropCapturedBrainrot() {
+        if (!IsHoldingCapturedBrainrot()) return;
 
         DropBrainrot();
     }

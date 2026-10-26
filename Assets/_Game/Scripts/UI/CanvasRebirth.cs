@@ -12,10 +12,6 @@ public class CanvasRebirth : UICanvas {
     [SerializeField] private UnityEngine.UI.Button rebirthButton;
     [SerializeField] private UnityEngine.UI.Button freeRebirthButton;
 
-    [Header("Header")]
-    [SerializeField] private TextMeshProUGUI nowBoxTittleText;
-    [SerializeField] private TextMeshProUGUI afterBoxTittleText;
-
     [Header("Now")]
     [SerializeField] private TextMeshProUGUI nowMoneyText;
     [SerializeField] private TextMeshProUGUI nowSpeedText;
@@ -23,7 +19,6 @@ public class CanvasRebirth : UICanvas {
 
     [Header("After Rebirth")]
     [SerializeField] private RectTransform afterBox;
-    [SerializeField] private TextMeshProUGUI afterTitleText;
     [SerializeField] private TextMeshProUGUI afterMoneyText;
     [SerializeField] private TextMeshProUGUI afterSpeedText;
     [SerializeField] private GameObject afterJumpRow;
@@ -114,11 +109,6 @@ public class CanvasRebirth : UICanvas {
         int requiredJumpLevel = player.GetRebirthRequiredJumpLevel();
         isReady = player.IsReachedRebirth();
 
-        nowBoxTittleText.SetText(Constant.NOW_TITTLE_TEXT + " " + Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
-        afterBoxTittleText.SetText(Constant.AFFTER_REBIRTH_TITTLE_TEXT + " " + Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
-        afterBoxTittleText.gameObject.SetActive(true);
-
-        afterTitleText.SetText(Constant.AFTER_REBIRTH_TITLE);
         afterJumpRow.SetActive(true);
         UpdateRewardVisual(rebirthLevel);
 
@@ -161,10 +151,6 @@ public class CanvasRebirth : UICanvas {
     private void UpdateMaxRebirthVisual(int rebirthLevel) {
         isReady = false;
 
-        nowBoxTittleText.SetText(Constant.NOW_TITTLE_TEXT + " " + Constant.REBIRTH_LEVEL_PREFIX + rebirthLevel);
-        afterBoxTittleText.gameObject.SetActive(false);
-
-        afterTitleText.SetText(Constant.MAX_REBIRTH_TITLE);
         afterMoneyText.SetText(nowMoneyText.text);
         afterSpeedText.SetText(nowSpeedText.text);
         afterJumpRow.SetActive(false);

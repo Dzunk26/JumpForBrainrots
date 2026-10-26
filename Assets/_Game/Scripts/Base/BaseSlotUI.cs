@@ -53,7 +53,7 @@ public class BaseSlotUI : MonoBehaviour {
 
     private void UpdateVisual() {
         UpdateTextActive();
-        if (!baseSlot.IsActive) return;
+        if (!baseSlot.IsActive || !isShowing) return;
 
         BigDouble totalIncome = baseSlot.GetTotalIncome();
         notatedMoney = Utils.SciNotToUSName(totalIncome);
@@ -70,13 +70,13 @@ public class BaseSlotUI : MonoBehaviour {
         if (isShowing) {
             if (sqrDistance > hideDistance * hideDistance) {
                 isShowing = false;
-                UpdateTextActive();
+                UpdateVisual();
             }
         }
         else {
             if (sqrDistance < showDistance * showDistance) {
                 isShowing = true;
-                UpdateTextActive();
+                UpdateVisual();
             }
         }
     }

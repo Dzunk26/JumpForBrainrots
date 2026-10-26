@@ -8583,6 +8583,15 @@ MonoBehaviour:
   characterStat: {fileID: 463762276}
   characterVisual: {fileID: 516221915}
   baseHouse: {fileID: 361748726}
+  attackRange: 2.5
+  attackRadius: 2.25
+  attackHeight: 2.875
+  attackTimerMax: 0.90000004
+  knockbackForce: 60
+  knockbackUpForce: 45
+  characterLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   dropVFXPoolType: 4
   listUpgradeConfigSO: {fileID: 11400000, guid: 6353c9b197f19014482aaa44f6c3878e,
     type: 2}
@@ -8623,6 +8632,8 @@ MonoBehaviour:
   ladderJumpDuration: 0.3
   ladderJumpUpVelocity: 0
   climbInputDeadZone: 0.01
+  knockbackTimerMax: 0.3
+  knockbackDrag: 60
 --- !u!143 &463762275
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9471,6 +9482,11 @@ MonoBehaviour:
   brainrotHoldPoint: {fileID: 614755531}
   dropButtonSpawnPoint: {fileID: 788692576}
   skinRoot: {fileID: 666990476}
+  owner: {fileID: 463762274}
+  batPrefab: {fileID: 7334822627281767432, guid: b703e2f5005943e46bb18c0070ec3b40,
+    type: 3}
+  attackLayerIndex: 1
+  attackBodyLayerIndex: 2
 --- !u!4 &520306557 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3692458461658116587, guid: 0a65d3f297a776d44aff70de64f9ed1a,
