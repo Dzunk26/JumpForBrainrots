@@ -26,7 +26,7 @@ public class HotBarUI : MonoBehaviour {
     }
 
     public void UpdateVisual() {
-        BrainrotSO[] items = InventoryManager.Instance.GetHotbarItems();
+        ItemSO[] items = InventoryManager.Instance.GetHotbarItems();
 
         for (int i = 0; i < slots.Count; i++) {
             slots[i].OnInit(SlotType.Hotbar, i, items[i], InventoryManager.Instance.IsSelected(SlotType.Hotbar, i));

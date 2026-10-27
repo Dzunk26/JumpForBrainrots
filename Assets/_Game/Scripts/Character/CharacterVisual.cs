@@ -10,7 +10,10 @@ public enum AnimState {
     Falling,
     Interact,
     Death,
-    Attack
+    Attack,
+    Knockback,
+    Lying,
+    GettingUp,
 }
 
 public class CharacterVisual : MonoBehaviour {
@@ -36,7 +39,22 @@ public class CharacterVisual : MonoBehaviour {
     [SerializeField] private int attackLayerIndex = 1;
     [SerializeField] private int attackBodyLayerIndex = 2;
 
+    [Header("Knockback")]
+    [SerializeField] private float tumbleSpeed = 720f; // do / giay, lon vong luc bay
+    [SerializeField] private float tumblePivotHeight = 2f; // lon quanh giua nguoi thay vi quanh chan
+    [SerializeField] private float lyingAngle = 90f; // nam ngua: nga ra sau bao nhieu do
+    [SerializeField] private float lyingHeight = 0.5f; // nua be day than, de lung cham dat chu khong lun xuong
+    [SerializeField] private float lieDownDuration = 0.2f; // cham dat: tu dang lon vong xoay ve nam phang
+    [SerializeField] private float getUpTurnDuration = 0.25f; // phai bang thoi gian transition sang GettingUp trong controller
+    [SerializeField] private float getUpBlendDuration = 0.35f; // dung day xong blend sang idle / run lau hon transition mac dinh cho muot
+    [SerializeField] private float attackLayerFadeDuration = 0.25f; // layer cam gay hien / tat dan, tay khong bi giat
+
+    // ten state trong Base Layer de crossfade truc tiep khi dung day xong
+    private static readonly int IDLE_STATE_HASH = Animator.StringToHash("Idle");
+    private static readonly int RUN_STATE_HASH = Animator.StringToHash("Running");
+
     private Transform bat;
+    private bool isHoldingBat;
 
     private Dictionary<SkinSO, SkinModel> dictSkinModel = new Dictionary<SkinSO, SkinModel>();
     private SkinModel currentSkin;
@@ -48,12 +66,42 @@ public class CharacterVisual : MonoBehaviour {
     private AnimState currentAnimState;
     private Transform tf;
 
+    private Vector3 skinRootLocalPosition;
+    private Quaternion skinRootLocalRotation;
+    private bool isTumbling;
+    private Vector3 tumbleAxis;
+    private float tumbleAngle;
+    private Quaternion poseRotation = Quaternion.identity;
+    private float poseHeight;
+    private Quaternion blendFromRotation;
+    private Quaternion blendToRotation;
+    private float blendFromHeight;
+    private float blendToHeight;
+    private float blendDuration;
+    private float blendTimer = -1f;
+    private float attackLayerWeight;
+    private float attackLayerTargetWeight;
+
+    private void Awake() {
+        skinRootLocalPosition = skinRoot.localPosition;
+        skinRootLocalRotation = skinRoot.localRotation;
+    }
+
     private void Start() {
         currentAnimState = AnimState.Idle;
     }
 
+    private void Update() {
+        HandleAttackLayerFade();
+    }
+
+    private void LateUpdate() {
+        HandleTumble();
+    }
+
     public void OnInit() {
         OnDropBrainrot();
+        BlendSkinRootTo(Quaternion.identity, 0f, 0f);
     }
 
     public void OnChangeSkin(SkinSO skinSO) {
@@ -70,6 +118,7 @@ public class CharacterVisual : MonoBehaviour {
         animator.SetFloat(Constant.ANIM_CLIMB_SPEED, climbSpeed);
         animator.SetTrigger(Cache.GetAnimName(currentAnimState));
         UpdateAttackLayerWeight();
+        SetAttackLayerWeight(attackLayerTargetWeight);
     }
 
     public void OnIdle() {
@@ -100,6 +149,12 @@ public class CharacterVisual : MonoBehaviour {
         ChangeAnimState(AnimState.Interact);
     }
 
+    // bat / tat gay tren tay: nguoi choi theo item dang chon, bot chi lay ra luc danh
+    public void SetHoldingBat(bool isHoldingBat) {
+        this.isHoldingBat = isHoldingBat;
+        UpdateAttackLayerWeight();
+    }
+
     public void OnAttack() {
         animator.Play(Cache.GetAnimHash(AnimState.Attack), attackLayerIndex, 0f);
         animator.Play(Cache.GetAnimHash(AnimState.Attack), attackBodyLayerIndex, 0f);
@@ -110,7 +165,43 @@ public class CharacterVisual : MonoBehaviour {
     }
 
     public void OnDead() {
+        BlendSkinRootTo(Quaternion.identity, 0f, getUpTurnDuration);
         ChangeAnimState(AnimState.Death);
+    }
+
+    // bi danh: khua tay chan va lon vong theo huong bay (dau chui ve huong bay)
+    public void OnKnockback(Vector3 knockbackVelocity) {
+        Vector3 direction = new Vector3(knockbackVelocity.x, 0f, knockbackVelocity.z);
+        if (direction.sqrMagnitude < 0.001f) direction = -TF.forward;
+
+        tumbleAxis = skinRoot.parent.InverseTransformDirection(Vector3.Cross(Vector3.up, direction.normalized)).normalized;
+        tumbleAngle = 0f;
+        isTumbling = true;
+        blendTimer = -1f;
+        ChangeAnimState(AnimState.Knockback);
+    }
+
+    // cham dat: xoay ca nguoi nam ngua phang xuong dat, tay chan tha long
+    // yawOffset: goc owner vua xoay huong nhan vat (nam huong ngau nhien), bu lai de model khong bi giat
+    public void OnKnockedDown(float yawOffset) {
+        poseRotation = Quaternion.Inverse(Quaternion.AngleAxis(yawOffset, Vector3.up)) * poseRotation;
+        SetSkinRootPose(poseRotation, poseHeight);
+
+        Quaternion lyingRotation = Quaternion.AngleAxis(-lyingAngle, Vector3.right);
+        BlendSkinRootTo(lyingRotation, lyingHeight - tumblePivotHeight, lieDownDuration);
+        ChangeAnimState(AnimState.Lying);
+    }
+
+    // xoay nguoi ve thang dung luc anim Getting Up blend vao (root cua anim dang nam nen hai cai bu nhau)
+    public void OnGetUp() {
+        BlendSkinRootTo(Quaternion.identity, 0f, getUpTurnDuration);
+        ChangeAnimState(AnimState.GettingUp);
+    }
+
+    // dung day gan xong thi cho chuyen sang idle / run luon de blend chong len doan cuoi, khong bi khung
+    public bool IsGetUpFinished(float exitNormalizedTime) {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.shortNameHash == Cache.GetAnimHash(AnimState.GettingUp) && stateInfo.normalizedTime >= exitNormalizedTime;
     }
 
     public void OnCaptureBrainrot(BrainrotSO brainrotSO) {
@@ -148,21 +239,92 @@ public class CharacterVisual : MonoBehaviour {
         if (currentAnimState == animState) return;
 
         animator.ResetTrigger(Cache.GetAnimName(currentAnimState));
+        bool isFromGetUp = currentAnimState == AnimState.GettingUp && (animState == AnimState.Idle || animState == AnimState.Run);
         currentAnimState = animState;
-        animator.SetTrigger(Cache.GetAnimName(currentAnimState));
+
+        if (isFromGetUp) {
+            animator.CrossFadeInFixedTime(animState == AnimState.Run ? RUN_STATE_HASH : IDLE_STATE_HASH, getUpBlendDuration, 0);
+        }
+        else {
+            animator.SetTrigger(Cache.GetAnimName(currentAnimState));
+        }
         UpdateAttackLayerWeight();
     }
 
-    // leo thang va chet thi tat layer cam gay / vung gay de khong de len anim goc
+    // khong cam gay, leo thang, chet va bi danh van thi tat layer cam gay / vung gay de khong de len anim goc
     private void UpdateAttackLayerWeight() {
         if (animator.layerCount <= attackBodyLayerIndex) return;
 
-        bool isUseAttackLayer = currentAnimState != AnimState.Climbing && currentAnimState != AnimState.Death;
-        animator.SetLayerWeight(attackLayerIndex, isUseAttackLayer ? 1f : 0f);
-        animator.SetLayerWeight(attackBodyLayerIndex, isUseAttackLayer ? 1f : 0f);
+        bool isUseAttackLayer = isHoldingBat && !IsBodyBusyState(currentAnimState);
+        attackLayerTargetWeight = isUseAttackLayer ? 1f : 0f;
         if (bat != null) {
             bat.gameObject.SetActive(isUseAttackLayer);
         }
+    }
+
+    private void HandleAttackLayerFade() {
+        if (Mathf.Approximately(attackLayerWeight, attackLayerTargetWeight)) return;
+
+        float speed = attackLayerFadeDuration > 0f ? Time.deltaTime / attackLayerFadeDuration : 1f;
+        SetAttackLayerWeight(Mathf.MoveTowards(attackLayerWeight, attackLayerTargetWeight, speed));
+    }
+
+    private void SetAttackLayerWeight(float weight) {
+        attackLayerWeight = weight;
+        if (animator.layerCount <= attackBodyLayerIndex) return;
+
+        animator.SetLayerWeight(attackLayerIndex, weight);
+        animator.SetLayerWeight(attackBodyLayerIndex, weight);
+    }
+
+    private bool IsBodyBusyState(AnimState animState) {
+        return animState == AnimState.Climbing || animState == AnimState.Death
+            || animState == AnimState.Knockback || animState == AnimState.Lying || animState == AnimState.GettingUp;
+    }
+
+    private void HandleTumble() {
+        if (isTumbling) {
+            tumbleAngle += tumbleSpeed * Time.deltaTime;
+            SetSkinRootPose(Quaternion.AngleAxis(tumbleAngle, tumbleAxis), 0f);
+            return;
+        }
+
+        if (blendTimer < 0f) return;
+
+        blendTimer += Time.deltaTime;
+        float t = Mathf.Clamp01(blendTimer / blendDuration);
+        SetSkinRootPose(Quaternion.Slerp(blendFromRotation, blendToRotation, t), Mathf.Lerp(blendFromHeight, blendToHeight, t));
+        if (t >= 1f) {
+            blendTimer = -1f;
+        }
+    }
+
+    // dung lon vong, xoay / nang ha skinRoot dan ve tu the moi. duration <= 0 thi dat ngay (hoi sinh)
+    private void BlendSkinRootTo(Quaternion rotation, float height, float duration) {
+        isTumbling = false;
+
+        if (duration <= 0f) {
+            blendTimer = -1f;
+            SetSkinRootPose(rotation, height);
+            return;
+        }
+
+        blendFromRotation = poseRotation;
+        blendFromHeight = poseHeight;
+        blendToRotation = rotation;
+        blendToHeight = height;
+        blendDuration = duration;
+        blendTimer = 0f;
+    }
+
+    // xoay skinRoot quanh diem giua nguoi roi nang / ha them height (trong khong gian cha cua skinRoot)
+    private void SetSkinRootPose(Quaternion rotation, float height) {
+        poseRotation = rotation;
+        poseHeight = height;
+
+        Vector3 pivot = skinRootLocalPosition + Vector3.up * tumblePivotHeight;
+        skinRoot.localRotation = rotation * skinRootLocalRotation;
+        skinRoot.localPosition = pivot + rotation * (skinRootLocalPosition - pivot) + Vector3.up * height;
     }
 
     private void AttachBat() {

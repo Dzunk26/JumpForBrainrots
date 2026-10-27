@@ -24,6 +24,8 @@ public static class ToolSetupBatAttack {
     private static string BOT_PREFAB_PATH = "Assets/_Game/Prefabs/Bot/Bot.prefab";
     private static string GAME_SCENE_PATH = "Assets/_Game/Scenes/GameScene.unity";
     private static string CANVAS_GAMEPLAY_PATH = "Assets/_Game/Resources/UI/Canvas-Gameplay.prefab";
+    private static string TOOL_SO_FOLDER = "Assets/_Game/ScriptableObjects/ToolSOs";
+    private static string BAT_TOOL_SO_PATH = TOOL_SO_FOLDER + "/Bat Tool SO.asset";
     private static string BAT_HOLD_POINT_NAME = "BatHoldPoint";
     private static string ATTACK_BUTTON_NAME = "Attack";
     private static float BAT_LENGTH = 3f;
@@ -45,15 +47,63 @@ public static class ToolSetupBatAttack {
         AnimationClip idleClip = LoadClip(IDLE_FBX_PATH);
 
         foreach (string guid in AssetDatabase.FindAssets("t:Prefab", new[] { SKIN_FOLDER })) {
-            SetupSkin(AssetDatabase.GUIDToAssetPath(guid), idleClip, holdClip);
+            SetupSkin(AssetDatabase.GUIDToAssetPath(guid), idleClip, holdClip, false);
         }
 
-        SetupBotPrefab(batPrefab);
-        SetupScenePlayer(batPrefab);
+        SetupBotPrefab(character => SetupCharacterVisual(character, batPrefab));
+        SetupScenePlayer(character => SetupCharacterVisual(character, batPrefab));
         SetupAttackButton();
 
         AssetDatabase.SaveAssets();
         Debug.Log("[BatAttack] Setup done");
+    }
+
+    // tao item gay (ToolSO, id -2) va gan vao InventoryManager trong GameScene. icon tu gan sau trong asset
+    [MenuItem("Tools/Bat Attack/Setup Bat Item")]
+    private static void SetupBatItem() {
+        if (!AssetDatabase.IsValidFolder(TOOL_SO_FOLDER)) {
+            AssetDatabase.CreateFolder("Assets/_Game/ScriptableObjects", "ToolSOs");
+        }
+
+        ToolSO batToolSO = AssetDatabase.LoadAssetAtPath<ToolSO>(BAT_TOOL_SO_PATH);
+        if (batToolSO == null) {
+            batToolSO = ScriptableObject.CreateInstance<ToolSO>();
+            AssetDatabase.CreateAsset(batToolSO, BAT_TOOL_SO_PATH);
+            SerializedObject serializedTool = new SerializedObject(batToolSO);
+            serializedTool.FindProperty("toolName").stringValue = "Bat";
+            serializedTool.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        SetupSceneComponents<InventoryManager>(inventoryManager => {
+            SerializedObject serializedInventory = new SerializedObject(inventoryManager);
+            serializedInventory.FindProperty("batToolSO").objectReferenceValue = batToolSO;
+            serializedInventory.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(inventoryManager);
+        });
+
+        AssetDatabase.SaveAssets();
+        Selection.activeObject = batToolSO;
+        Debug.Log("[BatAttack] Setup bat item done, nho gan icon cho " + BAT_TOOL_SO_PATH);
+    }
+
+    // build lai clip cam gay + 2 clip vung gay (ghi de vao asset cu, giu guid), cap nhat cooldown theo do dai clip
+    // va xoay lai BatHoldPoint cho gay dung thang o pose cam moi. giu nguyen vi tri BatHoldPoint / Bat.prefab da chinh tay
+    [MenuItem("Tools/Bat Attack/Rebuild Anim (Keep Bat Position)")]
+    private static void RebuildAnim() {
+        AnimationClip holdClip = BatAttackAnimBuilder.CreateHoldClip(HOLD_CLIP_PATH);
+        BatAttackAnimBuilder.CreateAttackClip(ATTACK_CLIP_PATH);
+        BatAttackAnimBuilder.CreateAttackBodyClip(ATTACK_BODY_CLIP_PATH);
+        AssetDatabase.SaveAssets();
+
+        AnimationClip idleClip = LoadClip(IDLE_FBX_PATH);
+        foreach (string guid in AssetDatabase.FindAssets("t:Prefab", new[] { SKIN_FOLDER })) {
+            SetupSkin(AssetDatabase.GUIDToAssetPath(guid), idleClip, holdClip, true);
+        }
+
+        SetupBotPrefab(SetAttackCooldown);
+        SetupScenePlayer(SetAttackCooldown);
+        AssetDatabase.SaveAssets();
+        Debug.Log("[BatAttack] Rebuild anim done");
     }
 
     private static Transform CreateBatPrefab() {
@@ -70,7 +120,8 @@ public static class ToolSetupBatAttack {
         return prefab.transform;
     }
 
-    private static void SetupSkin(string path, AnimationClip idleClip, AnimationClip holdClip) {
+    // isKeepPosition: chi xoay lai BatHoldPoint, giu vi tri da chinh tay
+    private static void SetupSkin(string path, AnimationClip idleClip, AnimationClip holdClip, bool isKeepPosition) {
         GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
         if (asset.GetComponent<SkinModel>() == null) return;
 
@@ -90,7 +141,9 @@ public static class ToolSetupBatAttack {
             holdPoint = new GameObject(BAT_HOLD_POINT_NAME).transform;
             holdPoint.SetParent(hand, false);
         }
-        holdPoint.localPosition = localPosition;
+        if (!isKeepPosition) {
+            holdPoint.localPosition = localPosition;
+        }
         holdPoint.localRotation = localRotation;
         holdPoint.localScale = localScale;
 
@@ -110,15 +163,19 @@ public static class ToolSetupBatAttack {
         Debug.Log("[BatAttack] Skin " + path + " hand " + handPath);
     }
 
-    private static void SetupBotPrefab(Transform batPrefab) {
+    private static void SetupBotPrefab(System.Action<Character> setup) {
         GameObject contents = PrefabUtility.LoadPrefabContents(BOT_PREFAB_PATH);
-        SetupCharacterVisual(contents.GetComponent<Character>(), batPrefab);
+        setup(contents.GetComponent<Character>());
         PrefabUtility.SaveAsPrefabAsset(contents, BOT_PREFAB_PATH);
         PrefabUtility.UnloadPrefabContents(contents);
     }
 
     // scene dang mo thi chi danh dau dirty de nguoi dung tu Ctrl+S, chua mo thi mo them, luu roi dong
-    private static void SetupScenePlayer(Transform batPrefab) {
+    private static void SetupScenePlayer(System.Action<Character> setup) {
+        SetupSceneComponents<Player>(setup);
+    }
+
+    private static void SetupSceneComponents<T>(System.Action<T> setup) where T : Component {
         UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneByPath(GAME_SCENE_PATH);
         bool isOpenedByTool = !scene.isLoaded;
         if (isOpenedByTool) {
@@ -126,8 +183,8 @@ public static class ToolSetupBatAttack {
         }
 
         foreach (GameObject root in scene.GetRootGameObjects()) {
-            foreach (Player player in root.GetComponentsInChildren<Player>(true)) {
-                SetupCharacterVisual(player, batPrefab);
+            foreach (T component in root.GetComponentsInChildren<T>(true)) {
+                setup(component);
             }
         }
 
@@ -137,22 +194,27 @@ public static class ToolSetupBatAttack {
             EditorSceneManager.CloseScene(scene, true);
         }
         else {
-            Debug.LogWarning("[BatAttack] GameScene dang mo: nho Ctrl+S de luu reference cua Player");
+            Debug.LogWarning("[BatAttack] GameScene dang mo: nho Ctrl+S de luu thay doi cua " + typeof(T).Name);
         }
     }
 
     private static void SetupCharacterVisual(Character character, Transform batPrefab) {
-        SerializedObject serializedCharacter = new SerializedObject(character);
-        CharacterVisual characterVisual = (CharacterVisual)serializedCharacter.FindProperty("characterVisual").objectReferenceValue;
-        // cooldown khong ngan hon clip vung gay de khong cat ngang anim
-        serializedCharacter.FindProperty("attackTimerMax").floatValue = BatAttackAnimBuilder.ATTACK_DURATION + ATTACK_COOLDOWN_PADDING;
-        serializedCharacter.ApplyModifiedPropertiesWithoutUndo();
+        SetAttackCooldown(character);
+        CharacterVisual characterVisual = (CharacterVisual)new SerializedObject(character).FindProperty("characterVisual").objectReferenceValue;
 
         SerializedObject serializedVisual = new SerializedObject(characterVisual);
         serializedVisual.FindProperty("owner").objectReferenceValue = character;
         serializedVisual.FindProperty("batPrefab").objectReferenceValue = batPrefab;
         serializedVisual.ApplyModifiedPropertiesWithoutUndo();
         EditorUtility.SetDirty(characterVisual);
+    }
+
+    // cooldown khong ngan hon clip vung gay de khong cat ngang anim
+    private static void SetAttackCooldown(Character character) {
+        SerializedObject serializedCharacter = new SerializedObject(character);
+        serializedCharacter.FindProperty("attackTimerMax").floatValue = BatAttackAnimBuilder.ATTACK_DURATION + ATTACK_COOLDOWN_PADDING;
+        serializedCharacter.ApplyModifiedPropertiesWithoutUndo();
+        EditorUtility.SetDirty(character);
     }
 
     // nhan ban nut Jump thanh nut Attack dat phia tren

@@ -16,6 +16,12 @@ public class AttackButtonUI : MonoBehaviour {
 
     public void OnInit(Player player) {
         this.player = player;
+        SetVisible(player.IsHoldingBat());
+    }
+
+    // nut Hit chi hien khi dang cam gay
+    public void SetVisible(bool isVisible) {
+        gameObject.SetActive(isVisible);
     }
 
     private void AttackButton_OnTouchDown(object sender, System.EventArgs e) {

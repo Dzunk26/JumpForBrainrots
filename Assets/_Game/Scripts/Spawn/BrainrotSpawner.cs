@@ -43,6 +43,18 @@ public class BrainrotSpawner : MonoBehaviour {
         SimplePool.ReturnToPool(brainrot);
     }
 
+    // brainrot roi ra tu nguoi bi danh / chet, thuoc spawner gan nhat de bot tim duoc va het gio thi tu bien mat
+    public Brainrot SpawnDroppedBrainrot(BrainrotSO brainrotSO, Vector3 fromPosition, Vector3 toPosition) {
+        Brainrot brainrot = SimplePool.GetFromPool<Brainrot>(PoolType.Brainrot, fromPosition, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
+        brainrot.OnDrop(brainrotSO, this, fromPosition, toPosition);
+        spawnedBrainrots.Add(brainrot);
+        return brainrot;
+    }
+
+    public float GetSqrDistance(Vector3 position) {
+        return spawnArea.bounds.SqrDistance(position);
+    }
+
     public Brainrot GetRandomBrainrot() {
         if (spawnedBrainrots.Count == 0) return null;
 

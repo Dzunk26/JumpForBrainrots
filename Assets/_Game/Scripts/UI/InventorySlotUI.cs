@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
     public SlotType SlotType => slotType;
     public int Index => index;
-    public bool HasItem => brainrotSO != null;
+    public bool HasItem => itemSO != null;
 
 
     [SerializeField] private Button button;
@@ -18,7 +18,7 @@ public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private SlotType slotType;
     private int index;
-    private BrainrotSO brainrotSO;
+    private ItemSO itemSO;
     private bool isDragging;
 
     private void OnEnable() {
@@ -30,24 +30,27 @@ public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (isDragging) EndDrag();
     }
 
-    public void OnInit(SlotType slotType, int index, BrainrotSO brainrotSO, bool isSelected) {
+    public void OnInit(SlotType slotType, int index, ItemSO itemSO, bool isSelected) {
         this.slotType = slotType;
         this.index = index;
-        this.brainrotSO = brainrotSO;
+        this.itemSO = itemSO;
 
-        bool hasItem = brainrotSO != null;
-        iconImage.gameObject.SetActive(hasItem);
-        incomeText.gameObject.SetActive(hasItem);
-        if (hasItem) {
-            iconImage.sprite = brainrotSO.GetIndexIcon();
+        // gay khong co thu nhap nen chi hien icon
+        BrainrotSO brainrotSO = itemSO as BrainrotSO;
+        iconImage.gameObject.SetActive(HasItem);
+        incomeText.gameObject.SetActive(brainrotSO != null);
+        if (HasItem) {
+            iconImage.sprite = itemSO.GetIcon();
+        }
+        if (brainrotSO != null) {
             incomeText.SetText(Constant.MONEY_SYMBOL + Utils.SciNotToUSName(brainrotSO.GetIncomeAmount()) + "/s");
         }
 
         SetSelected(isSelected);
     }
 
-    public BrainrotSO GetBrainrotSO() {
-        return brainrotSO;
+    public ItemSO GetItemSO() {
+        return itemSO;
     }
 
     public void SetSelected(bool isSelected) {
@@ -60,7 +63,7 @@ public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             return;
         }
         isDragging = true;
-        InventoryDragHelper.Instance.Show(brainrotSO.GetIndexIcon(), eventData.position);
+        InventoryDragHelper.Instance.Show(itemSO.GetIcon(), eventData.position);
     }
 
     public void OnDrag(PointerEventData eventData) {

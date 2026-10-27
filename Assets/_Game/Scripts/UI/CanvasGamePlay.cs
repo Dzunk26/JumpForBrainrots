@@ -121,6 +121,10 @@ public class CanvasGamePlay : UICanvas {
         hotBarUI.UpdateVisual();
     }
 
+    public void SetAttackButtonVisible(bool isVisible) {
+        attackButtonUI.SetVisible(isVisible);
+    }
+
     public void PlayCollectMoneyVFX(BigDouble amount) {
         if (!gameObject.activeInHierarchy || moneyCollectVFX == null) return;
 

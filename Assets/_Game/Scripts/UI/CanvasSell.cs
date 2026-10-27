@@ -62,7 +62,7 @@ public class CanvasSell : UICanvas {
     }
 
     private void ReloadItems() {
-        items = InventoryManager.Instance.GetAllItems();
+        items = InventoryManager.Instance.GetSellableItems();
         SortItems();
 
         isSelecteds.Clear();

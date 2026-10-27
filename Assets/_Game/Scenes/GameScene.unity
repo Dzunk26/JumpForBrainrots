@@ -8583,15 +8583,19 @@ MonoBehaviour:
   characterStat: {fileID: 463762276}
   characterVisual: {fileID: 516221915}
   baseHouse: {fileID: 361748726}
-  attackRange: 2.5
-  attackRadius: 2.25
   attackHeight: 2.875
-  attackTimerMax: 0.90000004
+  attackTimerMax: 1.15
+  hitRange: 6
+  hitAngle: 150
+  hitHeightTolerance: 3
+  attackTargetExtraRange: 1.5
   knockbackForce: 60
   knockbackUpForce: 45
-  characterLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  lyingTimerMax: 1.5
+  getUpExitNormalizedTime: 0.85
+  getUpTimerMax: 3
+  scatterDistanceRange: {x: 1.5, y: 3}
+  scatterGroundCheckDistance: 10
   dropVFXPoolType: 4
   listUpgradeConfigSO: {fileID: 11400000, guid: 6353c9b197f19014482aaa44f6c3878e,
     type: 2}
@@ -8634,6 +8638,12 @@ MonoBehaviour:
   climbInputDeadZone: 0.01
   knockbackTimerMax: 0.3
   knockbackDrag: 60
+  knockedDownSlideDrag: 40
+  assistRange: 9
+  assistAngle: 160
+  assistCloseRange: 4
+  assistDuration: 0.45
+  assistTurnSpeed: 25
 --- !u!143 &463762275
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9487,6 +9497,14 @@ MonoBehaviour:
     type: 3}
   attackLayerIndex: 1
   attackBodyLayerIndex: 2
+  tumbleSpeed: 720
+  tumblePivotHeight: 2
+  lyingAngle: 90
+  lyingHeight: 0.5
+  lieDownDuration: 0.2
+  getUpTurnDuration: 0.25
+  getUpBlendDuration: 0.35
+  attackLayerFadeDuration: 0.25
 --- !u!4 &520306557 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3692458461658116587, guid: 0a65d3f297a776d44aff70de64f9ed1a,
@@ -18561,6 +18579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listBrainrotSO: {fileID: 11400000, guid: b1d9c61ce0b0fee4a9b94798d0cdcdac, type: 2}
+  batToolSO: {fileID: 11400000, guid: 319a5cfa4205c054a83c0d223ac799b8, type: 2}
 --- !u!4 &1048049915
 Transform:
   m_ObjectHideFlags: 0

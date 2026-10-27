@@ -15,6 +15,8 @@ public enum PlayerState {
     LadderJump,
     Dead,
     Knockback,
+    KnockedDown,
+    GettingUp,
 }
 
 public enum SlotInteractType {
@@ -74,6 +76,14 @@ public class Player : Character, IDataPersistence {
     [Header("Knockback")]
     [SerializeField] private float knockbackTimerMax = 0.3f;
     [SerializeField] private float knockbackDrag = 60f;
+    [SerializeField] private float knockedDownSlideDrag = 40f; // cham dat con truot them mot doan
+
+    [Header("Attack Assist")]
+    [SerializeField] private float assistRange = 7f; // bam danh thi tim muc tieu trong pham vi nay (khong lon hon tam danh + tam cong them)
+    [SerializeField] private float assistAngle = 160f; // goc tim phia truoc mat
+    [SerializeField] private float assistCloseRange = 4f; // gan the nay thi o sau lung cung nham
+    [SerializeField] private float assistDuration = 0.45f; // quay mat trong luc lay da, truoc frame gay cham
+    [SerializeField] private float assistTurnSpeed = 25f;
 
     private float lastJumpPressedTime = -1f;
     private float moveSpeed;
@@ -92,8 +102,10 @@ public class Player : Character, IDataPersistence {
     private List<BaseSlotData> savedSlots;
     private Vector3 knockbackVelocity;
     private float knockbackTimer;
+    private bool isHoldingBat;
 
-    private void OnEnable() {
+    protected override void OnEnable() {
+        base.OnEnable();
         PlayerProgress.Instance.OnLoadPlayerData += PlayerProgress_OnLoadPlayerData;
         DataManager.Instance.OnReturnFromAfk += DataManager_OnReturnFromAfk;
     }
@@ -106,9 +118,12 @@ public class Player : Character, IDataPersistence {
         HandleGravity();
 
         HandlePlayerState();
+
+        HandleAttackAssist();
     }
 
-    private void OnDisable() {
+    protected override void OnDisable() {
+        base.OnDisable();
         if (PlayerProgress.HasInstance) {
             PlayerProgress.Instance.OnLoadPlayerData -= PlayerProgress_OnLoadPlayerData;
         }
@@ -171,14 +186,6 @@ public class Player : Character, IDataPersistence {
 
     public Vector3 GetDropButtonSpawnPoint() {
         return characterVisual.GetDropButtonSpawnPoint();
-    }
-
-    public bool IsHoldingCapturedBrainrot() {
-        return heldBrainrotSource == HeldBrainrotSource.Captured;
-    }
-
-    public BrainrotSO GetCurrentHoldBrainrotSO() {
-        return currentHoldBrainrotSO;
     }
 
     public void DropCapturedBrainrot() {
@@ -295,20 +302,22 @@ public class Player : Character, IDataPersistence {
         if (heldBrainrotSource == HeldBrainrotSource.Inventory) {
             InventoryManager.Instance.ClearSelection();
         }
+        ScatterCapturedBrainrot(groundLayerMask);
         DropBrainrot();
         SoundManager.Instance.PlayFx(FxID.Dead);
         characterVisual.OnDead();
         ChangeState(PlayerState.Dead);
     }
 
-    public override void OnHit(Vector3 knockbackVelocity) {
+    public override void OnHit(Vector3 knockbackVelocity, Character attacker) {
         if (currentState == PlayerState.Dead) return;
 
         isAttacking = false;
-        DropCapturedBrainrot();
+        ScatterCapturedBrainrot(groundLayerMask);
         this.knockbackVelocity = new Vector3(knockbackVelocity.x, 0f, knockbackVelocity.z);
         verticalVelocity = knockbackVelocity.y;
         knockbackTimer = 0f;
+        characterVisual.OnKnockback(knockbackVelocity);
         ChangeState(PlayerState.Knockback);
     }
     
@@ -319,22 +328,23 @@ public class Player : Character, IDataPersistence {
         Brainrot brainrot = brainrotInteractor.GetSelectedTarget();
         if (brainrot == null) return;
 
-        if (heldBrainrotSource == HeldBrainrotSource.Inventory) {
+        if (heldBrainrotSource == HeldBrainrotSource.Inventory || isHoldingBat) {
             InventoryManager.Instance.ClearSelection();
         }
+        SetHoldingBat(false);
         HoldBrainrot(brainrot.GetBrainrotSO(), brainrot.TF.position, HeldBrainrotSource.Captured);
         brainrot.OnCaptured();
         brainrotInteractor.ClearSelectedTarget();
     }
 
     public Brainrot GetCaptureableTarget() {
-        if (!IsOnFloor() || !CanEquipBrainrot()) return null;
+        if (IsKnocked() || !IsOnFloor() || !CanEquipBrainrot()) return null;
 
         return brainrotInteractor.GetSelectedTarget();
     }
 
     public override void OnInteractBaseSlot() {
-        BaseSlot baseSlot = baseSlotInteractor.GetSelectedTarget();
+        BaseSlot baseSlot = GetInteractableBaseSlot();
         SlotInteractType interactType = GetSlotInteractType(baseSlot);
 
         switch (interactType) {
@@ -351,6 +361,8 @@ public class Player : Character, IDataPersistence {
     }
 
     public BaseSlot GetInteractableBaseSlot() {
+        if (IsKnocked()) return null;
+
         return baseSlotInteractor.GetSelectedTarget();
     }
 
@@ -358,7 +370,7 @@ public class Player : Character, IDataPersistence {
         if (baseSlot == null || !baseSlot.IsUnlocked) return SlotInteractType.None;
 
         if (!baseSlot.IsActive) {
-            return SlotInteractType.Place;
+            return currentHoldBrainrotSO != null ? SlotInteractType.Place : SlotInteractType.None;
         }
 
         if (currentHoldBrainrotSO != null) {
@@ -376,14 +388,43 @@ public class Player : Character, IDataPersistence {
         return heldBrainrotSource != HeldBrainrotSource.Captured;
     }
 
-    public void EquipBrainrot(BrainrotSO brainrotSO) {
+    public bool IsHoldingBat() {
+        return isHoldingBat;
+    }
+
+    // cam item vua chon trong hotbar / backpack: brainrot va gay khong cam cung luc
+    public void EquipItem(ItemSO itemSO) {
+        if (itemSO is BrainrotSO brainrotSO) {
+            SetHoldingBat(false);
+            EquipBrainrot(brainrotSO);
+        }
+        else {
+            UnequipBrainrot();
+            SetHoldingBat(true);
+        }
+    }
+
+    public void UnequipItem() {
+        UnequipBrainrot();
+        SetHoldingBat(false);
+    }
+
+    private void EquipBrainrot(BrainrotSO brainrotSO) {
         HoldBrainrot(brainrotSO, characterVisual.GetBrainrotHoldPosition(), HeldBrainrotSource.Inventory);
     }
 
-    public void UnequipBrainrot() {
+    private void UnequipBrainrot() {
         if (heldBrainrotSource != HeldBrainrotSource.Inventory) return;
 
         DropBrainrot();
+    }
+
+    private void SetHoldingBat(bool isHoldingBat) {
+        if (this.isHoldingBat == isHoldingBat) return;
+
+        this.isHoldingBat = isHoldingBat;
+        characterVisual.SetHoldingBat(isHoldingBat);
+        UIManager.Instance.GetUI<CanvasGamePlay>().SetAttackButtonVisible(isHoldingBat);
     }
 
     private void PlaceBrainrot(BaseSlot baseSlot) {
@@ -407,11 +448,64 @@ public class Player : Character, IDataPersistence {
         Vector3 slotPosition = baseSlot.GetDisplayPosition();
 
         InventoryManager.Instance.AddAndSelectBrainrot(brainrot);
+        SetHoldingBat(false);
         HoldBrainrot(brainrot, slotPosition, HeldBrainrotSource.Inventory);
     }
 
+    public override bool IsHittable() {
+        return currentState != PlayerState.Dead;
+    }
+
+    protected override void OnStartAttack() {
+        attackTarget = FindAttackTarget();
+    }
+
+    // uu tien muc tieu gan va thang truoc mat; ngoai goc thi chi lay muc tieu rat gan
+    private Character FindAttackTarget() {
+        List<Character> characters = GetActiveCharacters();
+        Character bestTarget = null;
+        float bestScore = float.MaxValue;
+
+        for (int i = 0; i < characters.Count; i++) {
+            Character character = characters[i];
+            if (character == this || !character.IsHittable()) continue;
+
+            Vector3 offset = character.TF.position - TF.position;
+            if (Mathf.Abs(offset.y) > hitHeightTolerance) continue;
+
+            offset.y = 0f;
+            float distance = offset.magnitude;
+            if (distance > assistRange) continue;
+
+            float angle = distance > 0.001f ? Vector3.Angle(playerVisualContainer.forward, offset) : 0f;
+            if (angle > assistAngle * 0.5f && distance > assistCloseRange) continue;
+
+            float score = distance * (1f + angle / 90f);
+            if (score < bestScore) {
+                bestScore = score;
+                bestTarget = character;
+            }
+        }
+
+        return bestTarget;
+    }
+
+    // trong luc lay da: quay mat ve muc tieu (chay sau HandlePlayerState de de len huong di chuyen)
+    private void HandleAttackAssist() {
+        if (attackTarget == null || !isAttacking || Time.time - lastAttackTime > assistDuration) return;
+        if (IsKnocked() || currentState == PlayerState.Dead || currentState == PlayerState.Climb) return;
+
+        Vector3 offset = attackTarget.TF.position - TF.position;
+        offset.y = 0f;
+        float distance = offset.magnitude;
+        if (distance < 0.001f) return;
+
+        playerVisualContainer.rotation = Quaternion.Slerp(playerVisualContainer.rotation, Quaternion.LookRotation(offset / distance), assistTurnSpeed * Time.deltaTime);
+    }
+
     protected override bool CanAttack() {
-        if (currentState == PlayerState.Dead || currentState == PlayerState.Climb || currentState == PlayerState.Knockback) return false;
+        if (!isHoldingBat) return false;
+        if (currentState == PlayerState.Dead || currentState == PlayerState.Climb || IsKnocked()) return false;
 
         return base.CanAttack();
     }
@@ -479,6 +573,12 @@ public class Player : Character, IDataPersistence {
                 break;
             case PlayerState.Knockback:
                 HandleKnockback();
+                break;
+            case PlayerState.KnockedDown:
+                HandleKnockedDown();
+                break;
+            case PlayerState.GettingUp:
+                HandleGettingUp();
                 break;
         }
     }
@@ -677,8 +777,8 @@ public class Player : Character, IDataPersistence {
         }
     }
 
+    // bay + lon vong, cham dat thi nam xuong (khong nhan input)
     private void HandleKnockback() {
-        characterVisual.OnFalling();
         characterController.Move(knockbackVelocity * Time.deltaTime);
         knockbackVelocity = Vector3.MoveTowards(knockbackVelocity, Vector3.zero, knockbackDrag * Time.deltaTime);
 
@@ -686,7 +786,34 @@ public class Player : Character, IDataPersistence {
         if (knockbackTimer < knockbackTimerMax || !IsGrounded()) return;
 
         SoundManager.Instance.PlayFx(FxID.Landing);
+        knockbackTimer = 0f;
+        KnockDown(playerVisualContainer);
+        ChangeState(PlayerState.KnockedDown);
+    }
+
+    // nam tren dat, truot not quan tinh roi dung day
+    private void HandleKnockedDown() {
+        characterController.Move(knockbackVelocity * Time.deltaTime);
+        knockbackVelocity = Vector3.MoveTowards(knockbackVelocity, Vector3.zero, knockedDownSlideDrag * Time.deltaTime);
+
+        knockbackTimer += Time.deltaTime;
+        if (knockbackTimer < lyingTimerMax) return;
+
+        knockbackTimer = 0f;
+        characterVisual.OnGetUp();
+        ChangeState(PlayerState.GettingUp);
+    }
+
+    // anim dung day gan xong thi tra lai dieu khien, idle / run tu blend chong len phan cuoi
+    private void HandleGettingUp() {
+        knockbackTimer += Time.deltaTime;
+        if (!characterVisual.IsGetUpFinished(getUpExitNormalizedTime) && knockbackTimer < getUpTimerMax) return;
+
         ChangeState(IsMoving() ? PlayerState.Run : PlayerState.Idle);
+    }
+
+    public override bool IsKnocked() {
+        return currentState == PlayerState.Knockback || currentState == PlayerState.KnockedDown || currentState == PlayerState.GettingUp;
     }
 
     private void HandleDead() {

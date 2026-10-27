@@ -15,6 +15,8 @@ public static class BotStates {
     public static readonly BotState Dead = new BotState(DeadState.OnEnter, DeadState.OnExecute, DeadState.OnExit);
 
     public static readonly BotState Knockback = new BotState(KnockbackState.OnEnter, KnockbackState.OnExecute, KnockbackState.OnExit);
+
+    public static readonly BotState Attack = new BotState(AttackState.OnEnter, AttackState.OnExecute, AttackState.OnExit);
 }
 
 public class BotState {

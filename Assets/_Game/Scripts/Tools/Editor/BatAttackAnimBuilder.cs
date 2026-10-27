@@ -16,11 +16,14 @@ public static class BatAttackAnimBuilder {
     public static string ATTACK_BODY_LAYER_NAME = "AttackBody";
     public static string HIT_EVENT_NAME = "OnAttackHit";
 
-    // giu tu the -> gio gay len -> lay da ra sau -> gay qua dau -> dap xuong (hit) -> vung theo da -> thu gay -> ve tu the cam
-    // co key trung gian de tay di trong mat phang truoc nguoi, khong vung ra ngoai
-    public static float[] ATTACK_TIMES = { 0f, 0.13f, 0.26f, 0.31f, 0.36f, 0.5f, 0.68f, 0.85f };
-    public static float HIT_TIME = 0.36f;
-    public static float ATTACK_DURATION = 0.85f;
+    // quat cheo kieu roblox: giu tu the -> gio gay len -> lay da cao ben phai sau vai -> quat cheo qua truoc nguoi
+    // -> trung (hit) giua than -> vung theo da xuong hong trai -> thu gay -> ve tu the cam
+    // tay phai: Arm Front-Back am la dua ra truoc; than: Twist duong la xoay vai phai ra sau
+    // co tay: Hand Down-Up duong ngha gay ra ngoai ben phai (xa dau), Hand In-Out am la bat gay ra sau, duong la quat gay ra truoc
+    // lay da va thu gay cham lai cho ro dong tac, doan quat (0.42 -> 0.48) van giu nhanh de co luc
+    public static float[] ATTACK_TIMES = { 0f, 0.17f, 0.34f, 0.42f, 0.48f, 0.66f, 0.9f, 1.1f };
+    public static float HIT_TIME = 0.48f;
+    public static float ATTACK_DURATION = 1.1f;
 
     public static string[] ARM_MUSCLES = {
         "Right Shoulder Down-Up", "Right Shoulder Front-Back",
@@ -29,8 +32,9 @@ public static class BatAttackAnimBuilder {
         "Right Hand Down-Up", "Right Hand In-Out",
     };
 
-    // tu the cam gay kieu roblox: tay phai dua thang ra truoc, gay dung len
-    public static float[] HOLD_ARM = { 0f, 0f, 0.2f, -0.5f, -0.25f, 0.6f, 1f, 0f, 0f };
+    // tu the cam gay kieu roblox: tay phai gan thang (khuyu hoi chung), dua ra truoc hoi lech sang phai,
+    // nam tay ngang nguc ngay truoc vai phai, gay dung thang len
+    public static float[] HOLD_ARM = { 0f, 0f, 0.42f, -0.6f, -0.25f, 0.9f, 1f, 0f, 0f };
 
     // huong truc xuyen qua nam tay (root space) o pose HoldBat, do tren rig mixamo tu T-pose
     public static Vector3 HOLD_GRIP_AXIS = new Vector3(0.06f, 1f, 0.03f);
@@ -38,12 +42,18 @@ public static class BatAttackAnimBuilder {
     // moi hang la 1 moc thoi gian trong ATTACK_TIMES
     public static float[][] ATTACK_ARM = {
         HOLD_ARM,
-        new float[] { 1f, 0f, 0.3f, -0.7f, 0.5f, 0.6f, 0.5f, 0f, 0f },
-        new float[] { 0f, 0f, 1f, -0.7f, 0.5f, 0.6f, 1f, 0f, -0.5f },
-        new float[] { -0.5f, 0f, 1f, -0.7f, 0.5f, 0.6f, 1f, -0.5f, 1f },
-        new float[] { -0.5f, 0f, 0.3f, -0.4f, -0.5f, 1f, 1f, 0.5f, 1f },
-        new float[] { -0.5f, 0f, 0f, -0.1f, 0f, 0.6f, 1f, 0.5f, 1f },
-        new float[] { -0.5f, 0f, 0.3f, -0.4f, -0.5f, 1f, 1f, 0.5f, 1f },
+        // gio len phia tren ben phai, co tay nga gay ra ngoai ngay tu dau de dau gay khong quet qua dau
+        new float[] { 0.5f, 0f, 0.55f, -0.3f, 0.3f, 0.6f, 0.6f, 0.3f, -0.25f },
+        // lay da: tay mo rong sang ben phai canh dau (khong o tren dau), khuyu gap vua, co tay bat gay ra sau-ra ngoai
+        new float[] { 0.8f, 0f, 0.75f, 0.3f, 0.6f, 0.5f, 1f, 0.5f, -0.35f },
+        // dang quat: tay di rong qua truoc vai phai, co tay van bat ve sau (gay tre theo tay) de lay luc quat
+        new float[] { 0.3f, 0f, 0.65f, -0.45f, 0.2f, 0.85f, 1f, 0.45f, -0.4f },
+        // hit: co tay quat manh ra truoc (-0.4 -> 1 trong 0.06s), tay duoi thang truoc nguoi ngang nguc
+        new float[] { -0.2f, 0f, 0.2f, -0.85f, -0.4f, 1f, 1f, 0.4f, 1f },
+        // vung theo da: tay vat cheo xuong hong trai nhung khong ep sat nguoi, cang tay xoay nhe theo da
+        new float[] { -0.4f, 0f, -0.15f, -0.9f, -0.6f, 0.95f, 0.9f, 0.2f, 0.9f },
+        // co tay tha long dan truoc khi ve tu the cam
+        new float[] { -0.2f, 0f, 0.1f, -0.65f, -0.3f, 0.8f, 0.95f, 0.2f, 0.4f },
         HOLD_ARM,
     };
 
@@ -54,15 +64,16 @@ public static class BatAttackAnimBuilder {
         "Left Arm Down-Up", "Left Arm Front-Back", "Left Forearm Stretch",
     };
 
-    // than nga ra sau + xoay vai phai ra sau khi lay da, cui ve truoc khi dap (front-back am la cui)
+    // lay da: than nghieng + xoay manh vai phai ra sau; quat: xoay nguoc sang trai, cui va nghieng theo huong gay (front-back am la cui)
+    // xoay than la phan chinh keo gay cheo qua nguoi, tay chi can duoi ra truoc
     public static float[][] ATTACK_BODY = {
         new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.3f, 0.15f, 0.9f },
-        new float[] { 0.15f, 0.05f, 0.175f, 0.15f, 0.175f, 0.15f, 0.175f, -0.15f, -0.175f, 0.55f },
-        new float[] { 0.3f, 0.1f, 0.35f, 0.3f, 0.35f, 0.3f, 0.35f, 0f, -0.5f, 0.2f },
-        new float[] { -0.075f, 0f, 0.025f, -0.075f, 0.025f, -0.05f, 0.025f, -0.25f, -0.15f, 0.1f },
-        new float[] { -0.45f, -0.1f, -0.3f, -0.45f, -0.3f, -0.4f, -0.3f, -0.5f, 0.2f, 0f },
-        new float[] { -0.5f, -0.1f, -0.4f, -0.5f, -0.4f, -0.45f, -0.4f, -0.55f, 0.25f, 0.1f },
-        new float[] { -0.25f, -0.05f, -0.2f, -0.25f, -0.2f, -0.225f, -0.2f, -0.425f, 0.2f, 0.5f },
+        new float[] { 0.1f, 0.08f, 0.25f, 0.1f, 0.25f, 0.1f, 0.25f, -0.2f, 0f, 0.6f },
+        new float[] { 0.15f, 0.08f, 0.45f, 0.15f, 0.45f, 0.15f, 0.45f, -0.1f, -0.4f, 0.3f },
+        new float[] { 0f, 0.05f, 0.1f, 0f, 0.1f, 0f, 0.1f, -0.25f, -0.2f, 0.3f },
+        new float[] { -0.3f, -0.15f, -0.4f, -0.3f, -0.4f, -0.25f, -0.4f, -0.45f, 0.2f, 0.2f },
+        new float[] { -0.4f, -0.25f, -0.6f, -0.4f, -0.6f, -0.35f, -0.6f, -0.55f, 0.3f, 0.2f },
+        new float[] { -0.2f, -0.12f, -0.3f, -0.2f, -0.3f, -0.18f, -0.3f, -0.42f, 0.22f, 0.5f },
         new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.3f, 0.15f, 0.9f },
     };
 
@@ -269,7 +280,7 @@ public static class BatAttackAnimBuilder {
         gripPoint[axisIndex] = isHandleAtMin ? minValue + length * 0.12f : maxValue - length * 0.12f;
     }
 
-    private static AnimationClip GetOrCreateClip(string path) {
+    public static AnimationClip GetOrCreateClip(string path) {
         AnimationClip clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
         if (clip == null) {
             clip = new AnimationClip();
@@ -302,7 +313,7 @@ public static class BatAttackAnimBuilder {
         backTransition.hasFixedDuration = true;
     }
 
-    private static void SetClipSettings(AnimationClip clip, bool isLoop, AnimationEvent[] events) {
+    public static void SetClipSettings(AnimationClip clip, bool isLoop, AnimationEvent[] events) {
         AnimationClipSettings settings = AnimationUtility.GetAnimationClipSettings(clip);
         settings.loopTime = isLoop;
         AnimationUtility.SetAnimationClipSettings(clip, settings);
@@ -311,7 +322,7 @@ public static class BatAttackAnimBuilder {
     }
 
     // values[i][j]: gia tri muscle j tai moc thoi gian i
-    private static void SetMuscleCurves(AnimationClip clip, string[] muscleNames, float[] times, float[][] values) {
+    public static void SetMuscleCurves(AnimationClip clip, string[] muscleNames, float[] times, float[][] values) {
         for (int j = 0; j < muscleNames.Length; j++) {
             AnimationCurve curve = new AnimationCurve();
             for (int i = 0; i < times.Length; i++) {

@@ -17,7 +17,7 @@ public enum BrainrotRarity {
 }
 
 [CreateAssetMenu()]
-public class BrainrotSO : ScriptableObject {
+public class BrainrotSO : ItemSO {
     [SerializeField] private int id;
     [SerializeField] private string brainrotName;
     [SerializeField] private BrainrotRarity rarity;
@@ -28,12 +28,16 @@ public class BrainrotSO : ScriptableObject {
     [SerializeField] private BigDouble sellPrice;
     [SerializeField] private Sprite indexIcon;
 
-    public bool IsMatchID(int id) {
-        return this.id == id;
+    public override int GetID() {
+        return id;
     }
 
-    public int GetID() {
-        return id;
+    public override Sprite GetIcon() {
+        return indexIcon;
+    }
+
+    public override bool IsSellable() {
+        return true;
     }
 
     public string GetName() {

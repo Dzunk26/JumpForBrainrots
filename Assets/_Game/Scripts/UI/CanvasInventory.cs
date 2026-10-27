@@ -30,7 +30,7 @@ public class CanvasInventory : UICanvas {
     }
 
     public void UpdateVisual() {
-        List<BrainrotSO> items = InventoryManager.Instance.GetBackpackItems();
+        List<ItemSO> items = InventoryManager.Instance.GetBackpackItems();
 
         for (int i = 0; i < items.Count; i++) {
             if (i >= slots.Count) {

@@ -17,13 +17,14 @@ public struct InventoryItem {
 
 public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
     public bool IsDirty => isDirty;
-    public BrainrotSO[] GetHotbarItems() => hotbarItems;
-    public List<BrainrotSO> GetBackpackItems() => backpackItems;
+    public ItemSO[] GetHotbarItems() => hotbarItems;
+    public List<ItemSO> GetBackpackItems() => backpackItems;
 
     [SerializeField] private ListBrainrotSO listBrainrotSO;
+    [SerializeField] private ToolSO batToolSO;
 
-    private BrainrotSO[] hotbarItems = new BrainrotSO[Constant.HOTBAR_SIZE];
-    private List<BrainrotSO> backpackItems = new List<BrainrotSO>();
+    private ItemSO[] hotbarItems = new ItemSO[Constant.HOTBAR_SIZE];
+    private List<ItemSO> backpackItems = new List<ItemSO>();
     private SlotType selectedSlotType;
     private int selectedIndex = -1;
     private Player player;
@@ -36,6 +37,7 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
         backpackItems.Clear();
         selectedIndex = -1;
         ApplyLoadedData();
+        AddDefaultItems();
     }
 
     public void LoadData(GameData data) => loadedData = data;
@@ -55,18 +57,7 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
     }
 
     public void AddBrainrot(BrainrotSO brainrotSO, out SlotType slotType, out int index) {
-        index = System.Array.IndexOf(hotbarItems, null);
-
-        if (index != -1) {
-            slotType = SlotType.Hotbar;
-            hotbarItems[index] = brainrotSO;
-        }
-        else {
-            slotType = SlotType.Backpack;
-            backpackItems.Add(brainrotSO);
-            index = backpackItems.Count - 1;
-        }
-
+        AddItem(brainrotSO, out slotType, out index);
         NotifyChanged();
     }
 
@@ -123,16 +114,18 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
     }
 
 
-    public List<InventoryItem> GetAllItems() {
+    // chi lay brainrot ban duoc, bo qua gay
+    public List<InventoryItem> GetSellableItems() {
         List<InventoryItem> items = new List<InventoryItem>();
 
         for (int i = 0; i < hotbarItems.Length; i++) {
-            if (hotbarItems[i] == null) continue;
-            items.Add(new InventoryItem { slotType = SlotType.Hotbar, index = i, brainrotSO = hotbarItems[i] });
+            if (!(hotbarItems[i] is BrainrotSO brainrotSO) || !brainrotSO.IsSellable()) continue;
+            items.Add(new InventoryItem { slotType = SlotType.Hotbar, index = i, brainrotSO = brainrotSO });
         }
 
         for (int i = 0; i < backpackItems.Count; i++) {
-            items.Add(new InventoryItem { slotType = SlotType.Backpack, index = i, brainrotSO = backpackItems[i] });
+            if (!(backpackItems[i] is BrainrotSO brainrotSO) || !brainrotSO.IsSellable()) continue;
+            items.Add(new InventoryItem { slotType = SlotType.Backpack, index = i, brainrotSO = brainrotSO });
         }
 
         return items;
@@ -193,12 +186,44 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
         if (loadedData == null) return;
 
         for (int i = 0; i < hotbarItems.Length && i < loadedData.hotbarIds.Length; i++)
-            hotbarItems[i] = listBrainrotSO.GetBrainrotSOByID(loadedData.hotbarIds[i]);
+            hotbarItems[i] = GetItemByID(loadedData.hotbarIds[i]);
         foreach (int id in loadedData.backpackIds) {
-            BrainrotSO so = listBrainrotSO.GetBrainrotSOByID(id);
+            ItemSO so = GetItemByID(id);
             if (so != null) backpackItems.Add(so);
         }
         loadedData = null;
+    }
+
+    // gay la item mac dinh: data moi / data cu chua co gay thi them vao o hotbar trong dau tien
+    private void AddDefaultItems() {
+        if (batToolSO == null || HasItem(batToolSO)) return;
+
+        AddItem(batToolSO, out _, out _);
+        isDirty = true;
+    }
+
+    private bool HasItem(ItemSO itemSO) {
+        return System.Array.IndexOf(hotbarItems, itemSO) >= 0 || backpackItems.Contains(itemSO);
+    }
+
+    private void AddItem(ItemSO itemSO, out SlotType slotType, out int index) {
+        index = System.Array.IndexOf(hotbarItems, null);
+
+        if (index != -1) {
+            slotType = SlotType.Hotbar;
+            hotbarItems[index] = itemSO;
+        }
+        else {
+            slotType = SlotType.Backpack;
+            backpackItems.Add(itemSO);
+            index = backpackItems.Count - 1;
+        }
+    }
+
+    private ItemSO GetItemByID(int id) {
+        if (batToolSO != null && batToolSO.IsMatchID(id)) return batToolSO;
+
+        return listBrainrotSO.GetBrainrotSOByID(id);
     }
 
     private bool HasItem(SlotType slotType, int index) {
@@ -210,10 +235,10 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
     private void Select(SlotType slotType, int index) {
         selectedSlotType = slotType;
         selectedIndex = index;
-        player.EquipBrainrot(GetSelectedItem());
+        player.EquipItem(GetSelectedItem());
     }
 
-    private BrainrotSO GetSelectedItem() {
+    private ItemSO GetSelectedItem() {
         if (selectedSlotType == SlotType.Hotbar) return hotbarItems[selectedIndex];
 
         return backpackItems[selectedIndex];
@@ -221,7 +246,7 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
 
     private void Deselect() {
         selectedIndex = -1;
-        player.UnequipBrainrot();
+        player.UnequipItem();
     }
 
     private bool IsCrossSlotClick(SlotType clickedSlotType) {
@@ -241,8 +266,8 @@ public class InventoryManager : Singleton<InventoryManager>, IDataPersistence {
     }
 
     private void SwapBackpackAndHotbar(int backpackIndex, int hotbarIndex) {
-        BrainrotSO backpackItem = backpackItems[backpackIndex];
-        BrainrotSO hotbarItem = hotbarItems[hotbarIndex];
+        ItemSO backpackItem = backpackItems[backpackIndex];
+        ItemSO hotbarItem = hotbarItems[hotbarIndex];
 
         if (hotbarItem == null) {
             backpackItems.RemoveAt(backpackIndex);

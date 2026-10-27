@@ -140,15 +140,22 @@ MonoBehaviour:
   characterStat: {fileID: 565410719091811577}
   characterVisual: {fileID: 1708469488440586426}
   baseHouse: {fileID: 0}
-  attackRange: 2.5
-  attackRadius: 2.25
   attackHeight: 2.875
-  attackTimerMax: 0.90000004
+  attackTimerMax: 1.15
+  hitRange: 5.5
+  hitAngle: 150
+  hitHeightTolerance: 3
+  attackTargetExtraRange: 1.5
   knockbackForce: 60
   knockbackUpForce: 45
   characterLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  lyingTimerMax: 1.5
+  getUpExitNormalizedTime: 0.85
+  getUpTimerMax: 3
+  scatterDistanceRange: {x: 1.5, y: 3}
+  scatterGroundCheckDistance: 10
   agent: {fileID: 5806406833791645976}
   stateTimerMax: 5
   catchRange: 2
@@ -189,6 +196,27 @@ MonoBehaviour:
   highRarityRate: 0.35
   emptySlotRate: 0.1
   listSkinSO: {fileID: 11400000, guid: d74eb14fc2555674c9d3179b7545555f, type: 2}
+  peacefulBotRate: 0
+  aggressionRange: {x: 1, y: 1}
+  huntScanInterval: 0.5
+  robDetectRange: 40
+  robChancePerScan: 1
+  trollScanRange: 40
+  trollChancePerScan: 1
+  trollCooldown: 8
+  trollHitCountRange: {x: 1, y: 2}
+  revengeChance: 0.6
+  revengeDuration: 15
+  chaseTimerMax: 7
+  chaseRepathInterval: 0.25
+  chaseGiveUpRange: 24
+  swingRange: 4
+  floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  floorCheckDistance: 1
+  maxHuntersPerTarget: 2
+  sameTargetCooldown: 10
   rotateSpeed: 15
 --- !u!114 &565410719091811577
 MonoBehaviour:
@@ -385,6 +413,14 @@ MonoBehaviour:
     type: 3}
   attackLayerIndex: 1
   attackBodyLayerIndex: 2
+  tumbleSpeed: 720
+  tumblePivotHeight: 2
+  lyingAngle: 90
+  lyingHeight: 0.5
+  lieDownDuration: 0.2
+  getUpTurnDuration: 0.25
+  getUpBlendDuration: 0.35
+  attackLayerFadeDuration: 0.25
 --- !u!4 &7563747835102885568 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0c8b7fdda43bbf4cb43aca31b9653f6,
